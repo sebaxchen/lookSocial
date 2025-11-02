@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GroupColorsService {
-  // Paleta de 20 colores distintos para grupos
+  // Paleta de 40 colores distintos para grupos
   private readonly colorPalette = [
     '#10b981', // Verde esmeralda
     '#8b5cf6', // Púrpura violeta
@@ -21,11 +21,32 @@ export class GroupColorsService {
     '#f43f5e', // Rosa rojo
     '#22c55e', // Verde
     '#3b82f6', // Azul
-    '#f59e0b', // Amarillo naranja
-    '#8b5cf6', // Púrpura
-    '#06b6d4', // Cian
-    '#ec4899', // Rosa magenta
-    '#10b981'  // Verde
+    '#d946ef', // Fucsia
+    '#0ea5e9', // Azul cielo
+    '#64748b', // Gris azulado
+    '#fbbf24', // Amarillo dorado
+    '#fb7185', // Rosa salmón
+    '#34d399', // Verde menta
+    '#a78bfa', // Lavanda
+    '#60a5fa', // Azul claro
+    '#f472b6', // Rosa chicle
+    '#818cf8', // Índigo claro
+    '#38bdf8', // Cian claro
+    '#fb923c', // Naranja claro
+    '#c084fc', // Púrpura claro
+    '#2dd4bf', // Turquesa claro
+    '#9333ea', // Púrpura oscuro
+    '#dc2626', // Rojo oscuro
+    '#16a34a', // Verde oscuro
+    '#0284c7', // Azul oscuro
+    '#c2410c', // Naranja oscuro
+    '#7c2d12', // Marrón
+    '#1e40af', // Azul marino
+    '#581c87', // Púrpura oscuro
+    '#991b1b', // Rojo vino
+    '#0891b2', // Cian oscuro
+    '#be185d', // Rosa oscuro
+    '#155e75'  // Cian muy oscuro
   ];
 
   // Cache para mantener colores asignados por nombre de grupo

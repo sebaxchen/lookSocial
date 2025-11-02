@@ -167,30 +167,33 @@ import { GroupsService } from '../../../application/groups.service';
       overflow-x: hidden;
       min-width: 100%;
       pointer-events: auto;
+      padding-right: 4px;
     }
 
     .group-dropdown::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
 
     .group-dropdown::-webkit-scrollbar-track {
       background: #f1f1f1;
-      border-radius: 3px;
+      border-radius: 4px;
+      margin: 4px 0;
     }
 
     .group-dropdown::-webkit-scrollbar-thumb {
-      background: #1a1a1a;
-      border-radius: 3px;
+      background: #9ca3af;
+      border-radius: 4px;
       transition: all 0.3s ease;
+      border: 1px solid #f1f1f1;
     }
 
     .group-dropdown::-webkit-scrollbar-thumb:hover {
-      background: #333333;
+      background: #6b7280;
     }
 
     .group-dropdown {
       scrollbar-width: thin;
-      scrollbar-color: #1a1a1a #f1f1f1;
+      scrollbar-color: #9ca3af #f1f1f1;
     }
 
     .dropdown-item {

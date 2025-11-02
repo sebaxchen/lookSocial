@@ -175,41 +175,26 @@
       <h2 class="section-title">Funcionalidades Esenciales</h2>
       <p class="section-subtitle">Descubre cómo nuestros botones mejoran tu experiencia</p>
     </div>
-    <div class="buttons-grid">
-      <div class="button-feature-card">
-        <div class="button-icon-wrapper">
-          <button class="feature-button-demo move-button">
-            <span class="drag-handle-line">−</span>
+    
+    <div class="buttons-features-container">
+      <!-- Card Simple -->
+      <div class="simple-features-card">
+        <div class="buttons-simple">
+          <button 
+            class="simple-button" 
+            *ngFor="let button of buttonFeatures; let i = index"
+            [class.active]="selectedButtonIndex() === i"
+            [style.--button-color]="button.color"
+            (click)="selectButton(i)">
+            <mat-icon *ngIf="button.id !== 'move'">{{ button.icon }}</mat-icon>
+            <span class="drag-handle-line" *ngIf="button.id === 'move'">−</span>
           </button>
         </div>
-        <h3 class="button-feature-title">Botón de Mover</h3>
-        <p class="button-feature-description">
-          Organiza tus tareas arrastrándolas entre diferentes columnas. Cambia el estado de una tarea de forma intuitiva y visual, simplemente agarrándola y moviéndola a donde necesites.
-        </p>
-      </div>
-
-      <div class="button-feature-card">
-        <div class="button-icon-wrapper">
-          <button class="feature-button-demo edit-button">
-            <mat-icon>edit</mat-icon>
-          </button>
+        
+        <div class="simple-content" *ngIf="getSelectedButton()">
+          <h3 class="simple-title">{{ getSelectedButton()?.title }}</h3>
+          <p class="simple-description">{{ getSelectedButton()?.description }}</p>
         </div>
-        <h3 class="button-feature-title">Botón de Editar</h3>
-        <p class="button-feature-description">
-          Modifica cualquier tarea con un solo clic. Actualiza el título, descripción, prioridad, fecha de vencimiento o cualquier detalle importante de tus tareas fácilmente.
-        </p>
-      </div>
-
-      <div class="button-feature-card">
-        <div class="button-icon-wrapper">
-          <button class="feature-button-demo share-button">
-            <mat-icon>share</mat-icon>
-          </button>
-        </div>
-        <h3 class="button-feature-title">Botón de Compartir</h3>
-        <p class="button-feature-description">
-          Comparte archivos y documentos con tu equipo. Colabora en tiempo real, asigna permisos específicos y mantén a todos al día con los recursos importantes del proyecto.
-        </p>
       </div>
     </div>
   </div>

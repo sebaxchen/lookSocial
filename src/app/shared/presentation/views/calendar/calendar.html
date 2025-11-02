@@ -42,11 +42,10 @@
             @if (day.tasks && day.tasks.length > 0) {
               <div class="calendar-tasks">
                 @for (task of day.tasks; track task.id) {
-                  <div class="calendar-task" 
-                       [class]="'calendar-task ' + getPriorityClass(task.priority)"
+                  <div class="task-square" 
+                       [class]="'task-square task-status-' + task.status"
                        [class.overdue]="isOverdue(task.dueDate!, task.status)"
-                       [class.completed]="task.status === 'completed'">
-                    <span class="task-title-text">{{ task.title }}</span>
+                       (click)="openDayModal(day); $event.stopPropagation()">
                   </div>
                 }
               </div>
@@ -73,10 +72,10 @@
         @if (selectedDay()?.tasks && selectedDay()!.tasks.length > 0) {
           <div class="tasks-list-modal">
             @for (task of selectedDay()!.tasks; track task.id) {
-              <div class="task-item-modal" [class]="'task-item ' + getPriorityClass(task.priority) + (isOverdue(task.dueDate!, task.status) ? ' overdue' : '') + (task.status === 'completed' ? ' completed' : '')">
+              <div class="task-item-modal" [class]="'task-item status-' + task.status + (isOverdue(task.dueDate!, task.status) ? ' overdue' : '') + (task.status === 'completed' ? ' completed' : '')">
                 <div class="task-header-modal">
                   <div class="task-title-modal">
-                    <mat-icon class="task-icon-small">{{ getPriorityIcon(task.priority) }}</mat-icon>
+                    <mat-icon class="task-icon-small">assignment</mat-icon>
                     <h3 class="task-name">{{ task.title }}</h3>
                   </div>
                   @if (isOverdue(task.dueDate!, task.status)) {
@@ -89,16 +88,28 @@
                 @if (task.description) {
                   <p class="task-description-modal">{{ task.description }}</p>
                 }
+                <div class="task-info-modal">
+                  @if (task.assignee) {
+                    <div class="info-item-modal">
+                      <div class="info-avatar-modal" [style.background-color]="getMemberColor(task.assignee)">
+                        {{ task.assignee.charAt(0).toUpperCase() }}
+                      </div>
+                      <span class="info-text-modal">{{ task.assignee }}</span>
+                    </div>
+                  }
+                  @if (getTaskGroup(task.id)) {
+                    <div class="info-item-modal">
+                      <div class="info-avatar-modal group-avatar-modal" [style.background-color]="getGroupColor(getTaskGroup(task.id)?.name!)">
+                        <mat-icon class="group-icon-in-avatar">groups</mat-icon>
+                      </div>
+                      <span class="info-text-modal">{{ getTaskGroup(task.id)?.name }}</span>
+                    </div>
+                  }
+                </div>
                 <div class="task-footer-modal">
                   <span class="task-status-modal" [class]="'status-' + task.status">
                     {{ getStatusText(task.status) }}
                   </span>
-                  @if (task.assignee) {
-                    <span class="task-assignee-modal">
-                      <mat-icon class="assignee-icon-small">person</mat-icon>
-                      {{ task.assignee }}
-                    </span>
-                  }
                 </div>
               </div>
             }

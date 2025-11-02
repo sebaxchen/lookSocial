@@ -3,6 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton, MatButton } from '@angular/material/button';
 import { TaskStore } from '../../../../learning/application/task.store';
+import { GroupsService } from '../../../application/groups.service';
+import { GroupSelector } from '../../components/group-selector/group-selector';
+import { AssigneeSelector } from '../../components/assignee-selector/assignee-selector';
+import { TeamService } from '../../../application/team.service';
+import { Task } from '../../../../learning/domain/model/task.entity';
 
 interface DayInfo {
   day: number;
@@ -17,7 +22,9 @@ interface DayInfo {
     CommonModule,
     MatIcon,
     MatIconButton,
-    MatButton
+    MatButton,
+    GroupSelector,
+    AssigneeSelector
   ],
   templateUrl: './calendar.html',
   styleUrl: './calendar.css'
@@ -28,6 +35,8 @@ export class CalendarComponent {
   currentYear = this.currentDate.getFullYear();
   
   private taskStore = inject(TaskStore);
+  private groupsService = inject(GroupsService);
+  private teamService = inject(TeamService);
 
   // Modal state
   isDayModalOpen = signal(false);
@@ -162,6 +171,74 @@ export class CalendarComponent {
       default:
         return 'Desconocido';
     }
+  }
+
+  // Group management methods
+  getTaskGroup(taskId: string): any | null {
+    const groups = this.groupsService.getAllGroups()();
+    return groups.find(group => 
+      group.tasks?.some((t: any) => t.id === taskId)
+    ) || null;
+  }
+
+  getTaskGroupSignal(taskId: string) {
+    const group = this.getTaskGroup(taskId);
+    return signal<string>(group ? group.name : '');
+  }
+
+  updateGroup(taskId: string, groupName: string): void {
+    const task = this.taskStore.allTasks().find(t => t.id === taskId);
+    if (!task) return;
+
+    // Remove from all groups first
+    this.removeTaskFromAllGroups(taskId);
+
+    // Add to new group if groupName is not empty
+    if (groupName && groupName.trim() !== '') {
+      const targetGroup = this.groupsService.getAllGroups()().find(g => g.name === groupName);
+      if (targetGroup) {
+        const taskData = {
+          id: task.id,
+          title: task.title,
+          priority: task.priority,
+          status: task.status,
+          createdAt: task.createdAt
+        };
+        
+        const taskExists = targetGroup.tasks?.some((t: any) => t.id === task.id);
+        if (!taskExists) {
+          const updatedTasks = [...(targetGroup.tasks || []), taskData];
+          this.groupsService.updateGroup(targetGroup.id!, { tasks: updatedTasks });
+        }
+      }
+    }
+  }
+
+  private removeTaskFromAllGroups(taskId: string): void {
+    const allGroups = this.groupsService.getAllGroups()();
+    allGroups.forEach(group => {
+      if (group.tasks?.some((t: any) => t.id === taskId)) {
+        const updatedTasks = group.tasks.filter((t: any) => t.id !== taskId);
+        this.groupsService.updateGroup(group.id!, { tasks: updatedTasks });
+      }
+    });
+  }
+
+  updateAssignee(taskId: string, assignee: string): void {
+    this.taskStore.updateTask({ id: taskId, assignee });
+  }
+
+  getTaskAssigneeSignal(taskId: string) {
+    const task = this.taskStore.allTasks().find(t => t.id === taskId);
+    return signal<string>(task?.assignee || '');
+  }
+
+  getMemberColor(memberName: string): string {
+    return this.teamService.getMemberColor(memberName);
+  }
+
+  getGroupColor(groupName: string): string {
+    return this.groupsService.getGroupColor(groupName);
   }
 }
 

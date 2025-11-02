@@ -18,8 +18,36 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   currentSlide = signal(0);
+  selectedButtonIndex = signal<number | null>(null);
   private autoSlideInterval: any;
   private observer?: IntersectionObserver;
+
+  buttonFeatures = [
+    {
+      id: 'move',
+      title: 'Botón de Mover',
+      description: 'Organiza tus tareas arrastrándolas entre diferentes columnas. Cambia el estado de una tarea de forma intuitiva y visual, simplemente agarrándola y moviéndola a donde necesites.',
+      icon: 'drag_indicator',
+      class: 'move-button',
+      color: '#6b7280'
+    },
+    {
+      id: 'edit',
+      title: 'Botón de Editar',
+      description: 'Modifica cualquier tarea con un solo clic. Actualiza el título, descripción, prioridad, fecha de vencimiento o cualquier detalle importante de tus tareas fácilmente.',
+      icon: 'edit',
+      class: 'edit-button',
+      color: '#1976d2'
+    },
+    {
+      id: 'share',
+      title: 'Botón de Compartir',
+      description: 'Comparte archivos y documentos con tu equipo. Colabora en tiempo real, asigna permisos específicos y mantén a todos al día con los recursos importantes del proyecto.',
+      icon: 'share',
+      class: 'share-button',
+      color: '#22c55e'
+    }
+  ];
 
   views = [
     {
@@ -155,6 +183,19 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.autoSlideInterval = setInterval(() => {
       this.nextSlide();
     }, 4000);
+  }
+
+  selectButton(index: number) {
+    if (this.selectedButtonIndex() === index) {
+      this.selectedButtonIndex.set(null);
+    } else {
+      this.selectedButtonIndex.set(index);
+    }
+  }
+
+  getSelectedButton() {
+    const index = this.selectedButtonIndex();
+    return index !== null ? this.buttonFeatures[index] : null;
   }
 }
 

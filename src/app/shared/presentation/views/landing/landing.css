@@ -741,6 +741,8 @@
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  position: relative;
+  overflow: hidden;
 }
 
 .buttons-features-section.visible {
@@ -748,12 +750,97 @@
   transform: translateY(0);
 }
 
-.buttons-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  max-width: 1200px;
+.buttons-features-container {
+  max-width: 600px;
   margin: 0 auto;
+  position: relative;
+  padding: 40px 24px;
+}
+
+/* Card Simple */
+.simple-features-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+/* Botones Simples */
+.buttons-simple {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.simple-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.simple-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--button-color, #1a1a1a);
+}
+
+.simple-button.active {
+  background: var(--button-color, #1a1a1a);
+  border-color: var(--button-color, #1a1a1a);
+  transform: scale(1.1);
+}
+
+.simple-button.active mat-icon {
+  color: white !important;
+}
+
+.simple-button.active .drag-handle-line {
+  color: white !important;
+}
+
+.simple-button mat-icon {
+  color: #6b7280;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.drag-handle-line {
+  font-size: 24px;
+  color: #6b7280;
+}
+
+/* Contenido Simple */
+.simple-content {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.simple-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--button-color, #1a1a1a);
+  margin: 0 0 12px 0;
+}
+
+.simple-description {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .button-feature-card {
@@ -767,16 +854,17 @@
   transform: translateY(30px);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
-.buttons-features-section.visible .button-feature-card {
+.buttons-features-section.visible .button-feature-card:not(.buttons-on-card .button-feature-card) {
   opacity: 1;
   transform: translateY(0);
 }
 
-.buttons-features-section.visible .button-feature-card:nth-child(1) { transition-delay: 0.1s; }
-.buttons-features-section.visible .button-feature-card:nth-child(2) { transition-delay: 0.2s; }
-.buttons-features-section.visible .button-feature-card:nth-child(3) { transition-delay: 0.3s; }
+.buttons-features-section.visible .button-feature-card:not(.buttons-on-card .button-feature-card):nth-child(1) { transition-delay: 0.1s; }
+.buttons-features-section.visible .button-feature-card:not(.buttons-on-card .button-feature-card):nth-child(2) { transition-delay: 0.2s; }
+.buttons-features-section.visible .button-feature-card:not(.buttons-on-card .button-feature-card):nth-child(3) { transition-delay: 0.3s; }
 
 .button-feature-card::after {
   content: '';
@@ -813,24 +901,31 @@
 }
 
 .feature-button-demo {
-  width: 56px;
-  height: 56px;
-  min-width: 56px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
   padding: 0;
-  border-radius: 50%;
-  border: none;
+  border-radius: 50% !important;
+  border: 2px solid rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: none;
-  animation: pulse 2s ease-in-out infinite;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  background: white;
+  pointer-events: auto;
+  z-index: 100;
+  position: relative;
+}
+
+.feature-button-demo * {
+  border-radius: 0;
 }
 
 .button-feature-card:hover .feature-button-demo {
   animation: none;
-  transform: scale(1.15) rotate(360deg);
+  transform: scale(1.1);
 }
 
 .feature-button-demo.move-button {
@@ -897,14 +992,11 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #1f2937;
-  margin: 0 0 16px 0;
+  margin: 0;
 }
 
 .button-feature-description {
-  font-size: 1rem;
-  color: #6b7280;
-  line-height: 1.6;
-  margin: 0;
+  display: none;
 }
 
 /* Drag and Drop Section */
@@ -1666,9 +1758,69 @@
     gap: 24px;
   }
 
-  .buttons-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+  .giant-card {
+    position: relative;
+    width: 90% !important;
+    max-width: 100%;
+    height: auto !important;
+    min-height: 400px;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto;
+    padding-right: 100px !important;
+  }
+
+  .giant-card.expanded {
+    width: 90% !important;
+    max-width: 800px;
+    height: auto !important;
+    min-height: 400px;
+    padding-right: 120px !important;
+    transform: none !important;
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .card-content-outside {
+    position: relative;
+    left: auto;
+    top: auto;
+    right: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 40px;
+    padding: 0 24px;
+    margin-left: 0;
+  }
+
+
+  .buttons-on-card {
+    top: 15px;
+    right: 15px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+
+  .giant-card-title {
+    font-size: 1.5rem;
+    padding-left: 53px;
+  }
+
+  .giant-card-title::before {
+    width: 38px;
+    height: 38px;
+  }
+
+  .giant-card-description {
+    font-size: 0.84375rem;
+    padding-left: 53px;
+  }
+
+  .buttons-features-container {
+    min-height: auto;
   }
 
   .drag-drop-title {

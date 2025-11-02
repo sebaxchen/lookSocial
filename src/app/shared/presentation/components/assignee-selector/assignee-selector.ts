@@ -177,32 +177,35 @@ export interface Person {
       overflow-x: hidden;
       min-width: 100%;
       pointer-events: auto;
+      padding-right: 4px;
     }
 
-    /* Custom scrollbar for the dropdown */
+    /* Custom scrollbar for the dropdown - más visible */
     .assignee-dropdown::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
 
     .assignee-dropdown::-webkit-scrollbar-track {
       background: #f1f1f1;
-      border-radius: 3px;
+      border-radius: 4px;
+      margin: 4px 0;
     }
 
     .assignee-dropdown::-webkit-scrollbar-thumb {
-      background: #1a1a1a;
-      border-radius: 3px;
+      background: #9ca3af;
+      border-radius: 4px;
       transition: all 0.3s ease;
+      border: 1px solid #f1f1f1;
     }
 
     .assignee-dropdown::-webkit-scrollbar-thumb:hover {
-      background: #333333;
+      background: #6b7280;
     }
 
     /* Firefox scrollbar */
     .assignee-dropdown {
       scrollbar-width: thin;
-      scrollbar-color: #1a1a1a #f1f1f1;
+      scrollbar-color: #9ca3af #f1f1f1;
     }
 
     .dropdown-item {
