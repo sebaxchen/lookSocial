@@ -4,6 +4,9 @@
   
   # Comando de build
   command = "npm run build"
+  
+  # Base directory (donde está angular.json)
+  base = "."
 
 [build.environment]
   # Versión de Node.js
