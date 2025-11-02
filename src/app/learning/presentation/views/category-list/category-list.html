@@ -75,22 +75,13 @@
           @if (getMemberStats(member.name).total > 0) {
             <div class="member-overview">
               <div class="recent-tasks-header">
-                <span class="recent-tasks-label">Tareas Recientes</span>
+                <span class="recent-tasks-label">Tareas</span>
               </div>
-              <div class="recent-tasks-list">
+              <div class="recent-tasks-grid">
                 @for (task of getRecentTasks(member.name, 10); track task.id) {
-                  <div class="recent-task-item" [class.task-completed]="task.status === 'completed'">
-                    <mat-icon class="task-status-icon" [ngClass]="'status-' + task.status">
-                      @if (task.status === 'completed') {
-                        check_circle
-                      } @else if (task.status === 'in-progress') {
-                        hourglass_empty
-                      } @else {
-                        play_circle_outline
-                      }
-                    </mat-icon>
-                    <span class="task-title-text">{{ task.title }}</span>
-                  </div>
+                  <div class="task-square" 
+                       [ngClass]="'task-status-' + task.status"
+                       (click)="openTaskDetailModal(member.name)"></div>
                 }
               </div>
             </div>

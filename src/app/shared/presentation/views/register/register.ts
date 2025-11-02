@@ -67,4 +67,8 @@ export class Register {
   goToLogin() {
     this.router.navigate(['/auth/login']);
   }
+
+  goToLanding() {
+    this.router.navigate(['/']);
+  }
 }

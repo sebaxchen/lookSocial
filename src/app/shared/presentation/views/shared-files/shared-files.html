@@ -29,14 +29,22 @@
          (drop)="onDrop($event)">
       @for (file of files(); track file.id) {
         <div class="file-card">
-          <button 
-            class="drag-handle"
-            mat-icon-button
-            draggable="true"
-            (dragstart)="onDragStart($event, file.id)"
-            (dragend)="onDragEnd($event)">
-            <span class="drag-handle-line">−</span>
-          </button>
+          <div class="card-actions-top">
+            <button 
+              class="share-btn-top"
+              mat-icon-button
+              (click)="openShareDialog(file.id)">
+              <mat-icon>share</mat-icon>
+            </button>
+            <button 
+              class="drag-handle"
+              mat-icon-button
+              draggable="true"
+              (dragstart)="onDragStart($event, file.id)"
+              (dragend)="onDragEnd($event)">
+              <span class="drag-handle-line">−</span>
+            </button>
+          </div>
           <div class="file-card-header">
             <div class="file-icon-container">
               <mat-icon class="file-icon">{{ getFileIcon(file.type) }}</mat-icon>
@@ -61,11 +69,6 @@
             </div>
             
             <div class="file-share">
-              <button class="share-btn" (click)="openShareDialog(file.id)">
-                <mat-icon>share</mat-icon>
-                <span>Compartir</span>
-              </button>
-              
               <div class="shared-indicators">
                 @if (hasShares(file)) {
                   <div class="shared-status">

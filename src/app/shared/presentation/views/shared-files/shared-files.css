@@ -273,6 +273,36 @@
   height: 18px;
 }
 
+/* Share Button Top (next to drag handle) */
+.share-btn-top {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  padding: 0 !important;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-radius: 50% !important;
+  background: #22c55e !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: none !important;
+}
+
+.share-btn-top:hover {
+  opacity: 1;
+  background: #16a34a !important;
+}
+
+.share-btn-top mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  color: #064e3b !important;
+}
+
 .shared-indicators {
   margin-top: 12px;
 }
@@ -885,11 +915,19 @@
   }
 }
 
-/* Drag Handle Styles */
-.drag-handle {
+/* Card Actions Top Container */
+.card-actions-top {
   position: absolute;
   top: 8px;
   right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+/* Drag Handle Styles */
+.drag-handle {
   width: 22px !important;
   height: 22px !important;
   min-width: 22px !important;
@@ -898,7 +936,6 @@
   opacity: 0.7;
   transition: all 0.2s ease;
   cursor: grab;
-  z-index: 10;
   border-radius: 50% !important;
   background: #d1d5db !important;
   border: none !important;

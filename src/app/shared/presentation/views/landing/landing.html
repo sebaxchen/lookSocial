@@ -63,14 +63,14 @@
   </div>
 
   <!-- App Views Section -->
-  <div class="app-views-section">
+  <div class="app-views-section scroll-animation">
     <div class="section-header">
       <h2 class="section-title">Descubre las vistas de NoteTo</h2>
       <p class="section-subtitle">Cada vista está diseñada para optimizar tu flujo de trabajo</p>
     </div>
     <div class="app-views-grid">
-      <div class="view-card" style="--view-color: #047857">
-        <div class="view-icon">
+      <div class="view-card" style="--view-color: #047857; display: none;">
+        <div class="view-icon" style="display: none;">
           <mat-icon>home</mat-icon>
         </div>
         <h3 class="view-title">Inicio</h3>
@@ -169,8 +169,105 @@
     </div>
   </div>
 
+  <!-- Funcionalidades Esenciales Section -->
+  <div class="buttons-features-section scroll-animation">
+    <div class="section-header">
+      <h2 class="section-title">Funcionalidades Esenciales</h2>
+      <p class="section-subtitle">Descubre cómo nuestros botones mejoran tu experiencia</p>
+    </div>
+    <div class="buttons-grid">
+      <div class="button-feature-card">
+        <div class="button-icon-wrapper">
+          <button class="feature-button-demo move-button">
+            <span class="drag-handle-line">−</span>
+          </button>
+        </div>
+        <h3 class="button-feature-title">Botón de Mover</h3>
+        <p class="button-feature-description">
+          Organiza tus tareas arrastrándolas entre diferentes columnas. Cambia el estado de una tarea de forma intuitiva y visual, simplemente agarrándola y moviéndola a donde necesites.
+        </p>
+      </div>
+
+      <div class="button-feature-card">
+        <div class="button-icon-wrapper">
+          <button class="feature-button-demo edit-button">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+        <h3 class="button-feature-title">Botón de Editar</h3>
+        <p class="button-feature-description">
+          Modifica cualquier tarea con un solo clic. Actualiza el título, descripción, prioridad, fecha de vencimiento o cualquier detalle importante de tus tareas fácilmente.
+        </p>
+      </div>
+
+      <div class="button-feature-card">
+        <div class="button-icon-wrapper">
+          <button class="feature-button-demo share-button">
+            <mat-icon>share</mat-icon>
+          </button>
+        </div>
+        <h3 class="button-feature-title">Botón de Compartir</h3>
+        <p class="button-feature-description">
+          Comparte archivos y documentos con tu equipo. Colabora en tiempo real, asigna permisos específicos y mantén a todos al día con los recursos importantes del proyecto.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drag and Drop Section -->
+  <div class="drag-drop-section scroll-animation">
+    <div class="drag-drop-container">
+      <div class="drag-drop-content">
+        <div class="drag-drop-header">
+          <h2 class="drag-drop-title">Elimina con un Gesto</h2>
+          <p class="drag-drop-subtitle">Arrastra y suelta cualquier tarea en el tacho de basura para eliminarla fácilmente</p>
+        </div>
+        
+        <div class="drag-drop-demo">
+          <div class="demo-task-card">
+            <div class="demo-task-header">
+              <button class="demo-drag-handle">
+                <span class="demo-drag-line">−</span>
+              </button>
+              <div class="demo-task-info">
+                <h4 class="demo-task-title">Tarea de Ejemplo</h4>
+                <span class="demo-task-status">En progreso</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="demo-arrow">
+            <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+          </div>
+          
+          <div class="demo-trash-container">
+            <div class="demo-trash-icon">
+              <mat-icon>delete</mat-icon>
+            </div>
+            <span class="demo-trash-label">Tacho de Basura</span>
+          </div>
+        </div>
+        
+        <div class="drag-drop-features">
+          <div class="drag-feature-item">
+            <mat-icon class="drag-feature-icon">touch_app</mat-icon>
+            <span>Arrastra cualquier tarea</span>
+          </div>
+          <div class="drag-feature-item">
+            <mat-icon class="drag-feature-icon">delete</mat-icon>
+            <span>Suelta en el tacho</span>
+          </div>
+          <div class="drag-feature-item">
+            <mat-icon class="drag-feature-icon">check_circle</mat-icon>
+            <span>Confirmación rápida</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Pricing Section -->
-  <div class="pricing-section">
+  <div class="pricing-section scroll-animation">
     <div class="pricing-header">
       <h2 class="pricing-title">Elige el plan perfecto</h2>
       <p class="pricing-subtitle">Sin contratos ocultos, cancela cuando quieras</p>
@@ -344,20 +441,6 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Final CTA -->
-  <div class="final-cta">
-    <div class="cta-content">
-      <h2 class="cta-title">Listo para transformar tu productividad?</h2>
-      <p class="cta-description">
-        Únete a miles de profesionales que ya están trabajando de forma más inteligente
-      </p>
-      <button class="final-cta-button" (click)="enterApp()">
-        <span>Empezar Ahora</span>
-        <mat-icon>rocket_launch</mat-icon>
-      </button>
     </div>
   </div>
 

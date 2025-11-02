@@ -38,7 +38,8 @@
         (drop)="onDrop($event, 'not-started')">
         @for (task of taskStore.notStartedTasks(); track task.id) {
           <mat-card 
-            class="task-card">
+            class="task-card"
+            [class.unassigned]="isTaskUnassigned(task.id)">
             <mat-card-content>
               <button 
                 class="drag-handle"
@@ -124,7 +125,8 @@
         (drop)="onDrop($event, 'in-progress')">
         @for (task of taskStore.inProgressTasks(); track task.id) {
           <mat-card 
-            class="task-card">
+            class="task-card"
+            [class.unassigned]="isTaskUnassigned(task.id)">
             <mat-card-content>
               <button 
                 class="drag-handle"
@@ -210,7 +212,8 @@
         (drop)="onDrop($event, 'completed')">
         @for (task of taskStore.completedTasks(); track task.id) {
           <mat-card 
-            class="task-card">
+            class="task-card"
+            [class.unassigned]="isTaskUnassigned(task.id)">
             <mat-card-content>
               <button 
                 class="drag-handle"

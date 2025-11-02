@@ -641,4 +641,20 @@ export class About {
     this.newTaskDueDateSignal.set('');
     this.selectedGroup.set('');
   }
+
+  // Función para verificar si una tarea no está asignada
+  isTaskUnassigned(taskId: string): boolean {
+    const task = this.taskStore.getTaskById(taskId);
+    if (!task) return false;
+    
+    // Verificar si no tiene assignee
+    const hasNoAssignee = !task.assignee || task.assignee.trim() === '';
+    
+    // Verificar si no está en ningún grupo
+    const group = this.getTaskGroup(taskId);
+    const hasNoGroup = !group;
+    
+    // La tarea está sin asignar si no tiene assignee Y no está en un grupo
+    return hasNoAssignee && hasNoGroup;
+  }
 }

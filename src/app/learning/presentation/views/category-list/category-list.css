@@ -758,55 +758,53 @@
   color: #2c3e50;
 }
 
-.recent-tasks-list {
-  display: flex;
-  flex-direction: column;
+.recent-tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 6px;
+  height: 70px;
 }
 
-.recent-task-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
+.task-square {
+  width: 100%;
+  height: 100%;
   border-radius: 6px;
-  background: #f8f9fa;
   transition: all 0.2s ease;
+  cursor: pointer;
+  aspect-ratio: 1;
+  min-height: 0;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
-.recent-task-item:hover {
-  background: #e9ecef;
+.task-square:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.recent-task-item.task-completed {
-  opacity: 0.7;
+/* Cuadrados vacíos */
+.task-square.task-empty {
+  background: #f3f4f6;
+  cursor: default;
 }
 
-.task-status-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
+.task-square.task-empty:hover {
+  transform: none;
+  box-shadow: none;
 }
 
-.task-status-icon.status-completed {
-  color: #10b981;
+/* Colores según el estado de la tarea */
+.task-square.task-status-completed {
+  background: #10b981;
 }
 
-.task-status-icon.status-in-progress {
-  color: #f59e0b;
+.task-square.task-status-in-progress {
+  background: #f59e0b;
 }
 
-.task-status-icon.status-not-started {
-  color: #6b7280;
-}
-
-.task-title-text {
-  font-size: 0.8rem;
-  color: #333;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.task-square.task-status-not-started {
+  background: #6b7280;
 }
 
 .no-tasks {

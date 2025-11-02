@@ -724,6 +724,13 @@
   z-index: 1;
 }
 
+/* Tarea sin asignar - fondo rojo */
+.task-card.unassigned {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-left: 4px solid #dc2626;
+}
+
 .task-card:hover {
   border-color: #d0d5dd;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);

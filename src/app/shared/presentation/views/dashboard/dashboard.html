@@ -6,221 +6,187 @@
       <p class="empty-message">Añade una nota en <strong>Home</strong> para comenzar</p>
     </div>
   } @else {
-  <!-- Estadísticas Generales -->
-  <div class="stats-grid">
-    <!-- Total de Tareas -->
-    <mat-card class="stat-card total-tasks">
-      <mat-card-header>
-        <mat-card-title>
+  <!-- Dashboard Layout -->
+  <div class="dashboard-layout">
+    <!-- Columna Izquierda -->
+    <div class="dashboard-column left-column">
+      <!-- KPIs -->
+      <div class="kpis-section">
+        <div class="stat-card total-tasks">
           <mat-icon>assignment</mat-icon>
-          Total de Tareas
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stat-number">{{ totalTasks() }}</div>
-        <div class="stat-label">Tareas creadas</div>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Tareas Completadas -->
-    <mat-card class="stat-card completed-tasks">
-      <mat-card-header>
-        <mat-card-title>
+          <div class="stat-info">
+            <div class="stat-title">Total</div>
+            <div class="stat-number">{{ totalTasks() }}</div>
+          </div>
+        </div>
+        <div class="stat-card completed-tasks">
           <mat-icon>check_circle</mat-icon>
-          Completadas
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stat-number">{{ completedTasks() }}</div>
-        <div class="stat-label">{{ completionRate() }}% completado</div>
-        <mat-progress-bar 
-          mode="determinate" 
-          [value]="completionRate()"
-          class="progress-bar">
-        </mat-progress-bar>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- En Progreso -->
-    <mat-card class="stat-card in-progress-tasks">
-      <mat-card-header>
-        <mat-card-title>
+          <div class="stat-info">
+            <div class="stat-title">Completadas</div>
+            <div class="stat-number">{{ completedTasks() }}</div>
+          </div>
+        </div>
+        <div class="stat-card in-progress-tasks">
           <mat-icon>schedule</mat-icon>
-          En Progreso
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stat-number">{{ inProgressTasks() }}</div>
-        <div class="stat-label">{{ inProgressRate() }}% en progreso</div>
-        <mat-progress-bar 
-          mode="determinate" 
-          [value]="inProgressRate()"
-          class="progress-bar">
-        </mat-progress-bar>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Sin Iniciar -->
-    <mat-card class="stat-card not-started-tasks">
-      <mat-card-header>
-        <mat-card-title>
+          <div class="stat-info">
+            <div class="stat-title">En Progreso</div>
+            <div class="stat-number">{{ inProgressTasks() }}</div>
+          </div>
+        </div>
+        <div class="stat-card not-started-tasks">
           <mat-icon>play_circle_outline</mat-icon>
-          Sin Iniciar
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stat-number">{{ notStartedTasks() }}</div>
-        <div class="stat-label">{{ notStartedRate() }}% pendientes</div>
-        <mat-progress-bar 
-          mode="determinate" 
-          [value]="notStartedRate()"
-          class="progress-bar">
-        </mat-progress-bar>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <!-- Segunda fila de estadísticas -->
-  <div class="stats-grid">
-    <!-- Prioridades -->
-    <mat-card class="priority-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>flag</mat-icon>
-          Prioridades
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="priority-stats">
-          <div class="priority-item high">
-            <mat-icon>priority_high</mat-icon>
-            <span class="priority-label">Alta</span>
-            <span class="priority-count">{{ highPriorityTasks() }}</span>
-          </div>
-          <div class="priority-item medium">
-            <mat-icon>remove</mat-icon>
-            <span class="priority-label">Media</span>
-            <span class="priority-count">{{ mediumPriorityTasks() }}</span>
-          </div>
-          <div class="priority-item low">
-            <mat-icon>keyboard_arrow_down</mat-icon>
-            <span class="priority-label">Baja</span>
-            <span class="priority-count">{{ lowPriorityTasks() }}</span>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Equipo -->
-    <mat-card class="team-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>group</mat-icon>
-          Equipo
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="team-stats">
-          <div class="team-stat">
-            <div class="team-number">{{ totalTeamMembers() }}</div>
-            <div class="team-label">Miembros</div>
-          </div>
-          <div class="team-stat">
-            <div class="team-number">{{ todayTasks() }}</div>
-            <div class="team-label">Tareas Hoy</div>
-          </div>
-          <div class="team-stat">
-            <div class="team-number">{{ thisWeekTasks() }}</div>
-            <div class="team-label">Esta Semana</div>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <!-- Productividad del Equipo -->
-  <mat-card class="team-productivity-card">
-    <mat-card-header>
-      <mat-card-title>
-        <mat-icon>trending_up</mat-icon>
-        Productividad del Equipo
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="team-members-grid">
-        <div 
-          *ngFor="let member of teamProductivity()" 
-          class="member-card"
-          [class.top-performer]="member.completionRate >= 80"
-          [class.good-performer]="member.completionRate >= 60 && member.completionRate < 80"
-          [class.average-performer]="member.completionRate >= 40 && member.completionRate < 60"
-          [class.needs-improvement]="member.completionRate < 40">
-          
-          <div class="member-header">
-            <div class="member-avatar" [style.background-color]="getMemberColor(member.name)">{{ member.avatar }}</div>
-            <div class="member-info">
-              <div class="member-name">{{ member.name }}</div>
-              <div class="member-completion">{{ member.completionRate }}% completado</div>
-            </div>
-          </div>
-          
-          <div class="member-stats">
-            <div class="member-stat">
-              <mat-icon>check_circle</mat-icon>
-              <span>{{ member.completedTasks }}</span>
-            </div>
-            <div class="member-stat">
-              <mat-icon>schedule</mat-icon>
-              <span>{{ member.inProgress }}</span>
-            </div>
-            <div class="member-stat">
-              <mat-icon>play_circle_outline</mat-icon>
-              <span>{{ member.notStarted }}</span>
-            </div>
-          </div>
-          
-          <mat-progress-bar 
-            mode="determinate" 
-            [value]="member.completionRate"
-            class="member-progress">
-          </mat-progress-bar>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-
-
-  <!-- Tareas Recientes -->
-  <mat-card class="recent-tasks-card">
-    <mat-card-header>
-      <mat-card-title>
-        <mat-icon>history</mat-icon>
-        Tareas Recientes
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="recent-tasks-list">
-        <div 
-          *ngFor="let task of recentTasks()" 
-          class="recent-task-item">
-          <div class="task-info">
-            <div class="task-title">{{ task.title }}</div>
-            <div class="task-meta">
-              <mat-chip [class]="'priority-' + task.priority">
-                {{ getPriorityText(task.priority) }}
-              </mat-chip>
-              <mat-chip [class]="'status-' + task.status">
-                {{ getStatusText(task.status) }}
-              </mat-chip>
-            </div>
-          </div>
-          <div class="task-assignee">
-            <mat-icon>person</mat-icon>
-            <span>{{ task.assignee || 'Sin asignar' }}</span>
+          <div class="stat-info">
+            <div class="stat-title">Sin Iniciar</div>
+            <div class="stat-number">{{ notStartedTasks() }}</div>
           </div>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+
+      <!-- Prioridades -->
+      <mat-card class="priority-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>flag</mat-icon>
+            Prioridades
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="priority-grid">
+            <div class="priority-square high">
+              <mat-icon>priority_high</mat-icon>
+              <span class="priority-label">Alta</span>
+              <span class="priority-count">{{ highPriorityTasks() }}</span>
+            </div>
+            <div class="priority-square medium">
+              <mat-icon>remove</mat-icon>
+              <span class="priority-label">Media</span>
+              <span class="priority-count">{{ mediumPriorityTasks() }}</span>
+            </div>
+            <div class="priority-square low">
+              <mat-icon>keyboard_arrow_down</mat-icon>
+              <span class="priority-label">Baja</span>
+              <span class="priority-count">{{ lowPriorityTasks() }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Columna Central -->
+    <div class="dashboard-column center-column">
+      <!-- Equipo -->
+      <mat-card class="team-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>group</mat-icon>
+            Equipo
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="team-stats">
+            <div class="team-stat">
+              <div class="team-number">{{ totalTeamMembers() }}</div>
+              <div class="team-label">Miembros</div>
+            </div>
+            <div class="team-stat">
+              <div class="team-number">{{ todayTasks() }}</div>
+              <div class="team-label">Hoy</div>
+            </div>
+            <div class="team-stat">
+              <div class="team-number">{{ thisWeekTasks() }}</div>
+              <div class="team-label">Semana</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Productividad del Equipo -->
+      <mat-card class="team-productivity-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>trending_up</mat-icon>
+            Productividad
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="team-members-grid">
+            <div 
+              *ngFor="let member of teamProductivity()" 
+              class="member-card"
+              [class.top-performer]="member.completionRate >= 80"
+              [class.good-performer]="member.completionRate >= 60 && member.completionRate < 80"
+              [class.average-performer]="member.completionRate >= 40 && member.completionRate < 60"
+              [class.needs-improvement]="member.completionRate < 40">
+              
+              <div class="member-header">
+                <div class="member-avatar" [style.background-color]="getMemberColor(member.name)">{{ member.avatar }}</div>
+                <div class="member-info">
+                  <div class="member-name">{{ member.name }}</div>
+                  <div class="member-completion">{{ member.completionRate }}%</div>
+                </div>
+              </div>
+              
+              <div class="member-stats">
+                <div class="member-stat">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>{{ member.completedTasks }}</span>
+                </div>
+                <div class="member-stat">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ member.inProgress }}</span>
+                </div>
+                <div class="member-stat">
+                  <mat-icon>play_circle_outline</mat-icon>
+                  <span>{{ member.notStarted }}</span>
+                </div>
+              </div>
+              
+              <mat-progress-bar 
+                mode="determinate" 
+                [value]="member.completionRate"
+                class="member-progress">
+              </mat-progress-bar>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Columna Derecha -->
+    <div class="dashboard-column right-column">
+      <!-- Tareas Recientes -->
+      <mat-card class="recent-tasks-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>history</mat-icon>
+            Tareas Recientes
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="recent-tasks-list">
+            <div 
+              *ngFor="let task of recentTasks()" 
+              class="recent-task-item">
+              <div class="task-info">
+                <div class="task-title">{{ task.title }}</div>
+                <div class="task-meta">
+                  <div class="priority-indicator" [class]="'priority-' + task.priority">
+                    <mat-icon>{{ getPriorityIcon(task.priority) }}</mat-icon>
+                  </div>
+                  <mat-chip [class]="'status-' + task.status">
+                    {{ getStatusText(task.status) }}
+                  </mat-chip>
+                </div>
+              </div>
+              <div class="task-assignee">
+                <mat-icon>person</mat-icon>
+                <span>{{ task.assignee || 'Sin asignar' }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
   }
 </div>

@@ -8,8 +8,10 @@ import {TaskStore} from '../../../application/task.store';
 import {AddMemberModal} from '../../../../shared/presentation/components/add-member-modal/add-member-modal';
 import {ConfirmDeleteModal} from '../../../../shared/presentation/components/confirm-delete-modal/confirm-delete-modal';
 import {WorkerProfileModal} from '../../../../shared/presentation/components/worker-profile-modal/worker-profile-modal';
+import {TaskDetailModal} from '../../../../shared/presentation/components/task-detail-modal/task-detail-modal';
 import {TeamService, TeamMember} from '../../../../shared/application/team.service';
 import {LottieAnimationComponent} from '../../../../shared/presentation/components/lottie-animation/lottie-animation.component';
+import {Task} from '../../../domain/model/task.entity';
 
 
 @Component({
@@ -62,6 +64,12 @@ export class CategoryList {
      return dateB - dateA;
    });
    return sortedTasks.slice(0, limit);
+ }
+
+ getEmptySlots(filledSlots: number): number[] {
+   const maxSlots = 10; // 5 columnas x 2 filas
+   const emptyCount = Math.max(0, maxSlots - filledSlots);
+   return Array(emptyCount).fill(0).map((_, i) => i);
  }
 
  getTrafficLightClass(totalTasks: number): string {
@@ -133,6 +141,21 @@ export class CategoryList {
     } catch (error) {
       console.error('Error opening dialog:', error);
     }
+  }
+
+  openTaskDetailModal(memberName: string) {
+    const tasks = this.taskStore.getTasksByAssignee(memberName);
+    this.dialog.open(TaskDetailModal, {
+      width: '700px',
+      maxWidth: '90vw',
+      maxHeight: '80vh',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data: {
+        tasks: tasks,
+        memberName: memberName
+      }
+    });
   }
 
   getTotalTasks(): number {
