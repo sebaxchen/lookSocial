@@ -371,11 +371,21 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-icon {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 .pricing-badge.free {
-  background: #e5e7eb;
-  color: #4b5563;
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
 }
 
 .pricing-badge.popular {
@@ -393,11 +403,26 @@
   text-align: center;
 }
 
+.plan-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.plan-icon {
+  font-size: 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+  color: #6b7280;
+}
+
 .plan-name {
   font-size: 1.5rem;
   font-weight: 700;
   color: #1f2937;
-  margin: 0 0 1rem 0;
+  margin: 0;
 }
 
 .price {
@@ -452,11 +477,17 @@
   border-bottom: none;
 }
 
+.feature-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .check-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-  color: #10b981;
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+  color: #10b981 !important;
   flex-shrink: 0;
 }
 
@@ -469,32 +500,79 @@
 .pricing-button {
   width: 100%;
   padding: 14px 24px;
-  background: white;
-  color: #1a1a1a;
-  border: 2px solid #1a1a1a;
-  border-radius: 10px;
-  font-size: 1.0625rem;
+  background: transparent;
+  color: #111827;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .pricing-button:hover {
-  background: #1a1a1a;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(26, 26, 26, 0.3);
+  background: #f9fafb;
+  border-color: #d1d5db;
 }
 
-.pricing-button.primary {
+.pricing-button mat-icon {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.pricing-button.free-btn {
+  background: transparent;
+  color: #111827;
+  border-color: #e5e7eb;
+}
+
+.pricing-button.free-btn:hover {
+  background: #f9fafb;
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.pricing-button.free-btn:hover mat-icon {
+  color: #10b981 !important;
+}
+
+.pricing-button.primary-btn {
+  background: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+.pricing-button.primary-btn:hover {
+  background: #059669;
+  border-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+}
+
+.pricing-button.primary-btn mat-icon {
+  color: white !important;
+}
+
+.pricing-button.premium-btn {
   background: #1a1a1a;
   color: white;
   border-color: #1a1a1a;
 }
 
-.pricing-button.primary:hover {
-  background: #333333;
-  border-color: #333333;
+.pricing-button.premium-btn:hover {
+  background: #374151;
+  border-color: #374151;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(26, 26, 26, 0.3);
+}
+
+.pricing-button.premium-btn mat-icon {
+  color: white !important;
 }
 
 /* Final CTA */

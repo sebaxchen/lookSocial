@@ -179,9 +179,15 @@
     <div class="pricing-grid">
       <!-- Plan Gratis -->
       <div class="pricing-card">
-        <div class="pricing-badge free">Gratis</div>
+        <div class="pricing-badge free">
+          <mat-icon class="badge-icon">favorite_border</mat-icon>
+          <span>Gratis</span>
+        </div>
         <div class="pricing-content">
-          <h3 class="plan-name">Gratis</h3>
+          <div class="plan-header">
+            <h3 class="plan-name">Gratis</h3>
+            <mat-icon class="plan-icon">star_outline</mat-icon>
+          </div>
           <div class="price">
             <span class="currency">$</span>
             <span class="amount">0</span>
@@ -191,24 +197,33 @@
           
           <ul class="features-list">
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>Hasta 10 tareas</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Hasta 20 tareas</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>3 miembros en equipo</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Hasta 3 colaboradores</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>5GB de almacenamiento</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Almacenamiento básico</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
               <span>Soporte por email</span>
             </li>
           </ul>
           
-          <button class="pricing-button" (click)="enterApp()">
+          <button class="pricing-button free-btn" (click)="enterApp()">
+            <mat-icon>rocket_launch</mat-icon>
             Comenzar Ahora
           </button>
         </div>
@@ -216,9 +231,15 @@
 
       <!-- Plan Básico -->
       <div class="pricing-card featured">
-        <div class="pricing-badge popular">Más Popular</div>
+        <div class="pricing-badge popular">
+          <mat-icon class="badge-icon">local_fire_department</mat-icon>
+          <span>Más Popular</span>
+        </div>
         <div class="pricing-content">
-          <h3 class="plan-name">Básico</h3>
+          <div class="plan-header">
+            <h3 class="plan-name">Básico</h3>
+            <mat-icon class="plan-icon">workspace_premium</mat-icon>
+          </div>
           <div class="price">
             <span class="currency">$</span>
             <span class="amount">9</span>
@@ -228,28 +249,39 @@
           
           <ul class="features-list">
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
               <span>Tareas ilimitadas</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>15 miembros en equipo</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Hasta 10 colaboradores</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>50GB de almacenamiento</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Almacenamiento expandido</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>Prioridad en soporte</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Soporte prioritario</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>Análisis avanzado</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Reportes avanzados</span>
             </li>
           </ul>
           
-          <button class="pricing-button primary" (click)="enterApp()">
+          <button class="pricing-button primary-btn" (click)="enterApp()">
+            <mat-icon>shopping_cart</mat-icon>
             Elegir Plan
           </button>
         </div>
@@ -257,9 +289,15 @@
 
       <!-- Plan Premium -->
       <div class="pricing-card">
-        <div class="pricing-badge premium">Premium</div>
+        <div class="pricing-badge premium">
+          <mat-icon class="badge-icon">diamond</mat-icon>
+          <span>Premium</span>
+        </div>
         <div class="pricing-content">
-          <h3 class="plan-name">Premium</h3>
+          <div class="plan-header">
+            <h3 class="plan-name">Premium</h3>
+            <mat-icon class="plan-icon">auto_awesome</mat-icon>
+          </div>
           <div class="price">
             <span class="currency">$</span>
             <span class="amount">19</span>
@@ -269,28 +307,39 @@
           
           <ul class="features-list">
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>Todo de Básico</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Tareas ilimitadas</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>Miembros ilimitados</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Colaboradores ilimitados</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>500GB de almacenamiento</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Almacenamiento ilimitado</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
               <span>Soporte 24/7</span>
             </li>
             <li class="feature-item">
-              <mat-icon class="check-icon">check</mat-icon>
-              <span>API y webhooks</span>
+              <div class="feature-icon-wrapper">
+                <mat-icon class="check-icon">check_circle</mat-icon>
+              </div>
+              <span>Integraciones premium</span>
             </li>
           </ul>
           
-          <button class="pricing-button" (click)="enterApp()">
+          <button class="pricing-button premium-btn" (click)="enterApp()">
+            <mat-icon>trending_up</mat-icon>
             Elegir Plan
           </button>
         </div>
