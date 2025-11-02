@@ -3,7 +3,7 @@
   publish = "dist/learning-center/browser"
   
   # Comando de build
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
   
   # Base directory (donde está angular.json)
   base = "."
