@@ -251,7 +251,7 @@ html, body {
 .auth-button {
   width: 100%;
   padding: 14px 20px;
-  background: #1a1a1a;
+  background: #10b981;
   color: white;
   border: none;
   border-radius: 8px;
@@ -263,9 +263,9 @@ html, body {
 }
 
 .auth-button:hover {
-  background: #374151;
+  background: #059669;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .auth-button:active {
