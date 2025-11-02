@@ -5,39 +5,6 @@
       Añadir Miembro
     </button>
   </div>
-
-  <!-- KPIs Section -->
-  <div class="team-kpis">
-    <div class="kpis-grid">
-      <div class="kpi-card kpi-members">
-        <div class="kpi-icon">
-          <mat-icon>people</mat-icon>
-        </div>
-        <div class="kpi-content">
-          <span class="kpi-number">{{ teamMembers().length }}</span>
-          <span class="kpi-label">Miembros</span>
-        </div>
-      </div>
-      <div class="kpi-card kpi-tasks">
-        <div class="kpi-icon">
-          <mat-icon>assignment</mat-icon>
-        </div>
-        <div class="kpi-content">
-          <span class="kpi-number">{{ getTotalTasks() }}</span>
-          <span class="kpi-label">Tareas</span>
-        </div>
-      </div>
-      <div class="kpi-card kpi-progress">
-        <div class="kpi-icon">
-          <mat-icon>trending_up</mat-icon>
-        </div>
-        <div class="kpi-content">
-          <span class="kpi-number">{{ getAverageCompletion() }}%</span>
-          <span class="kpi-label">Promedio</span>
-        </div>
-      </div>
-    </div>
-  </div>
   
         @if (teamMembers().length === 0) {
           <div class="empty-team-state">

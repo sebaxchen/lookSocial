@@ -44,10 +44,6 @@ import { SessionTimerService } from '../../../application/session-timer.service'
                 <mat-icon>play_arrow</mat-icon>
                 Continuar trabajando
               </button>
-              <button mat-button class="break-btn take-break-btn" (click)="takeBreak()">
-                <mat-icon>pause</mat-icon>
-                Tomar descanso
-              </button>
             </div>
           </div>
         </div>
@@ -61,7 +57,7 @@ import { SessionTimerService } from '../../../application/session-timer.service'
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -70,9 +66,10 @@ import { SessionTimerService } from '../../../application/session-timer.service'
     }
 
     .break-modal {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: none;
+      border: 1px solid #e5e7eb;
       max-width: 500px;
       width: 90%;
       max-height: 90vh;
@@ -83,11 +80,11 @@ import { SessionTimerService } from '../../../application/session-timer.service'
     @keyframes modalSlideIn {
       from {
         opacity: 0;
-        transform: scale(0.9) translateY(-20px);
+        transform: scale(0.95);
       }
       to {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: scale(1);
       }
     }
 
@@ -97,34 +94,33 @@ import { SessionTimerService } from '../../../application/session-timer.service'
     }
 
     .break-icon {
-      width: 80px;
-      height: 80px;
+      width: 64px;
+      height: 64px;
       background: #1a1a1a;
-      border-radius: 50%;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 24px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
 
     .break-icon mat-icon {
-      font-size: 40px;
-      width: 40px;
-      height: 40px;
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
       color: white;
     }
 
     .break-title {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: #1f2937;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #111827;
       margin: 0 0 16px 0;
       line-height: 1.3;
     }
 
     .break-description {
-      font-size: 1rem;
+      font-size: 0.9375rem;
       color: #6b7280;
       line-height: 1.6;
       margin: 0 0 32px 0;
@@ -133,7 +129,7 @@ import { SessionTimerService } from '../../../application/session-timer.service'
     .break-suggestions {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 12px;
       margin: 0 0 32px 0;
     }
 
@@ -142,16 +138,15 @@ import { SessionTimerService } from '../../../application/session-timer.service'
       align-items: center;
       gap: 12px;
       padding: 16px;
-      background: #f8f9fa;
-      border-radius: 12px;
+      background: #ffffff;
+      border-radius: 8px;
       border: 1px solid #e5e7eb;
       transition: all 0.2s ease;
     }
 
     .suggestion-item:hover {
-      background: #f0f4ff;
+      background: #f9fafb;
       border-color: #d1d5db;
-      transform: translateY(-2px);
     }
 
     .suggestion-item mat-icon {
@@ -162,9 +157,9 @@ import { SessionTimerService } from '../../../application/session-timer.service'
     }
 
     .suggestion-item span {
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       font-weight: 500;
-      color: #4b5563;
+      color: #374151;
     }
 
     .break-actions {
@@ -178,42 +173,21 @@ import { SessionTimerService } from '../../../application/session-timer.service'
       align-items: center;
       gap: 8px;
       padding: 12px 24px;
-      border-radius: 10px;
+      border-radius: 6px;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.9375rem;
       transition: all 0.2s ease;
-      min-width: 160px;
+      min-width: 200px;
+      border: none;
     }
 
     .continue-btn {
       background: #1a1a1a;
       color: #ffffff;
-      border: 2px solid #1a1a1a;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .continue-btn:hover {
-      background: #2d2d2d;
-      color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .take-break-btn {
-      background: #1a1a1a;
-      color: #ffffff;
-      border: 2px solid #1a1a1a;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .take-break-btn:hover {
-      background: #2d2d2d;
-      color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .break-btn {
+      background: #374151;
       color: #ffffff;
     }
 
@@ -263,12 +237,6 @@ export class BreakModalComponent {
   }
 
   continueWorking(): void {
-    this.sessionTimerService.dismissBreakModal();
-  }
-
-  takeBreak(): void {
-    // Aquí podrías implementar lógica adicional para el descanso
-    // Por ejemplo, pausar el timer o redirigir a una página de descanso
     this.sessionTimerService.dismissBreakModal();
     this.sessionTimerService.resetSession();
   }

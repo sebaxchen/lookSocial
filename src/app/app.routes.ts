@@ -8,6 +8,7 @@ const home = () => import('./shared/presentation/views/home/home').then(m => m.H
 const dashboard = () => import('./shared/presentation/views/dashboard/dashboard').then(m => m.DashboardComponent);
 const about = () => import('./shared/presentation/views/about/about').then(m => m.About);
 const groups = () => import('./shared/presentation/views/groups/groups').then(m => m.GroupsComponent);
+const calendar = () => import('./shared/presentation/views/calendar/calendar').then(m => m.CalendarComponent);
 const sharedFiles = () => import('./shared/presentation/views/shared-files/shared-files').then(m => m.SharedFilesComponent);
 const pageNotFound = () => import('./shared/presentation/views/page-not-found/page-not-found').then(m => m.PageNotFound);
 const login = () => import('./shared/presentation/views/login/login').then(m => m.Login);
@@ -31,6 +32,7 @@ export const routes: Routes = [
   { path: 'dashboard', loadComponent: dashboard, title: `${baseTitle} - Dashboard`, canActivate: [AuthGuard] },
   { path: 'about', loadComponent: about, title: `${baseTitle} - About`, canActivate: [AuthGuard] },
   { path: 'groups', loadComponent: groups, title: `${baseTitle} - Grupos`, canActivate: [AuthGuard] },
+  { path: 'calendar', loadComponent: calendar, title: `${baseTitle} - Calendario`, canActivate: [AuthGuard] },
   { path: 'shared-files', loadComponent: sharedFiles, title: `${baseTitle} - Archivos Compartidos`, canActivate: [AuthGuard] },
   { path: 'learning', loadChildren: () =>
   import('./learning/presentation/views/learning.routes').then(m => m.learningRoutes), canActivate: [AuthGuard]},

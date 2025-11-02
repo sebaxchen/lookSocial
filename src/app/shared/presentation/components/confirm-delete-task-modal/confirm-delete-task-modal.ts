@@ -18,15 +18,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
         <div class="warning-icon">
           <mat-icon>delete_outline</mat-icon>
         </div>
-        <h2 class="modal-title">Eliminar Nota</h2>
+        <h2 class="modal-title">Eliminar {{ itemType }}</h2>
       </div>
       
       <div class="modal-content">
         <p class="warning-text">
-          ¿Estás seguro de que quieres eliminar la nota <strong>"{{ taskTitle }}"</strong>?
+          ¿Estás seguro de que quieres eliminar {{ itemType.toLowerCase() }} <strong>"{{ taskTitle }}"</strong>?
         </p>
         <p class="sub-warning">
-          Esta acción no se puede deshacer y se perderá toda la información de la nota.
+          Esta acción no se puede deshacer y se perderá toda la información de {{ itemType.toLowerCase() }}.
         </p>
       </div>
       
@@ -164,10 +164,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ConfirmDeleteTaskModal {
   dialogRef = inject(MatDialogRef<ConfirmDeleteTaskModal>);
   
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { taskTitle: string }) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { taskTitle: string; itemType?: string }) {}
 
   get taskTitle(): string {
     return this.data?.taskTitle || '';
+  }
+
+  get itemType(): string {
+    return this.data?.itemType || 'Nota';
   }
 
   onConfirm() {

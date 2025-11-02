@@ -41,7 +41,8 @@ export class Header {
     { link: '/groups', label: 'Grupos', icon: 'groups', color: '#f59e0b' },
     { link: '/about', label: 'Gestión de Tareas', icon: 'info', color: '#06b6d4' },
     { link: '/learning/categories', label: 'Colaboradores', icon: 'group', color: '#ec4899' },
-    { link: '/shared-files', label: 'Archivos', icon: 'cloud', color: '#eab308' }
+    { link: '/shared-files', label: 'Archivos', icon: 'cloud', color: '#eab308' },
+    { link: '/calendar', label: 'Calendario', icon: 'calendar_month', color: '#3b82f6' }
   ];
 
   constructor(

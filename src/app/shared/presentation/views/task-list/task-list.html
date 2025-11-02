@@ -107,6 +107,21 @@
                     </div>
                   </div>
                 }
+
+                @if (task.dueDate) {
+                  <div class="metadata-item">
+                    <div class="metadata-label">
+                      <mat-icon class="label-icon">event</mat-icon>
+                      <span class="label-text">Fecha Límite</span>
+                    </div>
+                    <div class="due-date-info">
+                      <span class="due-date-text">{{ formatDate(task.dueDate) }}</span>
+                      @if (isOverdue(task.dueDate, task.status)) {
+                        <span class="overdue-badge">Vencida</span>
+                      }
+                    </div>
+                  </div>
+                }
               </div>
 
               <!-- Status Section -->
@@ -213,6 +228,19 @@
                   [disabled]="enabledSignal"
                   (statusChange)="updateNewTaskStatus($event)">
                 </app-status-selector>
+              </div>
+            </div>
+
+            <!-- Due Date -->
+            <div class="form-section due-date-card">
+              <label class="section-label">Fecha Límite</label>
+              <div class="form-group">
+                <input 
+                  type="date"
+                  [value]="newTaskDueDateSignal()"
+                  (input)="updateNewTaskDueDate($any($event.target).value)"
+                  class="input-field date-field">
+                <mat-icon class="input-icon">event</mat-icon>
               </div>
             </div>
 

@@ -152,7 +152,7 @@
                       </li>
                     }
                   </ul>
-                  <button class="plan-button" [class]="currentPlan === plan.id ? 'active' : (plan.id === 'premium' ? 'premium' : 'default')">
+                  <button class="plan-button" [class]="currentPlan === plan.id ? 'active' : (plan.id === 'premium' ? 'premium' : 'default')" (click)="selectPlan(plan)">
                     @if (currentPlan === plan.id) {
                       Plan Actual
                     } @else {
@@ -161,6 +161,189 @@
                   </button>
                 </div>
               }
+            </div>
+          </div>
+          
+          <!-- Benefits Section -->
+          <div class="benefits-section">
+            <h4 class="benefits-title">Beneficios de nuestros planes</h4>
+            <div class="benefits-grid">
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>security</mat-icon>
+                </div>
+                <h5 class="benefit-name">Seguridad Avanzada</h5>
+                <p class="benefit-description">Tus datos están protegidos con encriptación de última generación</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>cloud_sync</mat-icon>
+                </div>
+                <h5 class="benefit-name">Sincronización en Tiempo Real</h5>
+                <p class="benefit-description">Trabaja desde cualquier dispositivo sin perder tu progreso</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>support_agent</mat-icon>
+                </div>
+                <h5 class="benefit-name">Soporte Prioritario</h5>
+                <p class="benefit-description">Respuesta rápida a todas tus consultas y problemas</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>trending_up</mat-icon>
+                </div>
+                <h5 class="benefit-name">Analíticas Detalladas</h5>
+                <p class="benefit-description">Mide tu productividad con reportes completos y insights</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>update</mat-icon>
+                </div>
+                <h5 class="benefit-name">Actualizaciones Constantes</h5>
+                <p class="benefit-description">Acceso a nuevas características y mejoras regularmente</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>cancel</mat-icon>
+                </div>
+                <h5 class="benefit-name">Cancela Cuando Quieras</h5>
+                <p class="benefit-description">Sin compromisos, cancela tu suscripción en cualquier momento</p>
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (selectedMenu === 'benefits') {
+          <div class="content-section">
+            <h3 class="section-title">Beneficios</h3>
+            
+            <!-- Benefits Overview -->
+            <div class="benefits-intro">
+              <p class="benefits-intro-text">
+                Descubre todas las ventajas que obtienes al ser parte de nuestra plataforma
+              </p>
+            </div>
+
+            <!-- Main Benefits Grid -->
+            <div class="benefits-grid">
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>security</mat-icon>
+                </div>
+                <h5 class="benefit-name">Seguridad Avanzada</h5>
+                <p class="benefit-description">Tus datos están protegidos con encriptación de última generación y protocolos de seguridad de nivel empresarial</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>cloud_sync</mat-icon>
+                </div>
+                <h5 class="benefit-name">Sincronización en Tiempo Real</h5>
+                <p class="benefit-description">Trabaja desde cualquier dispositivo sin perder tu progreso. Todo se sincroniza instantáneamente</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>support_agent</mat-icon>
+                </div>
+                <h5 class="benefit-name">Soporte Prioritario</h5>
+                <p class="benefit-description">Respuesta rápida a todas tus consultas y problemas con nuestro equipo de expertos</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>trending_up</mat-icon>
+                </div>
+                <h5 class="benefit-name">Analíticas Detalladas</h5>
+                <p class="benefit-description">Mide tu productividad con reportes completos, gráficos y insights personalizados</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>update</mat-icon>
+                </div>
+                <h5 class="benefit-name">Actualizaciones Constantes</h5>
+                <p class="benefit-description">Acceso temprano a nuevas características y mejoras que lanzamos regularmente</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>cancel</mat-icon>
+                </div>
+                <h5 class="benefit-name">Cancela Cuando Quieras</h5>
+                <p class="benefit-description">Sin compromisos a largo plazo. Cancela tu suscripción en cualquier momento sin penalizaciones</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>people</mat-icon>
+                </div>
+                <h5 class="benefit-name">Colaboración Ilimitada</h5>
+                <p class="benefit-description">Trabaja con tu equipo sin restricciones. Invita a todos los miembros que necesites</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>storage</mat-icon>
+                </div>
+                <h5 class="benefit-name">Almacenamiento Expandido</h5>
+                <p class="benefit-description">Guarda todos tus proyectos y archivos sin preocuparte por el espacio disponible</p>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <mat-icon>speed</mat-icon>
+                </div>
+                <h5 class="benefit-name">Rendimiento Optimizado</h5>
+                <p class="benefit-description">Experiencia ultrarrápida con arquitectura de servidores de alto rendimiento</p>
+              </div>
+            </div>
+
+            <!-- Additional Benefits -->
+            <div class="additional-benefits-section">
+              <h4 class="additional-benefits-title">Beneficios Adicionales</h4>
+              <div class="additional-benefits-list">
+                <div class="additional-benefit-item">
+                  <mat-icon class="check-benefit-icon">check_circle</mat-icon>
+                  <span>Acceso a recursos y plantillas exclusivas</span>
+                </div>
+                <div class="additional-benefit-item">
+                  <mat-icon class="check-benefit-icon">check_circle</mat-icon>
+                  <span>Webinars y capacitaciones gratuitas</span>
+                </div>
+                <div class="additional-benefit-item">
+                  <mat-icon class="check-benefit-icon">check_circle</mat-icon>
+                  <span>Programa de referidos con recompensas</span>
+                </div>
+                <div class="additional-benefit-item">
+                  <mat-icon class="check-benefit-icon">check_circle</mat-icon>
+                  <span>Integraciones con herramientas populares</span>
+                </div>
+                <div class="additional-benefit-item">
+                  <mat-icon class="check-benefit-icon">check_circle</mat-icon>
+                  <span>API personalizada para desarrolladores</span>
+                </div>
+                <div class="additional-benefit-item">
+                  <mat-icon class="check-benefit-icon">check_circle</mat-icon>
+                  <span>Soporte técnico 24/7 en planes premium</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Companies Section -->
+            <div class="companies-section">
+              <h4 class="companies-title">Empresas que confían en nosotros</h4>
+              <div class="companies-grid">
+                <div class="company-item" style="background: #FFD700;" (click)="openPartnersModal('metro')">
+                  <div class="company-logo metro">Metro</div>
+                  <div class="company-sublogo">cencosud</div>
+                </div>
+                <div class="company-item" style="background: #E53935;" (click)="openPartnersModal('plazavea')">
+                  <div class="company-logo plazavea">
+                    <span class="plazavea-plaza">plaza</span>
+                    <span class="plazavea-vea">vea</span>
+                  </div>
+                </div>
+                <div class="company-item" style="background: #32CD32;" (click)="openPartnersModal('falabella')">
+                  <div class="company-logo falabella">falabella</div>
+                </div>
+                <div class="company-item" style="background: #000000;" (click)="openPartnersModal('florafauna')">
+                  <div class="company-logo florafauna">FLORA & FAUNA</div>
+                </div>
+              </div>
             </div>
           </div>
         }
@@ -184,4 +367,129 @@
     </div>
   </div>
 </div>
+
+<!-- Payment Modal -->
+@if (isPaymentModalOpen) {
+  <div class="payment-modal-overlay" (click)="closePaymentModal()">
+    <div class="payment-modal-container" (click)="$event.stopPropagation()">
+      <div class="payment-modal-header">
+        <h2 class="payment-modal-title">Procesar Pago</h2>
+        <button class="payment-close-btn" (click)="closePaymentModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="payment-modal-content">
+        @if (selectedPlanForPayment) {
+          <div class="payment-summary">
+            <div class="payment-plan-info">
+              <h3 class="payment-plan-name">{{ selectedPlanForPayment.name }}</h3>
+              <div class="payment-plan-price">{{ selectedPlanForPayment.price }}</div>
+            </div>
+            
+            <div class="payment-details">
+              <h4 class="payment-details-title">Detalles del pago</h4>
+              
+              <div class="payment-form">
+                <div class="payment-form-group">
+                  <label class="payment-label">Nombre en la tarjeta</label>
+                  <input type="text" class="payment-input" placeholder="Juan Pérez">
+                </div>
+                
+                <div class="payment-form-group">
+                  <label class="payment-label">Número de tarjeta</label>
+                  <input type="text" class="payment-input" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                
+                <div class="payment-form-row">
+                  <div class="payment-form-group">
+                    <label class="payment-label">Fecha de expiración</label>
+                    <input type="text" class="payment-input" placeholder="MM/AA" maxlength="5">
+                  </div>
+                  
+                  <div class="payment-form-group">
+                    <label class="payment-label">CVV</label>
+                    <input type="text" class="payment-input" placeholder="123" maxlength="3">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="payment-total">
+                <div class="payment-total-label">Total a pagar</div>
+                <div class="payment-total-amount">{{ selectedPlanForPayment.price }}</div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="payment-modal-footer">
+        <button class="payment-btn payment-btn-cancel" (click)="closePaymentModal()">
+          <mat-icon>close</mat-icon>
+          Cancelar
+        </button>
+        <button class="payment-btn payment-btn-confirm" (click)="processPayment()">
+          <mat-icon>payment</mat-icon>
+          Pagar Ahora
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Partners Modal -->
+@if (isPartnersModalOpen) {
+  <div class="partners-modal-overlay" (click)="closePartnersModal()">
+    <div class="partners-modal-container" (click)="$event.stopPropagation()">
+      <div class="partners-modal-header">
+        <div class="partners-modal-icon">
+          <mat-icon>card_giftcard</mat-icon>
+        </div>
+        <h2 class="partners-modal-title">Socio Comercial</h2>
+        <button class="partners-close-btn" (click)="closePartnersModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="partners-modal-content">
+        <div class="partners-info">
+          <p class="partners-message">
+            Cupones de Descuento
+          </p>
+          <p class="partners-submessage">
+            Descubre las mejores ofertas y descuentos exclusivos de nuestros socios comerciales.
+          </p>
+        </div>
+
+        <div class="coupons-list">
+          @for (coupon of getCompanyCoupons(); track coupon.code) {
+            <div class="coupon-card">
+              <div class="coupon-header">
+                <div class="coupon-discount">
+                  <span class="discount-amount">{{ coupon.discount }}</span>
+                </div>
+                <button class="coupon-copy-btn" (click)="copyCouponCode(coupon.code)">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              </div>
+              <div class="coupon-body">
+                <div class="coupon-code">
+                  <span class="code-label">Código:</span>
+                  <span class="code-value">{{ coupon.code }}</span>
+                </div>
+                <p class="coupon-description">{{ coupon.description }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="partners-modal-footer">
+        <button class="partners-btn partners-btn-primary" (click)="closePartnersModal()">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+}
 

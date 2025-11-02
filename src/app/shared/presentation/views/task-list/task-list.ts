@@ -61,6 +61,7 @@ export class TaskList {
   newTaskStatusSignal = signal<TaskStatus>('not-started');
   newTaskAssigneeSignal = signal<string>('');
   newTaskAssigneesSignal = signal<string[]>([]);
+  newTaskDueDateSignal = signal<string>('');
   selectedGroup = signal<string>('');
   disabledSignal = signal(false);
   enabledSignal = signal(false);
@@ -213,6 +214,12 @@ export class TaskList {
     this.newTaskAssigneesSignal.set(assignees);
   }
 
+  updateNewTaskDueDate(dueDate: string): void {
+    const dueDateObj = dueDate ? new Date(dueDate) : undefined;
+    this.newTask.update(task => ({ ...task, dueDate: dueDateObj }));
+    this.newTaskDueDateSignal.set(dueDate);
+  }
+
   getTaskStatusSignal(taskId: string) {
     const task = this.taskStore.getTaskById(taskId);
     return signal(task?.status || 'not-started');
@@ -243,6 +250,7 @@ export class TaskList {
     this.newTaskStatusSignal.set('not-started');
     this.newTaskAssigneeSignal.set('');
     this.newTaskAssigneesSignal.set([]);
+    this.newTaskDueDateSignal.set('');
   }
 
   isFormValid(): boolean {
@@ -272,5 +280,26 @@ export class TaskList {
       default:
         return 'assignment';
     }
+  }
+
+  // Método para formatear la fecha
+  formatDate(date: Date): string {
+    const d = new Date(date);
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  // Método para verificar si una tarea está vencida
+  isOverdue(dueDate: Date, status: TaskStatus): boolean {
+    if (status === 'completed') {
+      return false; // Las tareas completadas no se consideran vencidas
+    }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const due = new Date(dueDate);
+    due.setHours(0, 0, 0, 0);
+    return due < today;
   }
 }

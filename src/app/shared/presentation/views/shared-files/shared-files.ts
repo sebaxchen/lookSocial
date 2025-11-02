@@ -4,10 +4,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../application/auth.service';
 import { TeamService } from '../../../application/team.service';
 import { GroupColorsService } from '../../../application/group-colors.service';
 import { GroupsService } from '../../../application/groups.service';
+import { ConfirmDeleteTaskModal } from '../../components/confirm-delete-task-modal/confirm-delete-task-modal';
 
 export interface SharedFile {
   id: string;
@@ -39,6 +41,7 @@ export class SharedFilesComponent {
   teamService = inject(TeamService);
   groupColorsService = inject(GroupColorsService);
   groupsService = inject(GroupsService);
+  private dialog = inject(MatDialog);
   files = signal<SharedFile[]>([]);
   isUploadDialogOpen = signal(false);
   selectedFiles = signal<File[]>([]);
@@ -143,9 +146,24 @@ export class SharedFilesComponent {
   }
 
   deleteFile(fileId: string) {
-    const updated = this.files().filter(f => f.id !== fileId);
-    this.files.set(updated);
-    this.saveFiles();
+    const file = this.files().find(f => f.id === fileId);
+    if (!file) return;
+
+    const dialogRef = this.dialog.open(ConfirmDeleteTaskModal, {
+      width: '400px',
+      maxWidth: '90vw',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data: { taskTitle: file.name, itemType: 'Archivo' }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        const updated = this.files().filter(f => f.id !== fileId);
+        this.files.set(updated);
+        this.saveFiles();
+      }
+    });
   }
 
   downloadFile(file: SharedFile) {

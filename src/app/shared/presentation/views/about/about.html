@@ -6,92 +6,6 @@
       <p class="empty-message">Añade una nota en <strong>Home</strong> para comenzar</p>
     </div>
   } @else {
-  <!-- Tasks Overview -->
-  <div class="tasks-overview">
-    <div class="overview-stats">
-      <div class="stat-card not-started">
-        <div class="stat-icon">
-          <mat-icon>play_circle_outline</mat-icon>
-        </div>
-        <div class="stat-content">
-          <span class="stat-number">{{ taskStore.notStartedCount() }}</span>
-          <span class="stat-label">Sin Iniciar</span>
-          <div class="stat-progress">
-            <div class="progress-bar" [style.width.%]="getProgressPercentage('not-started')"></div>
-          </div>
-        </div>
-      </div>
-      <div class="stat-card in-progress">
-        <div class="stat-icon">
-          <mat-icon>hourglass_empty</mat-icon>
-        </div>
-        <div class="stat-content">
-          <span class="stat-number">{{ taskStore.inProgressCount() }}</span>
-          <span class="stat-label">En Progreso</span>
-          <div class="stat-progress">
-            <div class="progress-bar" [style.width.%]="getProgressPercentage('in-progress')"></div>
-          </div>
-        </div>
-      </div>
-      <div class="stat-card completed">
-        <div class="stat-icon">
-          <mat-icon>check_circle</mat-icon>
-        </div>
-        <div class="stat-content">
-          <span class="stat-number">{{ taskStore.completedCount() }}</span>
-          <span class="stat-label">Terminadas</span>
-          <div class="stat-progress">
-            <div class="progress-bar" [style.width.%]="getProgressPercentage('completed')"></div>
-          </div>
-        </div>
-      </div>
-      <div class="stat-card assigned">
-        <div class="stat-icon">
-          <mat-icon>person</mat-icon>
-        </div>
-        <div class="stat-content">
-          <span class="stat-number">{{ getAssignedTasksCount() }}</span>
-          <span class="stat-label">Asignadas</span>
-          <div class="stat-progress">
-            <div class="progress-bar" [style.width.%]="getProgressPercentage('assigned')"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Additional Stats Row -->
-    <div class="additional-stats">
-      <div class="additional-stat-card">
-        <mat-icon>schedule</mat-icon>
-        <div class="stat-info">
-          <span class="stat-value">{{ getTotalTasks() }}</span>
-          <span class="stat-desc">Total Tareas</span>
-        </div>
-      </div>
-      <div class="additional-stat-card">
-        <mat-icon>priority_high</mat-icon>
-        <div class="stat-info">
-          <span class="stat-value">{{ getHighPriorityCount() }}</span>
-          <span class="stat-desc">Alta Prioridad</span>
-        </div>
-      </div>
-      <div class="additional-stat-card">
-        <mat-icon>group</mat-icon>
-        <div class="stat-info">
-          <span class="stat-value">{{ getTeamMembersCount() }}</span>
-          <span class="stat-desc">Miembros</span>
-        </div>
-      </div>
-      <div class="additional-stat-card">
-        <mat-icon>trending_up</mat-icon>
-        <div class="stat-info">
-          <span class="stat-value">{{ getCompletionRate() }}%</span>
-          <span class="stat-desc">Completado</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Three Column Layout -->
   <div class="tasks-columns">
     <!-- Not Started Column -->
@@ -133,6 +47,14 @@
                         {{ task.assignee.charAt(0).toUpperCase() }}
                       </div>
                       {{ task.assignee }}
+                    </span>
+                  }
+                  @if (getTaskGroup(task.id)) {
+                    <span class="group-chip">
+                      <div class="group-avatar" [style.background-color]="getGroupColor(getTaskGroup(task.id)?.name!)">
+                        {{ getGroupInitials(getTaskGroup(task.id)?.name!) }}
+                      </div>
+                      {{ getTaskGroup(task.id)?.name }}
                     </span>
                   }
                   <div class="task-assignee-selector">
@@ -208,6 +130,14 @@
                       {{ task.assignee }}
                     </span>
                   }
+                  @if (getTaskGroup(task.id)) {
+                    <span class="group-chip">
+                      <div class="group-avatar" [style.background-color]="getGroupColor(getTaskGroup(task.id)?.name!)">
+                        {{ getGroupInitials(getTaskGroup(task.id)?.name!) }}
+                      </div>
+                      {{ getTaskGroup(task.id)?.name }}
+                    </span>
+                  }
                   <div class="task-assignee-selector">
                     <app-assignee-selector
                       [selectedAssignee]="getTaskAssigneeSignal(task.id)"
@@ -279,6 +209,14 @@
                         {{ task.assignee.charAt(0).toUpperCase() }}
                       </div>
                       {{ task.assignee }}
+                    </span>
+                  }
+                  @if (getTaskGroup(task.id)) {
+                    <span class="group-chip">
+                      <div class="group-avatar" [style.background-color]="getGroupColor(getTaskGroup(task.id)?.name!)">
+                        {{ getGroupInitials(getTaskGroup(task.id)?.name!) }}
+                      </div>
+                      {{ getTaskGroup(task.id)?.name }}
                     </span>
                   }
                   <div class="task-assignee-selector">

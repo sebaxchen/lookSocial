@@ -1,0 +1,116 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <div class="calendar-header-top">
+      <div class="calendar-title">
+        <mat-icon class="calendar-icon">calendar_month</mat-icon>
+        <h2>{{ getMonthName() }} {{ currentYear }}</h2>
+      </div>
+      <div class="calendar-actions">
+        <button mat-icon-button (click)="previousMonth()" class="nav-button">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-button (click)="today()" class="today-button">
+          Hoy
+        </button>
+        <button mat-icon-button (click)="nextMonth()" class="nav-button">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="calendar-weekdays">
+      <div class="weekday">Dom</div>
+      <div class="weekday">Lun</div>
+      <div class="weekday">Mar</div>
+      <div class="weekday">Mié</div>
+      <div class="weekday">Jue</div>
+      <div class="weekday">Vie</div>
+      <div class="weekday">Sáb</div>
+    </div>
+
+    <div class="calendar-days">
+      @for (day of getDaysInMonth(); track $index) {
+        @if (day.day === 0) {
+          <div class="calendar-day empty"></div>
+        } @else {
+          <div class="calendar-day" 
+               [class.today]="isToday(day.day)"
+               (click)="openDayModal(day)">
+            <span class="day-number">{{ day.day }}</span>
+            @if (day.tasks && day.tasks.length > 0) {
+              <div class="calendar-tasks">
+                @for (task of day.tasks; track task.id) {
+                  <div class="calendar-task" 
+                       [class]="'calendar-task ' + getPriorityClass(task.priority)"
+                       [class.overdue]="isOverdue(task.dueDate!, task.status)"
+                       [class.completed]="task.status === 'completed'">
+                    <span class="task-title-text">{{ task.title }}</span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Day Tasks Modal -->
+@if (isDayModalOpen()) {
+  <div class="modal-overlay" (click)="closeDayModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Tareas del {{ selectedDay()?.day }} de {{ getMonthName() }}</h2>
+        <button class="modal-close-btn" (click)="closeDayModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-content">
+        @if (selectedDay()?.tasks && selectedDay()!.tasks.length > 0) {
+          <div class="tasks-list-modal">
+            @for (task of selectedDay()!.tasks; track task.id) {
+              <div class="task-item-modal" [class]="'task-item ' + getPriorityClass(task.priority) + (isOverdue(task.dueDate!, task.status) ? ' overdue' : '') + (task.status === 'completed' ? ' completed' : '')">
+                <div class="task-header-modal">
+                  <div class="task-title-modal">
+                    <mat-icon class="task-icon-small">{{ getPriorityIcon(task.priority) }}</mat-icon>
+                    <h3 class="task-name">{{ task.title }}</h3>
+                  </div>
+                  @if (isOverdue(task.dueDate!, task.status)) {
+                    <span class="overdue-badge-modal">Vencida</span>
+                  }
+                  @if (task.status === 'completed') {
+                    <mat-icon class="completed-icon">check_circle</mat-icon>
+                  }
+                </div>
+                @if (task.description) {
+                  <p class="task-description-modal">{{ task.description }}</p>
+                }
+                <div class="task-footer-modal">
+                  <span class="task-status-modal" [class]="'status-' + task.status">
+                    {{ getStatusText(task.status) }}
+                  </span>
+                  @if (task.assignee) {
+                    <span class="task-assignee-modal">
+                      <mat-icon class="assignee-icon-small">person</mat-icon>
+                      {{ task.assignee }}
+                    </span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state-modal">
+            <mat-icon class="empty-icon-modal">task_alt</mat-icon>
+            <p class="empty-message-modal">No hay tareas para este día</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
+

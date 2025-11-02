@@ -130,16 +130,17 @@
               <p class="empty-data">No hay colaboradores disponibles</p>
             } @else {
               <div class="selection-list">
-                @for (member of availableMembers(); track member.name || member.id) {
-                  <div class="selection-item" (click)="toggleMember(member.name)">
+                @for (member of availableMembers(); track member.id || member.name) {
+                  <div class="selection-item">
                     <input 
                       type="checkbox" 
                       [checked]="selectedTeamMembers().includes(member.name)"
-                      (change)="toggleMember(member.name)">
+                      (change)="toggleMember(member.name)"
+                      [id]="'member-' + $index">
                     <div class="member-avatar-small" [style.background-color]="getMemberColor(member.name)">
                       <span class="member-initials-small">{{ getInitials(member.name) }}</span>
                     </div>
-                    <label>{{ member.name }}</label>
+                    <label [for]="'member-' + $index">{{ member.name }}</label>
                   </div>
                 }
               </div>
@@ -156,15 +157,16 @@
             } @else {
               <div class="selection-list">
                 @for (group of availableGroups(); track group.id || group.name) {
-                  <div class="selection-item" (click)="toggleGroup(group.name)">
+                  <div class="selection-item">
                     <input 
                       type="checkbox" 
                       [checked]="selectedGroups().includes(group.name)"
-                      (change)="toggleGroup(group.name)">
+                      (change)="toggleGroup(group.name)"
+                      [id]="'group-' + $index">
                     <div class="group-avatar-small" [style.background-color]="getGroupColor(group.name)">
                       <span class="group-initials-small">{{ getGroupInitials(group.name) }}</span>
                     </div>
-                    <label>{{ group.name }}</label>
+                    <label [for]="'group-' + $index">{{ group.name }}</label>
                   </div>
                 }
               </div>

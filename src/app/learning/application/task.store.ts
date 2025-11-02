@@ -215,6 +215,7 @@ export class TaskStore {
       category: request.category,
       assignee: request.assignee || '',
       assignees: request.assignees || [],
+      dueDate: request.dueDate,
       createdAt: new Date(),
       updatedAt: new Date()
     };

@@ -11,6 +11,7 @@ export interface Task {
   category?: string;
   assignee?: string; // Keep for backward compatibility
   assignees?: string[]; // New field for multiple assignees
+  dueDate?: Date;
 }
 
 export interface CreateTaskRequest {
@@ -21,6 +22,7 @@ export interface CreateTaskRequest {
   status?: TaskStatus;
   assignee?: string; // Keep for backward compatibility
   assignees?: string[]; // New field for multiple assignees
+  dueDate?: Date;
 }
 
 export interface UpdateTaskRequest {
@@ -32,4 +34,5 @@ export interface UpdateTaskRequest {
   category?: string;
   assignee?: string; // Keep for backward compatibility
   assignees?: string[]; // New field for multiple assignees
+  dueDate?: Date;
 }

@@ -496,17 +496,29 @@
 /* Column Specific Styles */
 .not-started-column .column-header {
   background: #ffffff;
-  border-left: 4px solid #6b7280;
+  border-left: 3px solid #6b7280;
+}
+
+.not-started-column .column-header mat-card-title mat-icon {
+  color: #6b7280;
 }
 
 .in-progress-column .column-header {
   background: #ffffff;
-  border-left: 4px solid #f59e0b;
+  border-left: 3px solid #f59e0b;
+}
+
+.in-progress-column .column-header mat-card-title mat-icon {
+  color: #f59e0b;
 }
 
 .completed-column .column-header {
   background: #ffffff;
-  border-left: 4px solid #10b981;
+  border-left: 3px solid #10b981;
+}
+
+.completed-column .column-header mat-card-title mat-icon {
+  color: #10b981;
 }
 
 /* Tasks List */
@@ -522,16 +534,28 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   border: 1px solid #e5e7eb;
+  border-left: 4px solid #e5e7eb;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   background: white;
+  position: relative;
 }
 
 .task-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   border-color: #d1d5db;
 }
 
+/* Priority border colors */
+.task-card:has(.priority-chip.priority-high) {
+  border-left-color: #dc2626;
+}
+
+.task-card:has(.priority-chip.priority-medium) {
+  border-left-color: #f59e0b;
+}
+
+.task-card:has(.priority-chip.priority-low) {
+  border-left-color: #10b981;
+}
 
 .task-card mat-card-content {
   padding: 16px !important;
@@ -649,41 +673,37 @@
 }
 
 .priority-chip:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  opacity: 0.9;
 }
 
 .priority-chip.priority-high {
   background: #fee2e2;
   color: #991b1b;
-  border: 1px solid #fecaca;
+  border: 1px solid #dc2626;
 }
 
 .priority-chip.priority-high:hover {
   background: #fecaca;
-  color: #7f1d1d;
 }
 
 .priority-chip.priority-medium {
   background: #fef3c7;
   color: #92400e;
-  border: 1px solid #fde68a;
+  border: 1px solid #f59e0b;
 }
 
 .priority-chip.priority-medium:hover {
   background: #fde68a;
-  color: #78350f;
 }
 
 .priority-chip.priority-low {
   background: #d1fae5;
   color: #065f46;
-  border: 1px solid #a7f3d0;
+  border: 1px solid #10b981;
 }
 
 .priority-chip.priority-low:hover {
   background: #a7f3d0;
-  color: #064e3b;
 }
 
 .priority-chip mat-icon {
@@ -727,9 +747,6 @@
 
 .assignee-chip:hover {
   background: #e5e7eb;
-  color: #111827;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 .assignee-icon {
@@ -740,6 +757,41 @@
 }
 
 .assignee-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+/* Group Chip Styles */
+.group-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  border: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #f3f4f6;
+  color: #111827;
+  margin-right: 8px;
+}
+
+.group-chip:hover {
+  background: #e5e7eb;
+}
+
+.group-avatar {
   width: 20px;
   height: 20px;
   border-radius: 4px;

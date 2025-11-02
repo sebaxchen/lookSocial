@@ -9,6 +9,7 @@ import { StatusSelector } from '../../components/status-selector/status-selector
 import { AssigneeSelector } from '../../components/assignee-selector/assignee-selector';
 import { ConfirmDeleteTaskModal } from '../../components/confirm-delete-task-modal/confirm-delete-task-modal';
 import { TeamService } from '../../../application/team.service';
+import { GroupsService } from '../../../application/groups.service';
 
 @Component({
   selector: 'app-about',
@@ -32,6 +33,11 @@ export class About {
   
   private dialog = inject(MatDialog);
   private teamService = inject(TeamService);
+  private groupsService = inject(GroupsService);
+  
+  get groups() {
+    return this.groupsService.getAllGroups();
+  }
 
   updateStatus(id: string, status: TaskStatus): void {
     this.taskStore.updateStatus(id, status);
@@ -126,5 +132,27 @@ export class About {
   // Función para obtener el color único del miembro
   getMemberColor(memberName: string): string {
     return this.teamService.getMemberColor(memberName);
+  }
+
+  // Método para obtener el grupo de una tarea
+  getTaskGroup(taskId: string): any | null {
+    const allGroups = this.groups();
+    for (const group of allGroups) {
+      const taskExists = group.tasks?.some(t => t.id === taskId);
+      if (taskExists) {
+        return group;
+      }
+    }
+    return null;
+  }
+
+  // Método para obtener el color de un grupo
+  getGroupColor(groupName: string): string {
+    return this.groupsService.getGroupColor(groupName);
+  }
+
+  // Método para obtener las iniciales de un grupo
+  getGroupInitials(groupName: string): string {
+    return groupName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
 }
