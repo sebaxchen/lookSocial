@@ -10,7 +10,7 @@
 
 [build.environment]
   # Versión de Node.js
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
   
   # Variables de entorno
   NODE_ENV = "production"
