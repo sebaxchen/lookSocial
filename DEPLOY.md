@@ -84,3 +84,81 @@ Si necesitas configurar variables de entorno en Netlify:
 4. **Haz push** a la rama `main` para deploy automático
 
 ¡El proyecto está listo para deploy en Netlify! 🎉
+
+---
+
+## 🌐 Deploy en GitHub Pages
+
+El proyecto también está configurado para deploy automático en GitHub Pages.
+
+### 📁 Archivos de Configuración
+
+- **`.github/workflows/deploy.yml`**: Workflow de GitHub Actions para deploy automático
+- **`angular.json`**: Configuración `githubPages` con `baseHref` configurado
+
+### ⚙️ Configuración Inicial
+
+1. **Habilita GitHub Pages en tu repositorio:**
+   - Ve a **Settings** > **Pages** en tu repositorio de GitHub
+   - En **Source**, selecciona **GitHub Actions**
+   - Guarda los cambios
+
+2. **El deploy se ejecutará automáticamente** cuando hagas push a la rama `main`
+
+### 🔧 Scripts de Build
+
+```bash
+# Build específico para GitHub Pages
+npm run build:gh-pages
+
+# Este script:
+# 1. Construye la aplicación con baseHref configurado
+# 2. Crea el archivo 404.html necesario para SPA
+```
+
+### 📊 Características del Deploy
+
+- ✅ **Deploy automático** en cada push a `main`
+- ✅ **baseHref configurado** para `/Design-thinking-web/`
+- ✅ **Archivo 404.html** creado automáticamente para soportar rutas de Angular
+- ✅ **Build optimizado** para producción
+- ✅ **Node.js 20** en el workflow
+
+### 🔍 Configuración del Repositorio
+
+**IMPORTANTE**: Si tu repositorio tiene un nombre diferente a `Design-thinking-web`, debes actualizar:
+
+1. **`angular.json`**: Cambia el `baseHref` en la configuración `githubPages`
+2. **`.github/workflows/deploy.yml`**: No necesita cambios (se adapta automáticamente)
+
+### 📝 URL del Deploy
+
+La aplicación estará disponible en:
+```
+https://[TU_USUARIO].github.io/Design-thinking-web/
+```
+
+### 🔄 Flujo de Deploy
+
+1. Haces push a la rama `main`
+2. GitHub Actions detecta el cambio
+3. Ejecuta el workflow de build y deploy
+4. La aplicación se publica automáticamente en GitHub Pages
+
+### 🐛 Troubleshooting
+
+#### Error: "Workflow failed"
+- Verifica que GitHub Pages esté habilitado en la configuración del repositorio
+- Revisa los logs del workflow en la pestaña **Actions**
+- Asegúrate de que el repositorio tenga permisos de Pages habilitados
+
+#### Error: "404 en rutas de Angular"
+- Verifica que el archivo `404.html` se haya creado correctamente
+- Asegúrate de que el `baseHref` en `angular.json` coincida con el nombre del repositorio
+
+#### Las rutas no funcionan
+- GitHub Pages requiere el archivo `404.html` para manejar rutas de SPA
+- El workflow crea este archivo automáticamente
+- Si persiste, verifica que el `baseHref` sea correcto
+
+¡El proyecto está listo para deploy en GitHub Pages! 🎉

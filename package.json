@@ -2,14 +2,17 @@
   "name": "learning-center",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "npx ng build --configuration production",
-    "build:dev": "npx ng build --configuration development",
-    "build:prod": "npx ng build --configuration production",
-    "watch": "npx ng build --watch --configuration development",
-    "preview": "npx ng serve --configuration production"
-  },
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build --configuration production",
+  "build:dev": "ng build --configuration development",
+  "build:prod": "ng build --configuration production",
+  "build:gh-pages": "ng build --configuration githubPages && npm run copy-404",
+  "copy-404": "node -e \"require('fs').copyFileSync('dist/learning-center/browser/index.html', 'dist/learning-center/browser/404.html')\"",
+  "watch": "ng build --watch --configuration development",
+  "preview": "ng serve --configuration production"
+},
+
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,

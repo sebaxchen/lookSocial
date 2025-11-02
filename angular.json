@@ -63,6 +63,25 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "githubPages": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2MB",
+                  "maximumError": "5MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "20kB",
+                  "maximumError": "25kB"
+                }
+              ],
+              "outputHashing": "all",
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true,
+              "baseHref": "/Design-thinking-web/"
             }
           },
           "defaultConfiguration": "production"
