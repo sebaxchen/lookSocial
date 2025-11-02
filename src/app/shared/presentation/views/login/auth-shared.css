@@ -36,12 +36,13 @@ html, body {
 /* Left Info Section */
 .auth-info-section {
   flex: 1;
-  background: #3b82f6;
+  background: #fafafa;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 60px;
   min-width: 0;
+  border-right: 1px solid #e5e7eb;
 }
 
 .info-content {
@@ -74,14 +75,14 @@ html, body {
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0 0 24px 0;
-  color: white;
+  color: #111827;
   line-height: 1.2;
   letter-spacing: -0.5px;
 }
 
 .info-description {
   font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #6b7280;
   line-height: 1.6;
   margin: 0 0 40px 0;
 }
@@ -100,14 +101,14 @@ html, body {
   align-items: center;
   gap: 12px;
   font-size: 1rem;
-  color: white;
+  color: #374151;
 }
 
 .feature-check {
   font-size: 1.5rem;
   width: 1.5rem;
   height: 1.5rem;
-  color: white;
+  color: #1a1a1a;
   flex-shrink: 0;
 }
 

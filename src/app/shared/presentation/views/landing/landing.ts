@@ -20,7 +20,7 @@ export class LandingComponent {
   constructor(private router: Router) {}
 
   enterApp() {
-    this.router.navigate(['/splash']);
+    this.router.navigate(['/auth/login']);
   }
 }
 
