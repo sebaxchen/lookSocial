@@ -3,9 +3,21 @@
     <div class="empty-about-state">
       <mat-icon class="empty-icon">assignment</mat-icon>
       <h2 class="empty-title">No hay tareas aún</h2>
-      <p class="empty-message">Añade una nota en <strong>Home</strong> para comenzar</p>
+      <p class="empty-message">Añade una nota para comenzar</p>
+      <button mat-raised-button color="primary" class="empty-cta" (click)="openAddDialog()">
+        <mat-icon>add</mat-icon>
+        Crear mi primera nota
+      </button>
     </div>
   } @else {
+  <!-- Add Task Button -->
+  <div class="add-task-button-container">
+    <button class="custom-add-button" (click)="openAddDialog()">
+      <mat-icon>add</mat-icon>
+      Añadir Nota
+    </button>
+  </div>
+
   <!-- Three Column Layout -->
   <div class="tasks-columns">
     <!-- Not Started Column -->
@@ -13,22 +25,37 @@
       <mat-card class="column-header">
         <mat-card-header>
           <mat-card-title>
-            <mat-icon>play_circle_outline</mat-icon>
             Sin Iniciar
-            <span class="task-count">({{ taskStore.notStartedCount() }})</span>
           </mat-card-title>
         </mat-card-header>
       </mat-card>
       
-      <div class="tasks-list">
+      <div 
+        class="tasks-list"
+        [class.drag-over]="dragOverColumn === 'not-started'"
+        (dragover)="onDragOver($event, 'not-started')"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event, 'not-started')">
         @for (task of taskStore.notStartedTasks(); track task.id) {
-          <mat-card class="task-card">
+          <mat-card 
+            class="task-card">
             <mat-card-content>
+              <button 
+                class="drag-handle"
+                mat-icon-button
+                draggable="true"
+                (dragstart)="onDragStart($event, task.id)"
+                (dragend)="onDragEnd($event)">
+                <span class="drag-handle-line">−</span>
+              </button>
+              <button mat-icon-button (click)="openEditDialog(task)" class="edit-task-btn" title="Editar tarea">
+                <mat-icon>edit</mat-icon>
+              </button>
               <div class="task-header">
+                <div class="priority-icon-container priority-{{ task.priority }}">
+                  <mat-icon class="priority-icon">{{ getPriorityIcon(task.priority) }}</mat-icon>
+                </div>
                 <h3 class="task-title">{{ task.title }}</h3>
-                <button mat-icon-button (click)="deleteTask(task.id)" class="delete-btn">
-                  <mat-icon>delete</mat-icon>
-                </button>
               </div>
               
               @if (task.description) {
@@ -37,42 +64,32 @@
               
               <div class="task-controls">
                 <div class="task-meta">
-                  <span class="priority-chip priority-{{ task.priority }}">
-                    <mat-icon>{{ getPriorityIcon(task.priority) }}</mat-icon>
-                    {{ task.priority | titlecase }}
-                  </span>
-                  @if (task.assignee) {
-                    <span class="assignee-chip">
-                      <div class="assignee-avatar" [style.background-color]="getMemberColor(task.assignee)">
-                        {{ task.assignee.charAt(0).toUpperCase() }}
-                      </div>
-                      {{ task.assignee }}
+                  @if (task.dueDate) {
+                    <span class="due-date-chip" [class.overdue]="isOverdue(task.dueDate, task.status)">
+                      <mat-icon class="due-date-icon">event</mat-icon>
+                      <span class="due-date-text">{{ formatDate(task.dueDate) }}</span>
+                      @if (isOverdue(task.dueDate, task.status)) {
+                        <span class="overdue-indicator">Vencida</span>
+                      }
                     </span>
                   }
-                  @if (getTaskGroup(task.id)) {
-                    <span class="group-chip">
-                      <div class="group-avatar" [style.background-color]="getGroupColor(getTaskGroup(task.id)?.name!)">
-                        {{ getGroupInitials(getTaskGroup(task.id)?.name!) }}
-                      </div>
-                      {{ getTaskGroup(task.id)?.name }}
-                    </span>
-                  }
-                  <div class="task-assignee-selector">
+                  <div class="task-group-selector" (click)="$event.stopPropagation()">
+                    <app-group-selector
+                      #groupSelector
+                      [selectedGroup]="getTaskGroupSignal(task.id)"
+                      [disabled]="getDisabledSignal()"
+                      (groupChange)="updateGroup(task.id, $event)"
+                      (groupDropdownOpen)="closeAssigneeSelector(assigneeSelector)">
+                    </app-group-selector>
+                  </div>
+                  <div class="task-assignee-selector" (click)="$event.stopPropagation()">
                     <app-assignee-selector
+                      #assigneeSelector
                       [selectedAssignee]="getTaskAssigneeSignal(task.id)"
                       [disabled]="getDisabledSignal()"
-                      (assigneeChange)="updateAssignee(task.id, $event)">
+                      (assigneeChange)="updateAssignee(task.id, $event)"
+                      (assigneeDropdownOpen)="closeGroupSelector(groupSelector)">
                     </app-assignee-selector>
-                  </div>
-                </div>
-                
-                <div class="task-actions">
-                  <div class="task-status">
-                    <app-status-selector
-                      [currentStatus]="getTaskStatusSignal(task.status)"
-                      [disabled]="getDisabledSignal()"
-                      (statusChange)="updateStatus(task.id, $event)">
-                    </app-status-selector>
                   </div>
                 </div>
               </div>
@@ -83,7 +100,7 @@
         @if (taskStore.notStartedTasks().length === 0) {
           <div class="empty-state">
             <mat-icon>inbox</mat-icon>
-            <p>No hay tareas sin iniciar</p>
+            <p>Arrastra aquí una tarea</p>
           </div>
         }
       </div>
@@ -94,22 +111,37 @@
       <mat-card class="column-header">
         <mat-card-header>
           <mat-card-title>
-            <mat-icon>hourglass_empty</mat-icon>
             En Progreso
-            <span class="task-count">({{ taskStore.inProgressCount() }})</span>
           </mat-card-title>
         </mat-card-header>
       </mat-card>
       
-      <div class="tasks-list">
+      <div 
+        class="tasks-list"
+        [class.drag-over]="dragOverColumn === 'in-progress'"
+        (dragover)="onDragOver($event, 'in-progress')"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event, 'in-progress')">
         @for (task of taskStore.inProgressTasks(); track task.id) {
-          <mat-card class="task-card">
+          <mat-card 
+            class="task-card">
             <mat-card-content>
+              <button 
+                class="drag-handle"
+                mat-icon-button
+                draggable="true"
+                (dragstart)="onDragStart($event, task.id)"
+                (dragend)="onDragEnd($event)">
+                <span class="drag-handle-line">−</span>
+              </button>
+              <button mat-icon-button (click)="openEditDialog(task)" class="edit-task-btn" title="Editar tarea">
+                <mat-icon>edit</mat-icon>
+              </button>
               <div class="task-header">
+                <div class="priority-icon-container priority-{{ task.priority }}">
+                  <mat-icon class="priority-icon">{{ getPriorityIcon(task.priority) }}</mat-icon>
+                </div>
                 <h3 class="task-title">{{ task.title }}</h3>
-                <button mat-icon-button (click)="deleteTask(task.id)" class="delete-btn">
-                  <mat-icon>delete</mat-icon>
-                </button>
               </div>
               
               @if (task.description) {
@@ -118,42 +150,32 @@
               
               <div class="task-controls">
                 <div class="task-meta">
-                  <span class="priority-chip priority-{{ task.priority }}">
-                    <mat-icon>{{ getPriorityIcon(task.priority) }}</mat-icon>
-                    {{ task.priority | titlecase }}
-                  </span>
-                  @if (task.assignee) {
-                    <span class="assignee-chip">
-                      <div class="assignee-avatar" [style.background-color]="getMemberColor(task.assignee)">
-                        {{ task.assignee.charAt(0).toUpperCase() }}
-                      </div>
-                      {{ task.assignee }}
+                  @if (task.dueDate) {
+                    <span class="due-date-chip" [class.overdue]="isOverdue(task.dueDate, task.status)">
+                      <mat-icon class="due-date-icon">event</mat-icon>
+                      <span class="due-date-text">{{ formatDate(task.dueDate) }}</span>
+                      @if (isOverdue(task.dueDate, task.status)) {
+                        <span class="overdue-indicator">Vencida</span>
+                      }
                     </span>
                   }
-                  @if (getTaskGroup(task.id)) {
-                    <span class="group-chip">
-                      <div class="group-avatar" [style.background-color]="getGroupColor(getTaskGroup(task.id)?.name!)">
-                        {{ getGroupInitials(getTaskGroup(task.id)?.name!) }}
-                      </div>
-                      {{ getTaskGroup(task.id)?.name }}
-                    </span>
-                  }
-                  <div class="task-assignee-selector">
+                  <div class="task-group-selector" (click)="$event.stopPropagation()">
+                    <app-group-selector
+                      #groupSelector
+                      [selectedGroup]="getTaskGroupSignal(task.id)"
+                      [disabled]="getDisabledSignal()"
+                      (groupChange)="updateGroup(task.id, $event)"
+                      (groupDropdownOpen)="closeAssigneeSelector(assigneeSelector)">
+                    </app-group-selector>
+                  </div>
+                  <div class="task-assignee-selector" (click)="$event.stopPropagation()">
                     <app-assignee-selector
+                      #assigneeSelector
                       [selectedAssignee]="getTaskAssigneeSignal(task.id)"
                       [disabled]="getDisabledSignal()"
-                      (assigneeChange)="updateAssignee(task.id, $event)">
+                      (assigneeChange)="updateAssignee(task.id, $event)"
+                      (assigneeDropdownOpen)="closeGroupSelector(groupSelector)">
                     </app-assignee-selector>
-                  </div>
-                </div>
-                
-                <div class="task-actions">
-                  <div class="task-status">
-                    <app-status-selector
-                      [currentStatus]="getTaskStatusSignal(task.status)"
-                      [disabled]="getDisabledSignal()"
-                      (statusChange)="updateStatus(task.id, $event)">
-                    </app-status-selector>
                   </div>
                 </div>
               </div>
@@ -164,7 +186,7 @@
         @if (taskStore.inProgressTasks().length === 0) {
           <div class="empty-state">
             <mat-icon>work_outline</mat-icon>
-            <p>No hay tareas en progreso</p>
+            <p>Arrastra aquí una tarea</p>
           </div>
         }
       </div>
@@ -175,22 +197,37 @@
       <mat-card class="column-header">
         <mat-card-header>
           <mat-card-title>
-            <mat-icon>check_circle</mat-icon>
             Terminadas
-            <span class="task-count">({{ taskStore.completedCount() }})</span>
           </mat-card-title>
         </mat-card-header>
       </mat-card>
       
-      <div class="tasks-list">
+      <div 
+        class="tasks-list"
+        [class.drag-over]="dragOverColumn === 'completed'"
+        (dragover)="onDragOver($event, 'completed')"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event, 'completed')">
         @for (task of taskStore.completedTasks(); track task.id) {
-          <mat-card class="task-card">
+          <mat-card 
+            class="task-card">
             <mat-card-content>
+              <button 
+                class="drag-handle"
+                mat-icon-button
+                draggable="true"
+                (dragstart)="onDragStart($event, task.id)"
+                (dragend)="onDragEnd($event)">
+                <span class="drag-handle-line">−</span>
+              </button>
+              <button mat-icon-button (click)="openEditDialog(task)" class="edit-task-btn" title="Editar tarea">
+                <mat-icon>edit</mat-icon>
+              </button>
               <div class="task-header">
-                <h3 class="task-title completed">{{ task.title }}</h3>
-                <button mat-icon-button (click)="deleteTask(task.id)" class="delete-btn">
-                  <mat-icon>delete</mat-icon>
-                </button>
+                <div class="priority-icon-container priority-{{ task.priority }}">
+                  <mat-icon class="priority-icon">{{ getPriorityIcon(task.priority) }}</mat-icon>
+                </div>
+                <h3 class="task-title">{{ task.title }}</h3>
               </div>
               
               @if (task.description) {
@@ -199,42 +236,32 @@
               
               <div class="task-controls">
                 <div class="task-meta">
-                  <span class="priority-chip priority-{{ task.priority }}">
-                    <mat-icon>{{ getPriorityIcon(task.priority) }}</mat-icon>
-                    {{ task.priority | titlecase }}
-                  </span>
-                  @if (task.assignee) {
-                    <span class="assignee-chip">
-                      <div class="assignee-avatar" [style.background-color]="getMemberColor(task.assignee)">
-                        {{ task.assignee.charAt(0).toUpperCase() }}
-                      </div>
-                      {{ task.assignee }}
+                  @if (task.dueDate) {
+                    <span class="due-date-chip" [class.overdue]="isOverdue(task.dueDate, task.status)">
+                      <mat-icon class="due-date-icon">event</mat-icon>
+                      <span class="due-date-text">{{ formatDate(task.dueDate) }}</span>
+                      @if (isOverdue(task.dueDate, task.status)) {
+                        <span class="overdue-indicator">Vencida</span>
+                      }
                     </span>
                   }
-                  @if (getTaskGroup(task.id)) {
-                    <span class="group-chip">
-                      <div class="group-avatar" [style.background-color]="getGroupColor(getTaskGroup(task.id)?.name!)">
-                        {{ getGroupInitials(getTaskGroup(task.id)?.name!) }}
-                      </div>
-                      {{ getTaskGroup(task.id)?.name }}
-                    </span>
-                  }
-                  <div class="task-assignee-selector">
+                  <div class="task-group-selector" (click)="$event.stopPropagation()">
+                    <app-group-selector
+                      #groupSelector
+                      [selectedGroup]="getTaskGroupSignal(task.id)"
+                      [disabled]="getDisabledSignal()"
+                      (groupChange)="updateGroup(task.id, $event)"
+                      (groupDropdownOpen)="closeAssigneeSelector(assigneeSelector)">
+                    </app-group-selector>
+                  </div>
+                  <div class="task-assignee-selector" (click)="$event.stopPropagation()">
                     <app-assignee-selector
+                      #assigneeSelector
                       [selectedAssignee]="getTaskAssigneeSignal(task.id)"
                       [disabled]="getDisabledSignal()"
-                      (assigneeChange)="updateAssignee(task.id, $event)">
+                      (assigneeChange)="updateAssignee(task.id, $event)"
+                      (assigneeDropdownOpen)="closeGroupSelector(groupSelector)">
                     </app-assignee-selector>
-                  </div>
-                </div>
-                
-                <div class="task-actions">
-                  <div class="task-status">
-                    <app-status-selector
-                      [currentStatus]="getTaskStatusSignal(task.status)"
-                      [disabled]="getDisabledSignal()"
-                      (statusChange)="updateStatus(task.id, $event)">
-                    </app-status-selector>
                   </div>
                 </div>
               </div>
@@ -245,11 +272,163 @@
         @if (taskStore.completedTasks().length === 0) {
           <div class="empty-state">
             <mat-icon>task_alt</mat-icon>
-            <p>No hay tareas terminadas</p>
+            <p>Arrastra aquí una tarea</p>
           </div>
         }
       </div>
     </div>
   </div>
+  }
+
+  <!-- Add Task Dialog -->
+  @if (isAddDialogOpen()) {
+    <div class="dialog-overlay" (click)="closeAddDialog()">
+      <div class="dialog-container" (click)="$event.stopPropagation()">
+        <!-- Clean Header -->
+        <div class="dialog-header">
+          <div class="header-content">
+            <h2 class="dialog-title">Crear Nueva Tarea</h2>
+          </div>
+          <button class="close-icon-btn" (click)="closeAddDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        
+        <!-- Clean Content -->
+        <mat-dialog-content class="dialog-content">
+          <div class="modal-layout">
+            <!-- Left Column -->
+            <div class="modal-column left-column">
+              <!-- Task Info -->
+              <div class="form-section task-info-card">
+                <label class="section-label">Título</label>
+                <div class="form-group">
+                  <input 
+                    type="text"
+                    [(ngModel)]="newTask().title"
+                    placeholder="¿Qué necesitas hacer?"
+                    class="input-field"
+                    maxlength="100">
+                  <mat-icon class="input-icon">title</mat-icon>
+                </div>
+              </div>
+
+              <!-- Assignment -->
+              <div class="form-section assignment-card">
+                <label class="section-label">Asignar a</label>
+                <div class="assignee-preview">
+                  <app-assignee-selector
+                    [selectedAssignee]="newTaskAssigneeSignal"
+                    [disabled]="getDisabledSignal()"
+                    (assigneeChange)="updateNewTaskAssignee($event)">
+                  </app-assignee-selector>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="modal-column right-column">
+              <!-- Priority -->
+              <div class="form-section priority-card">
+                <label class="section-label">Prioridad</label>
+                
+                <div class="form-group">
+                  <select 
+                    [(ngModel)]="newTask().priority" 
+                    class="input-field select-field priority-select">
+                    <option value="low">Baja</option>
+                    <option value="medium">Media</option>
+                    <option value="high">Alta</option>
+                  </select>
+                  <mat-icon class="input-icon">flag</mat-icon>
+                </div>
+              </div>
+
+              <!-- Due Date -->
+              <div class="form-section due-date-card">
+                <label class="section-label">Fecha Límite</label>
+                <div class="form-group date-input-group">
+                  <input 
+                    type="date"
+                    [value]="newTaskDueDateSignal()"
+                    (input)="updateNewTaskDueDate($any($event.target).value)"
+                    class="input-field date-field"
+                    id="task-due-date">
+                  <label for="task-due-date" class="date-input-label">
+                    <mat-icon class="input-icon">event</mat-icon>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Groups -->
+              <div class="form-section groups-card">
+                <label class="section-label">Grupo</label>
+                
+                @if (groups().length === 0) {
+                  <div class="no-groups-message">
+                    <mat-icon class="empty-groups-icon">info</mat-icon>
+                    <p class="empty-groups-text">No hay grupos disponibles. Crea un grupo para asignar tareas.</p>
+                  </div>
+                } @else {
+                  <div class="form-group">
+                    <select 
+                      [value]="selectedGroup()" 
+                      (change)="updateSelectedGroup($any($event.target).value)"
+                      class="input-field select-field group-select">
+                      <option value="">Sin grupo</option>
+                      @for (group of groups(); track group.id || group.name) {
+                        <option [value]="group.name">
+                          {{ group.name }}
+                        </option>
+                      }
+                    </select>
+                    <mat-icon class="input-icon">groups</mat-icon>
+                  </div>
+
+                  @if (selectedGroup()) {
+                    <div class="selected-members-preview">
+                      <p class="preview-label">Miembros asignados:</p>
+                      <div class="members-chips">
+                        @for (member of newTaskAssigneesSignal(); track member) {
+                          <div class="member-chip">
+                            <span class="member-chip-name">{{ member }}</span>
+                            <mat-icon class="chip-remove" (click)="removeMemberFromAssignees(member)">close</mat-icon>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+              
+            </div>
+          </div>
+        </mat-dialog-content>
+
+        <!-- Clean Footer -->
+        <div class="dialog-footer">
+          <button (click)="closeAddDialog()" class="footer-btn cancel">
+            Cancelar
+          </button>
+          <button (click)="addTask()" class="footer-btn create" [disabled]="!isFormValid()">
+            Crear Tarea
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Delete Trash Button -->
+  @if (taskStore.taskCount() > 0) {
+    <button 
+      class="trash-button"
+      [class.drag-over]="dragOverTrash"
+      (dragover)="onTrashDragOver($event)"
+      (dragleave)="onTrashDragLeave($event)"
+      (drop)="onTrashDrop($event)"
+      mat-raised-button
+      color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
   }
 </div>

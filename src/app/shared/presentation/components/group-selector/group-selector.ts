@@ -2,60 +2,49 @@ import { Component, Input, Output, EventEmitter, signal, inject, computed, effec
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
-import { TeamService, TeamMember } from '../../../application/team.service';
-
-export interface Person {
-  id: string;
-  name: string;
-  avatar?: string;
-  initials: string;
-  role?: string;
-}
+import { GroupsService } from '../../../application/groups.service';
 
 @Component({
-  selector: 'app-assignee-selector',
+  selector: 'app-group-selector',
   standalone: true,
   imports: [CommonModule, MatIcon, MatButton],
   template: `
-    <div class="assignee-selector" (mouseleave)="closeDropdown()">
+    <div class="group-selector" (mouseleave)="closeDropdown()">
       <button 
         mat-button 
         (click)="toggleDropdown(); $event.stopPropagation()"
-        class="assignee-button"
-        [class.assigned]="currentAssignee">
-        <div class="assignee-content">
-          @if (currentAssignee) {
-            <div class="assignee-avatar" [style.background-color]="getMemberColor(currentAssignee)">
-              <span class="assignee-initials">{{ getAssigneeInitials() }}</span>
+        class="group-button"
+        [class.assigned]="currentGroup">
+        <div class="group-content">
+          @if (currentGroup) {
+            <div class="group-avatar" [style.background-color]="getGroupColor(currentGroup)">
+              <mat-icon class="group-icon-small">groups</mat-icon>
             </div>
-            <span class="assignee-name">{{ currentAssignee }}</span>
+            <span class="group-name">{{ currentGroup }}</span>
           } @else {
-            <mat-icon class="assign-icon">person_add</mat-icon>
-            <span class="assign-text">Asignar a...</span>
+            <mat-icon class="assign-icon">group_add</mat-icon>
+            <span class="assign-text">Grupo...</span>
           }
           <mat-icon class="dropdown-icon" [class.rotated]="isDropdownOpen()">keyboard_arrow_down</mat-icon>
         </div>
       </button>
       
       @if (isDropdownOpen()) {
-        <div class="assignee-dropdown" (click)="$event.stopPropagation()">
-          <button class="dropdown-item clear-option" (click)="selectAssignee(''); $event.stopPropagation()">
-            <mat-icon>person_off</mat-icon>
-            <span>Sin asignar</span>
+        <div class="group-dropdown" (click)="$event.stopPropagation()">
+          <button class="dropdown-item clear-option" (click)="selectGroup(''); $event.stopPropagation()">
+            <mat-icon>group_off</mat-icon>
+            <span>Sin grupo</span>
           </button>
-          @for (person of people; track person.id) {
-            <button class="dropdown-item" (click)="selectAssignee(person.name); $event.stopPropagation()">
-              <div class="person-option">
-                <div class="person-avatar" [style.background-color]="getMemberColor(person.name)">
-                  <span class="person-initials">{{ person.initials }}</span>
+          @for (group of groups(); track group.id || group.name) {
+            <button class="dropdown-item" (click)="selectGroup(group.name); $event.stopPropagation()">
+              <div class="group-option">
+                <div class="group-avatar-item" [style.background-color]="getGroupColor(group.name)">
+                  <mat-icon class="group-icon">groups</mat-icon>
                 </div>
-                <div class="person-info">
-                  <span class="person-name">{{ person.name }}</span>
-                  @if (person.role) {
-                    <span class="person-role">{{ person.role }}</span>
-                  }
+                <div class="group-info">
+                  <span class="group-name-item">{{ group.name }}</span>
                 </div>
-                @if (currentAssignee === person.name) {
+                @if (currentGroup === group.name) {
                   <mat-icon class="check-icon">check</mat-icon>
                 }
               </div>
@@ -66,7 +55,7 @@ export interface Person {
     </div>
   `,
   styles: [`
-    .assignee-selector {
+    .group-selector {
       width: 100%;
       position: relative;
     }
@@ -75,7 +64,7 @@ export interface Person {
       transform: rotate(180deg);
     }
 
-    .assignee-button {
+    .group-button {
       width: 100%;
       padding: 4px 10px !important;
       border: 1px solid #ddd;
@@ -94,26 +83,26 @@ export interface Person {
       box-sizing: border-box;
     }
 
-    .assignee-button:hover {
+    .group-button:hover {
       border-color: #1a1a1a;
       background: #f8f9fa;
       color: #1a1a1a;
     }
 
-    .assignee-button.assigned {
+    .group-button.assigned {
       border: 1px solid #1a1a1a;
       background: #f8f9fa;
       color: #1a1a1a;
     }
 
-    .assignee-content {
+    .group-content {
       display: flex;
       align-items: center;
       gap: 6px;
       width: 100%;
     }
 
-    .assignee-avatar {
+    .group-avatar {
       width: 20px;
       height: 20px;
       border-radius: 50%;
@@ -123,13 +112,14 @@ export interface Person {
       flex-shrink: 0;
     }
 
-    .assignee-initials {
+    .group-icon-small {
       color: white;
-      font-weight: 600;
-      font-size: 0.7rem;
+      font-size: 12px;
+      width: 12px;
+      height: 12px;
     }
 
-    .assignee-name {
+    .group-name {
       flex: 1;
       font-weight: 500;
       font-size: 0.75rem;
@@ -161,7 +151,7 @@ export interface Person {
       height: 14px;
     }
 
-    .assignee-dropdown {
+    .group-dropdown {
       position: absolute;
       top: 100%;
       left: 0;
@@ -170,7 +160,7 @@ export interface Person {
       border: 1px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      z-index: 9999;
+      z-index: 10003;
       margin-top: 4px;
       max-height: 200px;
       overflow-y: auto;
@@ -179,28 +169,26 @@ export interface Person {
       pointer-events: auto;
     }
 
-    /* Custom scrollbar for the dropdown */
-    .assignee-dropdown::-webkit-scrollbar {
+    .group-dropdown::-webkit-scrollbar {
       width: 6px;
     }
 
-    .assignee-dropdown::-webkit-scrollbar-track {
+    .group-dropdown::-webkit-scrollbar-track {
       background: #f1f1f1;
       border-radius: 3px;
     }
 
-    .assignee-dropdown::-webkit-scrollbar-thumb {
+    .group-dropdown::-webkit-scrollbar-thumb {
       background: #1a1a1a;
       border-radius: 3px;
       transition: all 0.3s ease;
     }
 
-    .assignee-dropdown::-webkit-scrollbar-thumb:hover {
+    .group-dropdown::-webkit-scrollbar-thumb:hover {
       background: #333333;
     }
 
-    /* Firefox scrollbar */
-    .assignee-dropdown {
+    .group-dropdown {
       scrollbar-width: thin;
       scrollbar-color: #1a1a1a #f1f1f1;
     }
@@ -231,7 +219,7 @@ export interface Person {
       color: #f44336;
     }
 
-    .person-option {
+    .group-option {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -239,7 +227,7 @@ export interface Person {
       padding: 4px 0;
     }
 
-    .person-avatar {
+    .group-avatar-item {
       width: 36px;
       height: 36px;
       border-radius: 50%;
@@ -249,26 +237,27 @@ export interface Person {
       flex-shrink: 0;
     }
 
-    .person-initials {
+    .group-icon {
       color: white;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
     }
 
-    .person-info {
+    .group-info {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .person-name {
+    .group-name-item {
       font-weight: 500;
       color: #333;
       font-size: 0.9rem;
     }
 
-    .person-role {
+    .group-members {
       font-size: 0.8rem;
       color: #666;
     }
@@ -279,47 +268,24 @@ export interface Person {
       width: 18px;
       height: 18px;
     }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      .assignee-button {
-        padding: 10px 12px;
-      }
-      
-      .assignee-content {
-        gap: 8px;
-      }
-      
-      .assignee-avatar,
-      .person-avatar {
-        width: 28px;
-        height: 28px;
-      }
-    }
   `]
 })
-export class AssigneeSelector {
-  @Input() selectedAssignee = signal<string>('');
+export class GroupSelector {
+  @Input() selectedGroup = signal<string>('');
   @Input() disabled = signal(false);
-  @Output() assigneeChange = new EventEmitter<string>();
-  @Output() assigneeDropdownOpen = new EventEmitter<void>();
+  @Output() groupChange = new EventEmitter<string>();
+  @Output() groupDropdownOpen = new EventEmitter<void>();
 
   isDropdownOpen = signal(false);
-  private teamService = inject(TeamService);
+  private groupsService = inject(GroupsService);
 
   // Getter to always read the latest value from input signal
-  get currentAssignee(): string {
-    return this.selectedAssignee();
+  get currentGroup(): string {
+    return this.selectedGroup();
   }
 
-  // Convertir TeamMember a Person para compatibilidad
-  get people(): Person[] {
-    return this.teamService.allMembers().map(member => ({
-      id: member.id,
-      name: member.name,
-      initials: member.avatar,
-      role: member.role
-    }));
+  get groups() {
+    return this.groupsService.getAllGroups();
   }
 
   toggleDropdown(): void {
@@ -327,7 +293,7 @@ export class AssigneeSelector {
       const willOpen = !this.isDropdownOpen();
       this.isDropdownOpen.set(willOpen);
       if (willOpen) {
-        this.assigneeDropdownOpen.emit();
+        this.groupDropdownOpen.emit();
       }
     }
   }
@@ -336,24 +302,16 @@ export class AssigneeSelector {
     this.isDropdownOpen.set(false);
   }
 
-  selectAssignee(assignee: string): void {
+  selectGroup(groupName: string): void {
     if (!this.disabled()) {
-      this.selectedAssignee.set(assignee);
-      this.assigneeChange.emit(assignee);
+      this.selectedGroup.set(groupName);
+      this.groupChange.emit(groupName);
       this.isDropdownOpen.set(false);
     }
   }
 
-  getAssigneeInitials(): string {
-    const assignee = this.currentAssignee;
-    if (!assignee) return '';
-    
-    const person = this.people.find(p => p.name === assignee);
-    return person?.initials || assignee.substring(0, 2).toUpperCase();
-  }
-
-  // Método para obtener el color de un miembro
-  getMemberColor(memberName: string): string {
-    return this.teamService.getMemberColor(memberName);
+  getGroupColor(groupName: string): string {
+    return this.groupsService.getGroupColor(groupName);
   }
 }
+

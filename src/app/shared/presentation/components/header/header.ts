@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, computed } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { SettingsModal } from '../settings-modal/settings-modal';
 import { TeamService } from '../../../application/team.service';
 import { SessionTimerService } from '../../../application/session-timer.service';
 import { BreakModalComponent } from '../break-modal/break-modal.component';
+import { ViewPreferencesService } from '../../../application/view-preferences.service';
 
 @Component({
   selector: 'app-header',
@@ -34,8 +35,9 @@ export class Header {
   isSettingsOpen = false;
   private teamService = inject(TeamService);
   private sessionTimerService = inject(SessionTimerService);
+  viewPreferencesService = inject(ViewPreferencesService);
 
-  options = [
+  allOptions = [
     { link: '/home', label: 'Inicio', icon: 'home', color: '#047857' },
     { link: '/dashboard', label: 'Dashboard', icon: 'dashboard', color: '#7c3aed' },
     { link: '/groups', label: 'Grupos', icon: 'groups', color: '#d97706' },
@@ -44,6 +46,14 @@ export class Header {
     { link: '/shared-files', label: 'Archivos', icon: 'folder', color: '#ca8a04' },
     { link: '/calendar', label: 'Calendario', icon: 'calendar_month', color: '#2563eb' }
   ];
+
+  // Filtrar opciones basado en la visibilidad del home
+  options = computed(() => {
+    if (this.viewPreferencesService.homeVisibility()) {
+      return this.allOptions;
+    }
+    return this.allOptions.filter(opt => opt.link !== '/home');
+  });
 
   constructor(
     public userService: UserService,

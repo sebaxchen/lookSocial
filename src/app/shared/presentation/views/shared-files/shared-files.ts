@@ -303,5 +303,101 @@ export class SharedFilesComponent {
   getGroupInitials(groupName: string): string {
     return groupName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
+
+  // Drag and Drop handlers
+  draggedFileId: string | null = null;
+  dragOverTrash = false;
+  private dragStartPosition: { x: number; y: number } | null = null;
+
+  onDragStart(event: DragEvent, fileId: string): void {
+    this.draggedFileId = fileId;
+    this.dragStartPosition = { x: event.clientX, y: event.clientY };
+    
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', fileId);
+    }
+    
+    const button = event.currentTarget as HTMLElement;
+    const card = button.closest('.file-card') as HTMLElement;
+    
+    if (card) {
+      card.classList.add('dragging');
+      card.style.opacity = '0.85';
+      card.style.zIndex = '1000';
+    }
+    
+    if (button) {
+      button.classList.add('dragging-handle');
+      button.style.opacity = '1';
+    }
+    
+    event.stopPropagation();
+  }
+
+  onDragEnd(event: DragEvent): void {
+    const button = event.currentTarget as HTMLElement;
+    const card = button.closest('.file-card') as HTMLElement;
+    
+    if (card) {
+      card.classList.remove('dragging');
+      card.classList.add('dropped');
+      
+      setTimeout(() => {
+        card.classList.remove('dropped');
+        card.style.opacity = '1';
+        card.style.zIndex = '';
+        card.style.transform = '';
+      }, 300);
+    }
+    
+    if (button) {
+      button.classList.remove('dragging-handle');
+      button.style.opacity = '';
+    }
+    
+    this.draggedFileId = null;
+    this.dragStartPosition = null;
+  }
+
+  // Trash button drag and drop handlers
+  onTrashDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move';
+    }
+    this.dragOverTrash = true;
+  }
+
+  onTrashDragLeave(event: DragEvent): void {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    
+    if (!currentTarget.contains(relatedTarget)) {
+      this.dragOverTrash = false;
+    }
+  }
+
+  onTrashDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Guardar el ID antes de resetear las variables
+    const fileIdToDelete = this.draggedFileId;
+    
+    // Resetear variables de drag
+    this.draggedFileId = null;
+    this.dragOverTrash = false;
+    this.dragStartPosition = null;
+    
+    if (fileIdToDelete) {
+      const file = this.files().find(f => f.id === fileIdToDelete);
+      if (file) {
+        // Eliminar el archivo directamente
+        this.deleteFile(fileIdToDelete);
+      }
+    }
+  }
 }
 

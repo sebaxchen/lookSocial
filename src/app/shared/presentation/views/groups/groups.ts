@@ -154,5 +154,98 @@ export class GroupsComponent {
   getGroupColor(groupName: string): string {
     return this.groupsService.getGroupColor(groupName);
   }
+
+  // Drag and Drop handlers
+  draggedGroupName: string | null = null;
+  dragOverTrash = false;
+  private dragStartPosition: { x: number; y: number } | null = null;
+
+  onDragStart(event: DragEvent, groupName: string): void {
+    this.draggedGroupName = groupName;
+    this.dragStartPosition = { x: event.clientX, y: event.clientY };
+    
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', groupName);
+    }
+    
+    const button = event.currentTarget as HTMLElement;
+    const card = button.closest('.group-card') as HTMLElement;
+    
+    if (card) {
+      card.classList.add('dragging');
+      card.style.opacity = '0.85';
+      card.style.zIndex = '1000';
+    }
+    
+    if (button) {
+      button.classList.add('dragging-handle');
+      button.style.opacity = '1';
+    }
+    
+    event.stopPropagation();
+  }
+
+  onDragEnd(event: DragEvent): void {
+    const button = event.currentTarget as HTMLElement;
+    const card = button.closest('.group-card') as HTMLElement;
+    
+    if (card) {
+      card.classList.remove('dragging');
+      card.classList.add('dropped');
+      
+      setTimeout(() => {
+        card.classList.remove('dropped');
+        card.style.opacity = '1';
+        card.style.zIndex = '';
+        card.style.transform = '';
+      }, 300);
+    }
+    
+    if (button) {
+      button.classList.remove('dragging-handle');
+      button.style.opacity = '';
+    }
+    
+    this.draggedGroupName = null;
+    this.dragStartPosition = null;
+  }
+
+  // Trash button drag and drop handlers
+  onTrashDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move';
+    }
+    this.dragOverTrash = true;
+  }
+
+  onTrashDragLeave(event: DragEvent): void {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    
+    if (!currentTarget.contains(relatedTarget)) {
+      this.dragOverTrash = false;
+    }
+  }
+
+  onTrashDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Guardar el nombre antes de resetear las variables
+    const groupNameToDelete = this.draggedGroupName;
+    
+    // Resetear variables de drag
+    this.draggedGroupName = null;
+    this.dragOverTrash = false;
+    this.dragStartPosition = null;
+    
+    if (groupNameToDelete) {
+      // Eliminar el grupo
+      this.deleteGroup(groupNameToDelete);
+    }
+  }
 }
 

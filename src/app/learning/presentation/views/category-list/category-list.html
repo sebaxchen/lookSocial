@@ -35,91 +35,64 @@
             @for (member of teamMembers(); track member.id) {
               <mat-card class="member-card">
                <mat-card-header>
+                 <button 
+                   class="drag-handle"
+                   mat-icon-button
+                   draggable="true"
+                   (dragstart)="onDragStart($event, member.id)"
+                   (dragend)="onDragEnd($event)">
+                   <span class="drag-handle-line">−</span>
+                 </button>
                  <div class="member-info">
-                   <mat-card-title>{{ member.name }}</mat-card-title>
-                   <mat-card-subtitle>{{ member.role }}</mat-card-subtitle>
-                 </div>
-                 <div class="member-header-right">
-                   <div class="traffic-light" [ngClass]="getTrafficLightClass(getMemberStats(member.name).total)">
-                     <div class="light-dot"></div>
-                   </div>
                    <div class="member-avatar" 
                         (click)="openWorkerProfileModal(member)" 
                         title="Ver perfil"
                         [style.background-color]="getMemberColor(member.name)">
                      <span class="member-initials">{{ member.avatar }}</span>
                    </div>
-                   <button 
-                     mat-icon-button 
-                     (click)="openDeleteMemberModal(member.name)"
-                     class="delete-member-btn"
-                     title="Eliminar miembro">
-                     <mat-icon>delete</mat-icon>
-                   </button>
+                   <div class="member-details">
+                     <div class="member-title-row">
+                       <mat-card-title>{{ member.name }}</mat-card-title>
+                       <div class="traffic-light" [ngClass]="getTrafficLightClass(getMemberStats(member.name).total)">
+                         <div class="light-dot"></div>
+                       </div>
+                     </div>
+                     <div class="member-role-row">
+                       <mat-card-subtitle>{{ member.role }}</mat-card-subtitle>
+                       @if (getMemberStats(member.name).total > 0) {
+                         <div class="member-status-badge" [ngClass]="getMemberStatusClass(getMemberStats(member.name).completionRate)">
+                           <mat-icon>{{ getMemberStatusIcon(getMemberStats(member.name).completionRate) }}</mat-icon>
+                           <span>{{ getMemberStatusText(getMemberStats(member.name).completionRate) }}</span>
+                         </div>
+                       }
+                     </div>
+                   </div>
+                 </div>
+                 <div class="member-header-right">
                  </div>
                </mat-card-header>
         <mat-card-content>
           @if (getMemberStats(member.name).total > 0) {
             <div class="member-overview">
-              <div class="overview-header">
-                <h3>Estadísticas de Productividad</h3>
-                <div class="member-status" [ngClass]="getMemberStatusClass(getMemberStats(member.name).completionRate)">
-                  <mat-icon>{{ getMemberStatusIcon(getMemberStats(member.name).completionRate) }}</mat-icon>
-                  <span>{{ getMemberStatusText(getMemberStats(member.name).completionRate) }}</span>
-                </div>
+              <div class="recent-tasks-header">
+                <span class="recent-tasks-label">Tareas Recientes</span>
               </div>
-              
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <div class="stat-icon">
-                    <mat-icon>assignment</mat-icon>
+              <div class="recent-tasks-list">
+                @for (task of getRecentTasks(member.name, 10); track task.id) {
+                  <div class="recent-task-item" [class.task-completed]="task.status === 'completed'">
+                    <mat-icon class="task-status-icon" [ngClass]="'status-' + task.status">
+                      @if (task.status === 'completed') {
+                        check_circle
+                      } @else if (task.status === 'in-progress') {
+                        hourglass_empty
+                      } @else {
+                        play_circle_outline
+                      }
+                    </mat-icon>
+                    <span class="task-title-text">{{ task.title }}</span>
                   </div>
-                  <div class="stat-content">
-                    <span class="stat-number">{{ getMemberStats(member.name).total }}</span>
-                    <span class="stat-label">Total</span>
-                  </div>
-                </div>
-                <div class="stat-item completed">
-                  <div class="stat-icon">
-                    <mat-icon>check_circle</mat-icon>
-                  </div>
-                  <div class="stat-content">
-                    <span class="stat-number">{{ getMemberStats(member.name).completed }}</span>
-                    <span class="stat-label">Completadas</span>
-                  </div>
-                </div>
-                <div class="stat-item in-progress">
-                  <div class="stat-icon">
-                    <mat-icon>hourglass_empty</mat-icon>
-                  </div>
-                  <div class="stat-content">
-                    <span class="stat-number">{{ getMemberStats(member.name).inProgress }}</span>
-                    <span class="stat-label">En Progreso</span>
-                  </div>
-                </div>
-                <div class="stat-item not-started">
-                  <div class="stat-icon">
-                    <mat-icon>play_circle_outline</mat-icon>
-                  </div>
-                  <div class="stat-content">
-                    <span class="stat-number">{{ getMemberStats(member.name).notStarted }}</span>
-                    <span class="stat-label">Sin Iniciar</span>
-                  </div>
-                </div>
+                }
               </div>
-              
-              <div class="completion-section">
-                <div class="completion-header">
-                  <span class="completion-label">Progreso General</span>
-                  <span class="completion-percentage">{{ getMemberStats(member.name).completionRate }}%</span>
-                </div>
-                <div class="completion-rate">
-                  <div class="rate-bar">
-                    <div class="rate-fill" [style.width.%]="getMemberStats(member.name).completionRate"></div>
-                  </div>
-                </div>
-              </div>
-              
             </div>
           } @else {
             <div class="no-tasks">
@@ -135,5 +108,19 @@
     }
           </div>
         }
+  
+  <!-- Delete Trash Button -->
+  @if (teamMembers().length > 0) {
+    <button 
+      class="trash-button"
+      [class.drag-over]="dragOverTrash"
+      (dragover)="onTrashDragOver($event)"
+      (dragleave)="onTrashDragLeave($event)"
+      (drop)="onTrashDrop($event)"
+      mat-raised-button
+      color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
+  }
 </div>
 

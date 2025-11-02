@@ -1,18 +1,21 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../application/auth.service';
+import { ViewPreferencesService } from '../../../application/view-preferences.service';
 
 @Component({
   selector: 'app-settings-modal',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, FormsModule],
   templateUrl: './settings-modal.html',
   styleUrl: './settings-modal.css'
 })
 export class SettingsModal {
   @Output() close = new EventEmitter<void>();
   authService = inject(AuthService);
+  viewPreferencesService = inject(ViewPreferencesService);
 
   selectedMenu = 'profile';
   currentPlan = 'free'; // free, basic, premium

@@ -90,6 +90,45 @@ export class TaskList {
     return null;
   }
 
+  /**
+   * Removes a task from all groups it might be assigned to
+   */
+  private removeTaskFromAllGroups(taskId: string): void {
+    const allGroups = this.groups();
+    allGroups.forEach(group => {
+      if (group.tasks && group.tasks.some(t => t.id === taskId)) {
+        const updatedTasks = group.tasks.filter(t => t.id !== taskId);
+        this.groupsService.updateGroup(group.id!, { tasks: updatedTasks });
+      }
+    });
+  }
+
+  /**
+   * Assigns a task to a specific group, removing it from any other groups first
+   */
+  private assignTaskToGroup(task: Task, groupName: string): void {
+    // First, remove the task from any other groups
+    this.removeTaskFromAllGroups(task.id);
+    
+    // Then add it to the target group
+    const targetGroup = this.groups().find(g => g.name === groupName);
+    if (targetGroup) {
+      const taskData = {
+        id: task.id,
+        title: task.title,
+        priority: task.priority,
+        createdAt: task.createdAt
+      };
+      
+      // Check if task is not already in the group
+      const taskExists = targetGroup.tasks?.some(t => t.id === task.id);
+      if (!taskExists) {
+        const updatedTasks = [...(targetGroup.tasks || []), taskData];
+        this.groupsService.updateGroup(targetGroup.id!, { tasks: updatedTasks });
+      }
+    }
+  }
+
   isTaskAssigned(task: any): boolean {
     // Check if task has an individual assignee
     if (task.assignee && task.assignee.trim() !== '') {
@@ -154,22 +193,10 @@ export class TaskList {
     if (this.newTask().title.trim()) {
       const task = this.taskStore.addTask(this.newTask());
       
-      // If a group was selected, add the task to that group
+      // If a group was selected, assign the task to that group
       const selectedGroupName = this.selectedGroup();
       if (selectedGroupName) {
-        const group = this.groups().find(g => g.name === selectedGroupName);
-        if (group) {
-          const taskData = {
-            id: task.id,
-            title: task.title,
-            priority: task.priority,
-            createdAt: task.createdAt
-          };
-          
-          // Update the group with the new task
-          const updatedTasks = [...group.tasks, taskData];
-          this.groupsService.updateGroup(group.id!, { tasks: updatedTasks });
-        }
+        this.assignTaskToGroup(task, selectedGroupName);
       }
       
       this.closeAddDialog();
@@ -190,6 +217,8 @@ export class TaskList {
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
+        // Remove task from all groups before deleting
+        this.removeTaskFromAllGroups(id);
         this.taskStore.deleteTask(id);
       }
     });

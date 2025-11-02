@@ -40,6 +40,20 @@
               <label class="settings-label">Bio</label>
               <textarea class="settings-input textarea" rows="4" placeholder="Escribe algo sobre ti"></textarea>
             </div>
+            <div class="toggle-item">
+              <div class="toggle-info">
+                <span class="toggle-label">Home</span>
+                <span class="toggle-desc">Mostrar vista de inicio en el menú de navegación</span>
+              </div>
+              <div class="toggle-switch">
+                <input 
+                  type="checkbox" 
+                  id="home-visibility"
+                  [checked]="viewPreferencesService.homeVisibility()"
+                  (change)="viewPreferencesService.setHomeVisibility($any($event.target).checked)">
+                <label for="home-visibility" class="toggle"></label>
+              </div>
+            </div>
           </div>
         }
 

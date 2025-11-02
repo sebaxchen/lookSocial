@@ -51,6 +51,17 @@
     <div class="groups-list">
       @for (group of groups(); track group.id || group.name) {
         <div class="group-card">
+          <button 
+            class="drag-handle"
+            mat-icon-button
+            draggable="true"
+            (dragstart)="onDragStart($event, group.name)"
+            (dragend)="onDragEnd($event)">
+            <span class="drag-handle-line">−</span>
+          </button>
+          <button mat-icon-button (click)="editGroup(group)" class="edit-btn" title="Editar grupo">
+            <mat-icon>edit</mat-icon>
+          </button>
           <!-- Card Header -->
           <div class="card-header">
             <div class="group-info">
@@ -72,14 +83,6 @@
                   </span>
                 </div>
               </div>
-            </div>
-            <div class="card-actions">
-              <button mat-icon-button (click)="editGroup(group)" class="action-btn edit-btn" title="Editar grupo">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button (click)="deleteGroup(group.name)" class="action-btn delete-btn" title="Eliminar grupo">
-                <mat-icon>delete</mat-icon>
-              </button>
             </div>
           </div>
 
@@ -155,6 +158,20 @@
       (close)="closeModal()"
       (create)="onCreateGroup($event)">
     </app-create-group-modal>
+  }
+
+  <!-- Delete Trash Button -->
+  @if (groups().length > 0) {
+    <button 
+      class="trash-button"
+      [class.drag-over]="dragOverTrash"
+      (dragover)="onTrashDragOver($event)"
+      (dragleave)="onTrashDragLeave($event)"
+      (drop)="onTrashDrop($event)"
+      mat-raised-button
+      color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
   }
 </div>
 

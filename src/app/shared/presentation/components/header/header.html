@@ -9,7 +9,7 @@
 
       <!-- Desktop Navigation -->
       <nav class="desktop-nav">
-        @for (option of options; track option.label) {
+        @for (option of options(); track option.label) {
           <a 
             mat-button 
             [routerLink]="option.link" 
@@ -80,7 +80,7 @@
         </button>
       </div>
       
-      @for (option of options; track option.label) {
+      @for (option of options(); track option.label) {
         <a 
           mat-button 
           [routerLink]="option.link" 

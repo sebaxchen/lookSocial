@@ -155,7 +155,7 @@
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 0 24px;
   margin: 0 !important;
@@ -165,7 +165,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
   transition: all 0.2s ease;
-  overflow: visible;
+  overflow: hidden;
   position: relative;
   background: white;
   border: 1px solid #e5e7eb;
@@ -174,6 +174,55 @@
 .member-card:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-color: #1a1a1a;
+}
+
+/* Drag and Drop Animations */
+.member-card.dragging {
+  animation: grab-animation 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform: scale(1.02) rotate(1deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  cursor: grabbing !important;
+}
+
+.member-card.dropped {
+  animation: drop-animation 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes grab-animation {
+  0% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  }
+  50% {
+    transform: scale(0.98) rotate(-0.5deg);
+  }
+  100% {
+    transform: scale(1.02) rotate(1deg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes drop-animation {
+  0% {
+    transform: scale(1.02) rotate(1deg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  30% {
+    transform: scale(1.08) rotate(-2deg);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  60% {
+    transform: scale(0.98) rotate(1.5deg);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18), 0 5px 14px rgba(0, 0, 0, 0.12);
+  }
+  85% {
+    transform: scale(1.03) rotate(-0.5deg);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.08);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  }
 }
 
 .member-card mat-card-header {
@@ -185,6 +234,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e1e5e9;
+  overflow: visible;
 }
 
 .member-info {
@@ -193,6 +243,48 @@
   z-index: 1;
   margin-right: 10px;
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.member-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.member-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.member-role-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.member-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 0.55rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.member-status-badge mat-icon {
+  font-size: 0.65rem;
+  width: 0.65rem;
+  height: 0.65rem;
 }
 
 .member-header-right {
@@ -204,26 +296,100 @@
 }
 
 .delete-member-btn {
-  color: #6c757d;
+  color: #5f6368;
   background: transparent;
   border: none;
-  border-radius: 6px;
-  width: 32px;
-  height: 32px;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
   transition: all 0.2s ease;
 }
 
 .delete-member-btn:hover {
-  background: #fee;
-  color: #f44336;
+  background: #fce8e6;
+  color: #d93025;
+}
+
+.drag-handle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  padding: 0 !important;
+  color: #6b7280 !important;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  cursor: grab;
+  z-index: 10;
+  border-radius: 50% !important;
+  background: #d1d5db !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: none !important;
+}
+
+.drag-handle:hover {
+  opacity: 1;
+  color: #4b5563 !important;
+  background: #9ca3af !important;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  background: #6b7280 !important;
+}
+
+/* Drag Handle Animations */
+.drag-handle.dragging-handle {
+  animation: handle-grab-animation 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform: scale(0.9);
+  background: #6b7280 !important;
+  color: #ffffff !important;
+}
+
+@keyframes handle-grab-animation {
+  0% {
+    transform: scale(1);
+    background: #d1d5db !important;
+    color: #6b7280 !important;
+  }
+  50% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(0.9);
+    background: #6b7280 !important;
+    color: #ffffff !important;
+  }
+}
+
+.drag-handle-line {
+  display: block;
+  font-size: 14px;
+  line-height: 1;
+  color: inherit;
+  font-weight: 300;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+.drag-handle.dragging-handle .drag-handle-line {
+  transform: rotate(90deg);
+  transition: transform 0.2s ease;
 }
 
 .traffic-light {
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   position: relative;
   transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 8px;
 }
 
 .traffic-green {
@@ -236,6 +402,27 @@
 
 .traffic-red {
   background: #f44336;
+}
+
+.member-status-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  width: 100%;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 0;
+  background: white;
+  border-top: 1px solid #e1e5e9;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.member-status-header mat-icon {
+  font-size: 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
 .member-avatar {
@@ -269,10 +456,11 @@
   color: #2c3e50;
   font-size: 1rem;
   font-weight: 600;
-  margin: 0;
+  margin: 0 !important;
+  padding: 0 !important;
   line-height: 1.2;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   text-overflow: ellipsis;
 }
 
@@ -293,7 +481,7 @@
 
 /* Member Overview Styles */
 .member-overview {
-  padding: 20px;
+  padding: 12px;
   background: #ffffff;
 }
 
@@ -343,9 +531,10 @@
 }
 
 .status-poor {
-  background: #ffebee;
-  color: #d32f2f;
-  border: 1px solid #ffcdd2;
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
 }
 
 .member-status mat-icon {
@@ -547,6 +736,79 @@
   display: block;
 }
 
+.recent-tasks-section {
+  margin: 15px 0;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.recent-tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.recent-tasks-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.recent-tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.recent-task-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+.recent-task-item:hover {
+  background: #e9ecef;
+}
+
+.recent-task-item.task-completed {
+  opacity: 0.7;
+}
+
+.task-status-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.task-status-icon.status-completed {
+  color: #10b981;
+}
+
+.task-status-icon.status-in-progress {
+  color: #f59e0b;
+}
+
+.task-status-icon.status-not-started {
+  color: #6b7280;
+}
+
+.task-title-text {
+  font-size: 0.8rem;
+  color: #333;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .no-tasks {
   display: flex;
   flex-direction: column;
@@ -649,7 +911,7 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
   .team-grid {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 25px;
   }
   
@@ -680,7 +942,7 @@
   }
   
   .team-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
   
@@ -944,6 +1206,57 @@
 }
 
 /* Responsive Design for Empty State */
+/* Trash Button */
+.trash-button {
+  position: fixed !important;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1000;
+  width: 64px;
+  height: 64px;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  padding: 0 !important;
+  min-width: 64px !important;
+}
+
+.trash-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3), 0 4px 8px rgba(220, 38, 38, 0.2);
+  background-color: #b91c1c !important;
+}
+
+.trash-button.drag-over {
+  transform: scale(1.2);
+  background-color: #991b1b !important;
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.5), 0 4px 12px rgba(220, 38, 38, 0.4);
+  animation: pulse-trash 0.5s ease-in-out infinite;
+}
+
+.trash-button mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  color: #ffffff !important;
+  margin: 0;
+  line-height: 28px;
+}
+
+@keyframes pulse-trash {
+  0%, 100% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+}
+
 @media (max-width: 768px) {
   .empty-team-title {
     font-size: 2rem;
@@ -956,6 +1269,19 @@
   .add-first-member-btn {
     padding: 12px 24px;
     font-size: 1rem;
+  }
+  
+  .trash-button {
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+  }
+  
+  .trash-button mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
   }
 }
 

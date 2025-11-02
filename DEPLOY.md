@@ -152,6 +152,28 @@ https://[TU_USUARIO].github.io/Design-thinking-web/
 - Revisa los logs del workflow en la pestaña **Actions**
 - Asegúrate de que el repositorio tenga permisos de Pages habilitados
 
+#### Error: "Deployment request failed due to in progress deployment"
+Este error ocurre cuando hay un deployment anterior aún en progreso. Soluciones:
+
+**Opción 1: Esperar** (Recomendado)
+- Espera a que el deployment anterior termine (puede tardar unos minutos)
+- Luego haz un nuevo push o re-ejecuta el workflow
+
+**Opción 2: Cancelar manualmente**
+1. Ve a **Settings** > **Pages** en tu repositorio
+2. Busca el deployment en progreso
+3. Cancélalo manualmente si es posible
+4. Luego re-ejecuta el workflow desde la pestaña **Actions**
+
+**Opción 3: Forzar nuevo deployment**
+1. Haz un commit vacío para disparar un nuevo workflow:
+   ```bash
+   git commit --allow-empty -m "Force new deployment"
+   git push origin main
+   ```
+
+**Nota:** El workflow está configurado con `cancel-in-progress: true` para cancelar automáticamente deployments anteriores en futuras ejecuciones.
+
 #### Error: "404 en rutas de Angular"
 - Verifica que el archivo `404.html` se haya creado correctamente
 - Asegúrate de que el `baseHref` en `angular.json` coincida con el nombre del repositorio

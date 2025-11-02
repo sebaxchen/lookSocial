@@ -22,87 +22,83 @@
       </button>
     </div>
   } @else {
-    <div class="files-list-container" 
+    <div class="files-grid-container" 
          [class.drag-over]="isDragOver()"
          (dragover)="onDragOver($event)"
          (dragleave)="onDragLeave($event)"
          (drop)="onDrop($event)">
-      <div class="list-header">
-        <span class="header-item">Archivo</span>
-        <span class="header-item">Información</span>
-        <span class="header-item">Compartir</span>
-        <span class="header-item">Acciones</span>
-      </div>
-      
       @for (file of files(); track file.id) {
-        <div class="file-row">
-          <div class="file-main">
+        <div class="file-card">
+          <button 
+            class="drag-handle"
+            mat-icon-button
+            draggable="true"
+            (dragstart)="onDragStart($event, file.id)"
+            (dragend)="onDragEnd($event)">
+            <span class="drag-handle-line">−</span>
+          </button>
+          <div class="file-card-header">
             <div class="file-icon-container">
               <mat-icon class="file-icon">{{ getFileIcon(file.type) }}</mat-icon>
             </div>
             <div class="file-info">
-              <h3 class="file-name">{{ file.name }}</h3>
-              <p class="file-size">{{ formatFileSize(file.size) }}</p>
-            </div>
-          </div>
-          
-          <div class="file-meta">
-            <p class="file-date">{{ file.uploadedDate | date:'short' }}</p>
-            <div class="uploader-info">
-              <div class="uploader-avatar" [style.background-color]="getMemberColor(file.uploadedBy)">
-                <span class="uploader-initials">{{ getInitials(file.uploadedBy) }}</span>
+              <div class="file-name-row">
+                <h3 class="file-name">{{ file.name }}</h3>
+                <span class="file-size-badge">{{ formatFileSize(file.size) }}</span>
               </div>
-              <span class="uploader-name">{{ file.uploadedBy }}</span>
+              <div class="uploader-info">
+                <div class="uploader-avatar" [style.background-color]="getMemberColor(file.uploadedBy)">
+                  <span class="uploader-initials">{{ getInitials(file.uploadedBy) }}</span>
+                </div>
+                <span class="uploader-name">{{ file.uploadedBy }}</span>
+              </div>
             </div>
           </div>
           
-          <div class="file-share">
-            <button class="share-btn" (click)="openShareDialog(file.id)">
-              <mat-icon>share</mat-icon>
-              <span>Compartir</span>
-            </button>
+          <div class="file-card-content">
+            <div class="file-meta">
+              <p class="file-date">{{ file.uploadedDate | date:'short' }}</p>
+            </div>
             
-            <div class="shared-indicators">
-              @if (hasShares(file)) {
-                <div class="shared-status">
-                  <mat-icon class="shared-icon">group</mat-icon>
-                  <span class="shared-text">Compartido con:</span>
-                </div>
-                
-                <div class="shared-badges">
-                  @for (member of getSharedMembers(file); track member) {
-                    <span class="shared-badge member">
-                      <div class="member-avatar-badge" [style.background-color]="getMemberColor(member)">
-                        <span class="member-initials-badge">{{ getInitials(member) }}</span>
-                      </div>
-                      <span class="badge-text">{{ member }}</span>
-                    </span>
-                  }
-                  @for (group of getSharedGroups(file); track group) {
-                    <span class="shared-badge group">
-                      <div class="group-avatar-badge" [style.background-color]="getGroupColor(group)">
-                        <span class="group-initials-badge">{{ getGroupInitials(group) }}</span>
-                      </div>
-                      <span class="badge-text">{{ group }}</span>
-                    </span>
-                  }
-                </div>
-              } @else {
-                <div class="not-shared">
-                  <mat-icon class="not-shared-icon">lock</mat-icon>
-                  <span class="not-shared-text">No compartido</span>
-                </div>
-              }
+            <div class="file-share">
+              <button class="share-btn" (click)="openShareDialog(file.id)">
+                <mat-icon>share</mat-icon>
+                <span>Compartir</span>
+              </button>
+              
+              <div class="shared-indicators">
+                @if (hasShares(file)) {
+                  <div class="shared-status">
+                    <mat-icon class="shared-icon">group</mat-icon>
+                    <span class="shared-text">Compartido con:</span>
+                  </div>
+                  
+                  <div class="shared-badges">
+                    @for (member of getSharedMembers(file); track member) {
+                      <span class="shared-badge member">
+                        <div class="member-avatar-badge" [style.background-color]="getMemberColor(member)">
+                          <span class="member-initials-badge">{{ getInitials(member) }}</span>
+                        </div>
+                        <span class="badge-text">{{ member }}</span>
+                      </span>
+                    }
+                    @for (group of getSharedGroups(file); track group) {
+                      <span class="shared-badge group">
+                        <div class="group-avatar-badge" [style.background-color]="getGroupColor(group)">
+                          <span class="group-initials-badge">{{ getGroupInitials(group) }}</span>
+                        </div>
+                        <span class="badge-text">{{ group }}</span>
+                      </span>
+                    }
+                  </div>
+                } @else {
+                  <div class="not-shared">
+                    <mat-icon class="not-shared-icon">lock</mat-icon>
+                    <span class="not-shared-text">No compartido</span>
+                  </div>
+                }
+              </div>
             </div>
-          </div>
-          
-          <div class="file-actions">
-            <button class="action-btn download" (click)="downloadFile(file)" title="Descargar">
-              <mat-icon>download</mat-icon>
-            </button>
-            <button class="action-btn delete" (click)="deleteFile(file.id)" title="Eliminar">
-              <mat-icon>delete</mat-icon>
-            </button>
           </div>
         </div>
       }
@@ -246,6 +242,20 @@
         </div>
       </div>
     </div>
+  }
+
+  <!-- Delete Trash Button -->
+  @if (files().length > 0) {
+    <button 
+      class="trash-button"
+      [class.drag-over]="dragOverTrash"
+      (dragover)="onTrashDragOver($event)"
+      (dragleave)="onTrashDragLeave($event)"
+      (drop)="onTrashDrop($event)"
+      mat-raised-button
+      color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
   }
 </div>
 

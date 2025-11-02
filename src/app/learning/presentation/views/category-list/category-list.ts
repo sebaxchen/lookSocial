@@ -53,6 +53,17 @@ export class CategoryList {
    };
  }
 
+ getRecentTasks(memberName: string, limit: number = 3) {
+   const tasks = this.taskStore.getTasksByAssignee(memberName);
+   // Ordenar por fecha de creación (más recientes primero)
+   const sortedTasks = [...tasks].sort((a, b) => {
+     const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+     const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+     return dateB - dateA;
+   });
+   return sortedTasks.slice(0, limit);
+ }
+
  getTrafficLightClass(totalTasks: number): string {
    if (totalTasks < 5) {
      return 'traffic-green';
@@ -173,6 +184,132 @@ export class CategoryList {
   // Método para obtener el color de un miembro
   getMemberColor(memberName: string): string {
     return this.teamService.getMemberColor(memberName);
+  }
+
+  // Drag and Drop handlers
+  draggedMemberId: string | null = null;
+  dragOverTrash = false;
+  private dragStartPosition: { x: number; y: number } | null = null;
+  private hasDragged = false;
+
+  onDragStart(event: DragEvent, memberId: string): void {
+    this.draggedMemberId = memberId;
+    this.hasDragged = false;
+    // Guardar posición inicial del mouse
+    this.dragStartPosition = { x: event.clientX, y: event.clientY };
+    
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', memberId);
+    }
+    
+    // Encontrar la tarjeta padre y el botón
+    const button = event.currentTarget as HTMLElement;
+    const card = button.closest('.member-card') as HTMLElement;
+    
+    if (card) {
+      // Agregar clase para animación de agarre
+      card.classList.add('dragging');
+      // Aplicar opacidad reducida
+      card.style.opacity = '0.85';
+      // Agregar z-index alto para que aparezca por encima
+      card.style.zIndex = '1000';
+    }
+    
+    if (button) {
+      // Agregar clase al botón para animación
+      button.classList.add('dragging-handle');
+      button.style.opacity = '1';
+    }
+    
+    event.stopPropagation();
+  }
+
+  onDragEnd(event: DragEvent): void {
+    const button = event.currentTarget as HTMLElement;
+    const card = button.closest('.member-card') as HTMLElement;
+    
+    // Verificar si realmente hubo movimiento significativo
+    if (this.dragStartPosition) {
+      const deltaX = Math.abs(event.clientX - this.dragStartPosition.x);
+      const deltaY = Math.abs(event.clientY - this.dragStartPosition.y);
+      this.hasDragged = deltaX > 5 || deltaY > 5;
+    }
+    
+    if (card) {
+      // Agregar clase para animación de soltar
+      card.classList.remove('dragging');
+      card.classList.add('dropped');
+      
+      // Restaurar estilos después de la animación
+      setTimeout(() => {
+        card.classList.remove('dropped');
+        card.style.opacity = '1';
+        card.style.zIndex = '';
+        card.style.transform = '';
+      }, 300);
+    }
+    
+    if (button) {
+      // Remover clase y restaurar opacidad del botón
+      button.classList.remove('dragging-handle');
+      button.style.opacity = '';
+      setTimeout(() => {
+        button.style.opacity = '';
+      }, 200);
+    }
+    
+    this.draggedMemberId = null;
+    this.dragStartPosition = null;
+    
+    // Reset flag después de un breve delay para prevenir click después del drag
+    setTimeout(() => {
+      this.hasDragged = false;
+    }, 150);
+  }
+
+  // Trash button drag and drop handlers
+  onTrashDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move';
+    }
+    this.dragOverTrash = true;
+  }
+
+  onTrashDragLeave(event: DragEvent): void {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    
+    if (!currentTarget.contains(relatedTarget)) {
+      this.dragOverTrash = false;
+    }
+  }
+
+  onTrashDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Guardar el ID antes de resetear las variables
+    const memberIdToDelete = this.draggedMemberId;
+    
+    // Resetear variables de drag
+    this.draggedMemberId = null;
+    this.dragOverTrash = false;
+    this.dragStartPosition = null;
+    
+    setTimeout(() => {
+      this.hasDragged = false;
+    }, 200);
+    
+    if (memberIdToDelete) {
+      const member = this.teamService.allMembers().find(m => m.id === memberIdToDelete);
+      if (member) {
+        // Mostrar el modal de confirmación antes de eliminar
+        this.openDeleteMemberModal(member.name);
+      }
+    }
   }
 
 }
