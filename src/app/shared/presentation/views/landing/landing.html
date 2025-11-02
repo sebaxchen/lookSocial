@@ -1,27 +1,63 @@
 <div class="landing-container">
-  <!-- Hero Section -->
+  <!-- Hero Section with Split Design -->
   <div class="hero-section">
-    <div class="hero-content">
-      <div class="logo-container">
-        <div class="logo-circle">
-          <mat-icon class="app-logo">schedule</mat-icon>
+    <!-- Left Side - Information -->
+    <div class="hero-info-section">
+      <div class="hero-info-content">
+        <div class="logo-container">
+          <div class="logo-box">
+            <mat-icon class="hero-logo">schedule</mat-icon>
+          </div>
         </div>
+        <h1 class="hero-title">Gestión Inteligente de Tareas</h1>
+        <p class="hero-description-text">
+          Sistema integral para organizar, gestionar y hacer seguimiento de tareas y proyectos de forma eficiente y colaborativa.
+        </p>
+        <ul class="hero-features">
+          <li class="hero-feature-point">
+            <mat-icon class="hero-check">check_circle</mat-icon>
+            <span>Organización inteligente de tareas</span>
+          </li>
+          <li class="hero-feature-point">
+            <mat-icon class="hero-check">check_circle</mat-icon>
+            <span>Seguimiento en tiempo real</span>
+          </li>
+          <li class="hero-feature-point">
+            <mat-icon class="hero-check">check_circle</mat-icon>
+            <span>Colaboración en equipo</span>
+          </li>
+          <li class="hero-feature-point">
+            <mat-icon class="hero-check">check_circle</mat-icon>
+            <span>Reportes y analíticas</span>
+          </li>
+        </ul>
       </div>
-      <h1 class="app-title">NoteTo</h1>
-      <p class="hero-subtitle">La plataforma que organiza tu mundo</p>
-      <p class="hero-description">
-        Potencia tu productividad con la herramienta de gestión más inteligente. 
-        Todo en un solo lugar, simplemente perfecto.
-      </p>
-      <div class="hero-buttons">
-        <button class="primary-btn" (click)="enterApp()">
-          <span>Empezar Gratis</span>
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-        <button class="secondary-btn">
-          <mat-icon>play_circle</mat-icon>
-          <span>Ver Demo</span>
-        </button>
+    </div>
+
+    <!-- Right Side - Call to Action -->
+    <div class="hero-cta-section">
+      <div class="cta-card">
+        <div class="cta-header">
+          <div class="logo-container-small">
+            <div class="logo-circle-small">
+              <mat-icon class="app-logo-small">schedule</mat-icon>
+            </div>
+          </div>
+          <h2 class="brand-title">NoteTo</h2>
+          <p class="cta-subtitle">¡Comienza hoy!</p>
+          <p class="cta-description-text">Potencia tu productividad con la herramienta perfecta</p>
+        </div>
+
+        <div class="cta-actions">
+          <button class="primary-cta-btn" (click)="enterApp()">
+            <mat-icon>arrow_forward</mat-icon>
+            Empezar Gratis
+          </button>
+          <button class="secondary-cta-btn">
+            <mat-icon>play_circle</mat-icon>
+            Ver Demo
+          </button>
+        </div>
       </div>
     </div>
   </div>

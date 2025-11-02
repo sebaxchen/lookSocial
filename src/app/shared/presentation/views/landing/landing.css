@@ -5,134 +5,208 @@
   overflow-x: hidden;
 }
 
-/* Hero Section */
+/* Hero Section with Split Design */
 .hero-section {
-  padding: 120px 24px 80px;
-  text-align: center;
-  position: relative;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  border-bottom: 1px solid #1e40af;
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+  background: #ffffff;
 }
 
-.hero-content {
-  max-width: 900px;
-  margin: 0 auto;
-  animation: fadeInUp 1s ease-out;
+/* Left Info Section */
+.hero-info-section {
+  flex: 1;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  min-width: 0;
+}
+
+.hero-info-content {
+  max-width: 600px;
+  width: 100%;
 }
 
 .logo-container {
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: center;
+  margin-bottom: 40px;
 }
 
-.logo-circle {
+.logo-box {
   width: 80px;
   height: 80px;
-  border-radius: 16px;
+  border-radius: 12px;
   background: #1a1a1a;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #1a1a1a;
-  margin-bottom: 1rem;
 }
 
-.app-logo {
-  font-size: 40px !important;
-  width: 40px !important;
-  height: 40px !important;
+.hero-logo {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: white;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  color: #111827;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.hero-description-text {
+  font-size: 1.125rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 40px 0;
+}
+
+.hero-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hero-feature-point {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.hero-check {
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+.hero-feature-point span {
+  font-weight: 500;
+}
+
+/* Right CTA Section */
+.hero-cta-section {
+  flex: 0 0 500px;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 48px;
+}
+
+.cta-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.cta-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo-container-small {
+  margin-bottom: 16px;
+}
+
+.logo-circle-small {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.app-logo-small {
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
   color: #ffffff;
 }
 
-.app-title {
-  font-size: 4rem;
-  font-weight: 800;
-  color: white;
-  margin: 0 0 1rem 0;
-  letter-spacing: -1px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+.brand-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #111827;
+  letter-spacing: -0.5px;
 }
 
-.hero-subtitle {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
-  margin: 0 0 1rem 0;
+.cta-subtitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0 0 4px 0;
 }
 
-.hero-description {
-  font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 3rem 0;
-  line-height: 1.7;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+.cta-description-text {
+  color: #9ca3af;
+  margin: 0 0 0 0;
+  font-size: 0.875rem;
+  font-weight: 400;
 }
 
-.hero-buttons {
+.cta-actions {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.primary-cta-btn,
+.secondary-cta-btn {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-}
-
-.primary-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 32px;
-  background: white;
-  color: #3b82f6;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
   border: none;
-  border-radius: 12px;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
+  width: 100%;
 }
 
-.primary-btn:hover {
-  background: #f3f4f6;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+.primary-cta-btn {
+  background: #10b981;
+  color: white;
 }
 
-.primary-btn mat-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-  color: #3b82f6;
+.primary-cta-btn:hover {
+  background: #059669;
 }
 
-.secondary-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 32px;
+.secondary-cta-btn {
   background: transparent;
-  color: white;
-  border: 2px solid white;
-  border-radius: 12px;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  color: #111827;
+  border: 1px solid #e5e7eb;
 }
 
-.secondary-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.8);
-  color: white;
+.secondary-cta-btn:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
 }
 
-.secondary-btn mat-icon {
+.primary-cta-btn mat-icon,
+.secondary-cta-btn mat-icon {
   font-size: 20px;
   width: 20px;
   height: 20px;
-  color: white;
 }
 
 /* App Views Section */
@@ -508,26 +582,33 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .hero-cta-section {
+    flex: 0 0 400px;
+    padding: 40px 32px;
+  }
+
+  .hero-info-section {
+    padding: 40px;
+  }
+}
+
 @media (max-width: 768px) {
-  .app-title {
-    font-size: 3rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1.5rem;
-  }
-  
-  .hero-buttons {
+  .hero-section {
     flex-direction: column;
-    width: 100%;
+  }
+
+  .hero-info-section {
+    display: none;
+  }
+
+  .hero-cta-section {
+    flex: 1;
+    border-left: none;
+    border-top: 1px solid #e5e7eb;
+    padding: 40px 32px;
   }
   
-  .primary-btn,
-  .secondary-btn {
-    width: 100%;
-  }
-  
-  .features-grid,
   .app-views-grid,
   .pricing-grid {
     grid-template-columns: 1fr;
@@ -545,11 +626,10 @@
 }
 
 @media (max-width: 480px) {
-  .hero-section {
-    padding: 80px 16px 60px;
+  .hero-cta-section {
+    padding: 32px 24px;
   }
   
-  .features-section,
   .app-views-section,
   .pricing-section,
   .final-cta {
