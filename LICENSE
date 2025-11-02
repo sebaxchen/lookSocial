@@ -1,49 +1,93 @@
-PROPIEDAD INTELECTUAL Y LICENCIA DE USO RESTRICTIVA
+PROPIEDAD INTELECTUAL Y LICENCIA DE USO RESTRINGIDO
+**Aplicación:** “NoteTo”
+**Titular:** **Sebastián Martín Beingolea Montalvo**
+**País:** República del Perú
 
-Copyright (c) 2024 Marti
+Copyright © 2024 **Sebastián Martín Beingolea Montalvo**
+**TODOS LOS DERECHOS RESERVADOS**
 
-TODOS LOS DERECHOS RESERVADOS
+Esta aplicación de software (“la Aplicación”) denominada **NoteTo** es una creación intelectual protegida por la **Constitución Política del Perú (art. 2 inc. 8)**, el **Decreto Legislativo N.º 822 – Ley sobre el Derecho de Autor y sus modificatorias**, las normas sobre protección de programas de ordenador, así como por los tratados internacionales ratificados por el Perú en materia de propiedad intelectual. Cualquier uso no autorizado constituye infracción de derechos de autor y puede dar lugar a responsabilidad **civil, administrativa e incluso penal**, conforme a la normativa peruana vigente.
 
-Esta aplicación de software ("la Aplicación") es propiedad exclusiva de Marti y está protegida por las leyes de derechos de autor y otras leyes de propiedad intelectual.
+---
 
-CONDICIONES DE USO:
+### 1. TITULARIDAD Y DERECHOS EXCLUSIVOS
 
-1. PROPIEDAD EXCLUSIVA
-   - Esta aplicación es propiedad única y exclusiva de Marti
-   - Solo Marti tiene derecho a usar, modificar, distribuir o comercializar esta aplicación
-   - Cualquier uso no autorizado está estrictamente prohibido
+* La Aplicación **NoteTo** es de **propiedad única y exclusiva** de **Sebastián Martín Beingolea Montalvo** (“el Titular”).
+* El Titular conserva **todos los derechos patrimoniales y morales** sobre la Aplicación, de conformidad con el Decreto Legislativo N.º 822.
+* Solo el Titular puede **usar, ejecutar, modificar, actualizar, adaptar, distribuir, poner a disposición, comunicar públicamente o comercializar** la Aplicación, total o parcialmente.
+* **No se concede ninguna licencia, cesión ni autorización tácita** a terceros.
 
-2. PROHIBICIONES ABSOLUTAS
-   - Está prohibido el uso de esta aplicación por cualquier persona que no sea Marti
-   - Está prohibida la copia, distribución, modificación o derivación de esta aplicación
-   - Está prohibida la ingeniería inversa, descompilación o desensamblado
-   - Está prohibida la creación de trabajos derivados basados en esta aplicación
+---
 
-3. RESTRICCIONES DE ACCESO
-   - Solo Marti puede acceder al código fuente
-   - Solo Marti puede ejecutar la aplicación
-   - Solo Marti puede realizar modificaciones o mejoras
-   - Solo Marti puede decidir sobre el futuro desarrollo de la aplicación
+### 2. PROHIBICIONES EXPRESAS
 
-4. VIOLACIÓN DE LICENCIA
-   - Cualquier violación de esta licencia constituye una infracción de derechos de autor
-   - Marti se reserva el derecho de tomar acciones legales contra cualquier violación
-   - Los daños por violación pueden incluir multas y costos legales
+Queda **terminantemente prohibido** para cualquier persona distinta del Titular:
 
-5. SIN GARANTÍAS
-   - Esta aplicación se proporciona "tal como está"
-   - No se ofrecen garantías de ningún tipo
-   - Marti no será responsable por daños derivados del uso de esta aplicación
+1. **Usar o ejecutar** la Aplicación en cualquier entorno (local, web, nube, móvil o similar).
+2. **Copiar, reproducir, descargar, clonar, publicar, distribuir o compartir** el código fuente, código objeto, binarios o artefactos derivados.
+3. **Modificar, adaptar, traducir, parchear, integrar o combinar** la Aplicación con otros programas para crear un sistema derivado.
+4. **Realizar ingeniería inversa, descompilación, desensamblado o cualquier procedimiento** destinado a obtener el código fuente o la lógica interna, aun con fines de interoperabilidad.
+5. **Crear obras o trabajos derivados** basados total o parcialmente en la Aplicación.
+6. **Subir, alojar o publicar** la Aplicación o partes de ella en repositorios públicos, marketplaces, tiendas de apps o servicios de terceros **sin autorización previa y expresa del Titular**.
 
-6. JURISDICCIÓN
-   - Esta licencia se rige por las leyes aplicables
-   - Cualquier disputa será resuelta en los tribunales competentes
+Cualquier conducta anterior se considerará **uso no autorizado** y, por tanto, **infracción de derechos de autor en el Perú**.
 
-ACEPTACIÓN:
-Al acceder, usar o interactuar de cualquier manera con esta aplicación, usted reconoce que ha leído, entendido y aceptado estar sujeto a los términos de esta licencia restrictiva.
+---
 
-Si no es Marti y está leyendo este archivo, debe cesar inmediatamente cualquier uso de esta aplicación y eliminar todas las copias del mismo.
+### 3. RESTRICCIONES DE ACCESO Y CONTROL DEL CÓDIGO
 
-ÚLTIMA ACTUALIZACIÓN: Diciembre 2024
+* **Solo** Sebastián Martín Beingolea Montalvo puede acceder al **código fuente** de NoteTo.
+* **Solo** el Titular puede **aprobar, fusionar o desplegar** cambios en el repositorio (incluido GitHub u otras plataformas).
+* **Solo** el Titular puede decidir el **rumbo, mantenimiento, roadmap y nuevas versiones** de la Aplicación.
+* Cualquier intento de **obtener, forzar o evadir** los mecanismos de control de acceso constituye **elusión de medidas tecnológicas de protección**, conducta sancionable por el Decreto Legislativo N.º 822.
 
-Para consultas sobre esta licencia, contactar exclusivamente a Marti.
+---
+
+### 4. INFRACCIÓN Y CONSECUENCIAS LEGALES
+
+* Todo uso contrario a esta licencia será considerado **violación de derechos de autor** conforme al ordenamiento peruano.
+* El Titular se reserva el derecho de **iniciar las acciones civiles** correspondientes (indemnización por daños y perjuicios, cese de actos infractores, publicación de la sentencia, medidas cautelares).
+* El Titular podrá, además, **denunciar administrativamente ante INDECOPI** la infracción a los derechos de autor y solicitar la aplicación de las sanciones previstas en la ley peruana.
+* En los supuestos previstos por la ley, el Titular podrá **iniciar acciones penales** por reproducción, distribución o comunicación pública no autorizadas.
+* Los infractores serán responsables, como mínimo, de **los daños efectivos, el lucro cesante, los costos y los gastos legales** que se generen por la defensa de los derechos del Titular.
+
+---
+
+### 5. AUSENCIA DE LICENCIA AL PÚBLICO
+
+* Esta Aplicación **no es de código abierto**, **no** se distribuye bajo GPL, MIT, Apache ni licencia similar.
+* El hecho de que el código se encuentre alojado en un **repositorio de GitHub** u otro servicio **no implica** autorización para su uso, copia, fork o redistribución.
+* Cualquier persona distinta del Titular que haya accedido al código debe **cesar de inmediato su uso** y **eliminar toda copia**, conforme al último párrafo de esta licencia.
+
+---
+
+### 6. EXCLUSIÓN DE GARANTÍAS
+
+* La Aplicación se entrega **“tal cual” (“as is”)**, sin garantías de funcionamiento, disponibilidad, compatibilidad, seguridad ni adecuación a un propósito específico.
+* El Titular **no asume responsabilidad** por daños directos, indirectos, incidentales, consecuenciales, pérdida de datos, pérdida de negocio o cualquier otro perjuicio derivado del uso o imposibilidad de uso de la Aplicación.
+* El usuario no autorizado **asume íntegramente el riesgo** de su uso.
+
+---
+
+### 7. JURISDICCIÓN Y LEY APLICABLE
+
+* Esta licencia se rige e interpreta **conforme a las leyes de la República del Perú**, en especial:
+
+  * **Constitución Política del Perú**,
+  * **Decreto Legislativo N.º 822 – Ley sobre el Derecho de Autor y sus modificatorias**,
+  * Normas complementarias emitidas por **INDECOPI** y demás disposiciones peruanas sobre propiedad intelectual.
+* **Cualquier controversia** será sometida a la **competencia de los jueces y tribunales de Lima, Perú**, renunciando las partes a cualquier otro fuero que pudiera corresponder.
+
+---
+
+### 8. ACEPTACIÓN
+
+Al **acceder, visualizar, descargar, clonar, ejecutar o interactuar de cualquier forma** con esta Aplicación o con su repositorio asociado, **usted declara que ha leído, comprendido y acepta** los términos de esta Licencia de Uso Restringido bajo legislación peruana.
+**Si usted no es Sebastián Martín Beingolea Montalvo, debe cesar inmediatamente todo uso y eliminar todas las copias.**
+
+---
+
+**ÚLTIMA ACTUALIZACIÓN:** diciembre de 2024
+**Contacto exclusivo del titular:** **Sebastián Martín Beingolea Montalvo (Perú)**
+
+Si luego quieres que la dejemos más “jurídica-formal” para presentarla ante tu curso o adjuntarla en el README (con numeración tipo 1.1, 1.2, definiciones, glosario y referencia explícita a INDECOPI), te la pongo en ese formato también.
