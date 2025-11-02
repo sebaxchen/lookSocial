@@ -36,13 +36,13 @@ export class Header {
   private sessionTimerService = inject(SessionTimerService);
 
   options = [
-    { link: '/home', label: 'Inicio', icon: 'home', color: '#10b981' },
-    { link: '/dashboard', label: 'Dashboard', icon: 'dashboard', color: '#8b5cf6' },
-    { link: '/groups', label: 'Grupos', icon: 'groups', color: '#f59e0b' },
-    { link: '/about', label: 'Gestión de Tareas', icon: 'info', color: '#06b6d4' },
-    { link: '/learning/categories', label: 'Colaboradores', icon: 'group', color: '#ec4899' },
-    { link: '/shared-files', label: 'Archivos', icon: 'cloud', color: '#eab308' },
-    { link: '/calendar', label: 'Calendario', icon: 'calendar_month', color: '#3b82f6' }
+    { link: '/home', label: 'Inicio', icon: 'home', color: '#047857' },
+    { link: '/dashboard', label: 'Dashboard', icon: 'dashboard', color: '#7c3aed' },
+    { link: '/groups', label: 'Grupos', icon: 'groups', color: '#d97706' },
+    { link: '/about', label: 'Gestión de Tareas', icon: 'task', color: '#0891b2' },
+    { link: '/learning/categories', label: 'Colaboradores', icon: 'people', color: '#be185d' },
+    { link: '/shared-files', label: 'Archivos', icon: 'folder', color: '#ca8a04' },
+    { link: '/calendar', label: 'Calendario', icon: 'calendar_month', color: '#2563eb' }
   ];
 
   constructor(
