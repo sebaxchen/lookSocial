@@ -117,6 +117,7 @@ export class TaskList {
         id: task.id,
         title: task.title,
         priority: task.priority,
+        status: task.status,
         createdAt: task.createdAt
       };
       

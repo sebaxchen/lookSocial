@@ -1,4 +1,4 @@
-import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
@@ -9,6 +9,7 @@ import { ConfirmDeleteTaskModal } from '../../components/confirm-delete-task-mod
 import { GroupProfileModal } from '../../components/group-profile-modal/group-profile-modal';
 import { GroupsService } from '../../../application/groups.service';
 import { TeamService } from '../../../application/team.service';
+import { TaskStore } from '../../../../learning/application/task.store';
 
 @Component({
   selector: 'app-groups',
@@ -34,10 +35,16 @@ export class GroupsComponent {
   private dialog = inject(MatDialog);
   private groupsService = inject(GroupsService);
   private teamService = inject(TeamService);
+  private taskStore = inject(TaskStore);
   
-  get groups() {
-    return this.groupsService.getAllGroups();
-  }
+  // Computed signal que combina grupos con estado actualizado de tareas
+  // Esto asegura que Angular detecte cambios cuando el TaskStore se actualice
+  groups = computed(() => {
+    // Leer taskStore.allTasks() para forzar reactividad cuando cambien las tareas
+    this.taskStore.allTasks();
+    // Devolver el array directamente del signal de grupos
+    return this.groupsService.getAllGroups()();
+  });
 
 
   createGroup() {
@@ -112,6 +119,36 @@ export class GroupsComponent {
       case 'medium': return 'Media';
       case 'low': return 'Baja';
       default: return 'Media';
+    }
+  }
+
+  getTaskStatus(taskId: string): string | undefined {
+    // Obtener el estado actual desde TaskStore para reflejar cambios en tiempo real
+    const task = this.taskStore.getTaskById(taskId);
+    return task?.status;
+  }
+
+  getStatusText(taskId: string, storedStatus?: string): string {
+    // Priorizar el estado desde TaskStore, si no existe usar el almacenado
+    const currentStatus = this.getTaskStatus(taskId) || storedStatus;
+    if (!currentStatus) return 'Sin iniciar';
+    switch (currentStatus) {
+      case 'completed': return 'Terminada';
+      case 'in-progress': return 'En progreso';
+      case 'not-started': return 'Sin iniciar';
+      default: return 'Sin iniciar';
+    }
+  }
+
+  getStatusClass(taskId: string, storedStatus?: string): string {
+    // Priorizar el estado desde TaskStore, si no existe usar el almacenado
+    const currentStatus = this.getTaskStatus(taskId) || storedStatus;
+    if (!currentStatus) return 'status-not-started';
+    switch (currentStatus) {
+      case 'completed': return 'status-completed';
+      case 'in-progress': return 'status-in-progress';
+      case 'not-started': return 'status-not-started';
+      default: return 'status-not-started';
     }
   }
 

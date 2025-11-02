@@ -570,6 +570,7 @@ export class About {
         id: task.id,
         title: task.title,
         priority: task.priority,
+        status: task.status,
         createdAt: task.createdAt
       };
       
@@ -607,6 +608,7 @@ export class About {
           id: task.id,
           title: task.title,
           priority: task.priority,
+          status: task.status,
           createdAt: task.createdAt
         };
         
