@@ -1,17 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
-import { MatButton } from '@angular/material/button';
 import { SessionTimerService } from '../../../application/session-timer.service';
 
 @Component({
   selector: 'app-break-modal',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatButton],
+  imports: [CommonModule, MatIcon],
   template: `
     @if (sessionTimerService.sessionState().shouldShowBreakModal) {
       <div class="break-modal-overlay" (click)="onOverlayClick($event)">
-        <div class="break-modal">
+        <div class="break-modal" (click)="$event.stopPropagation()">
           <div class="break-modal-content">
             <div class="break-icon">
               <mat-icon>coffee</mat-icon>
@@ -38,12 +37,6 @@ import { SessionTimerService } from '../../../application/session-timer.service'
                 <mat-icon>self_improvement</mat-icon>
                 <span>Respira profundamente</span>
               </div>
-            </div>
-            <div class="break-actions">
-              <button mat-button class="break-btn continue-btn" (click)="continueWorking()">
-                <mat-icon>play_arrow</mat-icon>
-                Continuar trabajando
-              </button>
             </div>
           </div>
         </div>
@@ -130,7 +123,7 @@ import { SessionTimerService } from '../../../application/session-timer.service'
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin: 0 0 32px 0;
+      margin: 0;
     }
 
     .suggestion-item {
@@ -162,41 +155,6 @@ import { SessionTimerService } from '../../../application/session-timer.service'
       color: #374151;
     }
 
-    .break-actions {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-    }
-
-    .break-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.9375rem;
-      transition: all 0.2s ease;
-      min-width: 200px;
-      border: none;
-    }
-
-    .continue-btn {
-      background: #1a1a1a;
-      color: #ffffff;
-    }
-
-    .continue-btn:hover {
-      background: #374151;
-      color: #ffffff;
-    }
-
-    .break-btn mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      color: #ffffff;
-    }
 
     /* Responsive */
     @media (max-width: 480px) {
@@ -212,16 +170,6 @@ import { SessionTimerService } from '../../../application/session-timer.service'
       .break-suggestions {
         grid-template-columns: 1fr;
         gap: 12px;
-      }
-
-      .break-actions {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .break-btn {
-        width: 100%;
-        min-width: auto;
       }
     }
   `]

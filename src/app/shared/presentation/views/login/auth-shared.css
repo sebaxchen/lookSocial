@@ -88,20 +88,22 @@ html, body {
 }
 
 .logo-box {
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
-  background: #1a1a1a;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
 
 .info-logo {
-  font-size: 2.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  color: #ffffff;
+  width: 200px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
 }
 
 .info-title {
@@ -179,15 +181,16 @@ html, body {
 }
 
 .logo-circle {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  background: #1a1a1a;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: none;
-  border: none;
+  padding: 0;
 }
 
 .logo-pulse {
@@ -195,10 +198,11 @@ html, body {
 }
 
 .auth-logo {
-  font-size: 1.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #ffffff;
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  color: #1a1a1a;
+  display: block;
 }
 
 .brand-title {

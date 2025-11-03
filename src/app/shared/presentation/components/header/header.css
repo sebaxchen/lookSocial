@@ -24,13 +24,10 @@
 }
 
 .logo-icon {
-  font-size: 1.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #1a1a1a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 180px;
+  height: 60px;
+  object-fit: contain;
+  display: block;
 }
 
 .brand-title {
@@ -514,9 +511,8 @@
   }
   
   .logo-icon {
-    font-size: 1.25rem;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 140px;
+    height: 46px;
   }
 }
 
