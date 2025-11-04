@@ -13,41 +13,6 @@
 }
 
 /* Empty State Styles */
-.about-container .empty-about-state {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-height: 60vh !important;
-  text-align: center !important;
-  padding: 40px 20px !important;
-}
-
-.about-container .empty-about-state .empty-icon {
-  font-size: 4rem !important;
-  width: 4rem !important;
-  height: 4rem !important;
-  color: #9ca3af !important;
-  margin-bottom: 24px !important;
-}
-
-.about-container .empty-about-state .empty-title {
-  font-size: 1.5rem !important;
-  font-weight: 500 !important;
-  color: #6c757d !important;
-  margin: 0 0 12px 0 !important;
-}
-
-.about-container .empty-about-state .empty-message {
-  font-size: 1rem !important;
-  color: #9ca3af !important;
-  margin: 0 !important;
-}
-
-.about-container .empty-about-state .empty-message strong {
-  color: #1a1a1a !important;
-  font-weight: 600 !important;
-}
 
 @keyframes fadeIn {
   from {

@@ -6,6 +6,7 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { TaskStore } from '../../../../learning/application/task.store';
 import { TeamService } from '../../../application/team.service';
+import { EmptyStateComponent } from '../../components/empty-state/empty-state';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,8 @@ import { TeamService } from '../../../application/team.service';
     MatCardTitle,
     MatIcon,
     MatProgressBar,
-    MatChipsModule
+    MatChipsModule,
+    EmptyStateComponent
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',

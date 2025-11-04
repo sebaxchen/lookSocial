@@ -10,6 +10,7 @@ import { Task, TaskStatus, CreateTaskRequest, UpdateTaskRequest } from '../../..
 import { AssigneeSelector } from '../../components/assignee-selector/assignee-selector';
 import { GroupSelector } from '../../components/group-selector/group-selector';
 import { ConfirmDeleteTaskModal } from '../../components/confirm-delete-task-modal/confirm-delete-task-modal';
+import { EmptyStateComponent } from '../../components/empty-state/empty-state';
 import { TeamService } from '../../../application/team.service';
 import { GroupsService } from '../../../application/groups.service';
 
@@ -27,7 +28,8 @@ import { GroupsService } from '../../../application/groups.service';
     MatButton,
     MatDialogContent,
     AssigneeSelector,
-    GroupSelector
+    GroupSelector,
+    EmptyStateComponent
   ],
   templateUrl: './about.html',
   styleUrl: './about.css',

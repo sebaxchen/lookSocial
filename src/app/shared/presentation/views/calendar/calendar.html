@@ -19,42 +19,51 @@
     </div>
   </div>
 
-  <div class="calendar-grid">
-    <div class="calendar-weekdays">
-      <div class="weekday">Dom</div>
-      <div class="weekday">Lun</div>
-      <div class="weekday">Mar</div>
-      <div class="weekday">Mié</div>
-      <div class="weekday">Jue</div>
-      <div class="weekday">Vie</div>
-      <div class="weekday">Sáb</div>
-    </div>
+  @if (hasTasksInCurrentMonth()) {
+    <div class="calendar-grid">
+      <div class="calendar-weekdays">
+        <div class="weekday">Dom</div>
+        <div class="weekday">Lun</div>
+        <div class="weekday">Mar</div>
+        <div class="weekday">Mié</div>
+        <div class="weekday">Jue</div>
+        <div class="weekday">Vie</div>
+        <div class="weekday">Sáb</div>
+      </div>
 
-    <div class="calendar-days">
-      @for (day of getDaysInMonth(); track $index) {
-        @if (day.day === 0) {
-          <div class="calendar-day empty"></div>
-        } @else {
-          <div class="calendar-day" 
-               [class.today]="isToday(day.day)"
-               (click)="openDayModal(day)">
-            <span class="day-number">{{ day.day }}</span>
-            @if (day.tasks && day.tasks.length > 0) {
-              <div class="calendar-tasks">
-                @for (task of day.tasks; track task.id) {
-                  <div class="task-square" 
-                       [class]="'task-square task-status-' + task.status"
-                       [class.overdue]="isOverdue(task.dueDate!, task.status)"
-                       (click)="openDayModal(day); $event.stopPropagation()">
-                  </div>
-                }
-              </div>
-            }
-          </div>
+      <div class="calendar-days">
+        @for (day of getDaysInMonth(); track $index) {
+          @if (day.day === 0) {
+            <div class="calendar-day empty"></div>
+          } @else {
+            <div class="calendar-day" 
+                 [class.today]="isToday(day.day)"
+                 (click)="openDayModal(day)">
+              <span class="day-number">{{ day.day }}</span>
+              @if (day.tasks && day.tasks.length > 0) {
+                <div class="calendar-tasks">
+                  @for (task of day.tasks; track task.id) {
+                    <div class="task-square" 
+                         [class]="'task-square task-status-' + task.status"
+                         [class.overdue]="isOverdue(task.dueDate!, task.status)"
+                         (click)="openDayModal(day); $event.stopPropagation()">
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
         }
-      }
+      </div>
     </div>
-  </div>
+  } @else {
+    <app-empty-state
+      variant="simple"
+      icon="calendar_today"
+      [title]="'No hay tareas este mes'"
+      [message]="'No tienes tareas programadas para ' + getMonthName() + ' ' + currentYear">
+    </app-empty-state>
+  }
 </div>
 
 <!-- Day Tasks Modal -->
@@ -115,10 +124,11 @@
             }
           </div>
         } @else {
-          <div class="empty-state-modal">
-            <mat-icon class="empty-icon-modal">task_alt</mat-icon>
-            <p class="empty-message-modal">No hay tareas para este día</p>
-          </div>
+          <app-empty-state
+            variant="minimal"
+            icon="task_alt"
+            message="No hay tareas para este día">
+          </app-empty-state>
         }
       </div>
     </div>

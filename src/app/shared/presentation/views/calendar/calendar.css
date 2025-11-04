@@ -526,29 +526,6 @@
   height: 1.5rem;
 }
 
-.empty-state-modal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
-}
-
-.empty-icon-modal {
-  font-size: 4rem;
-  width: 4rem;
-  height: 4rem;
-  color: #d1d5db;
-  margin-bottom: 16px;
-}
-
-.empty-message-modal {
-  margin: 0;
-  font-size: 1rem;
-  color: #6b7280;
-}
-
 /* Task Assignment in Modal */
 .task-assignment-modal {
   display: flex;

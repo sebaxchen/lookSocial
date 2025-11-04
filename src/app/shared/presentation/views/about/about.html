@@ -1,14 +1,14 @@
 <div class="about-container">
   @if (taskStore.taskCount() === 0) {
-    <div class="empty-about-state">
-      <mat-icon class="empty-icon">assignment</mat-icon>
-      <h2 class="empty-title">No hay tareas aún</h2>
-      <p class="empty-message">Añade una nota para comenzar</p>
-      <button mat-raised-button color="primary" class="empty-cta" (click)="openAddDialog()">
-        <mat-icon>add</mat-icon>
-        Crear mi primera nota
-      </button>
-    </div>
+    <app-empty-state
+      variant="simple"
+      icon="assignment"
+      title="No hay tareas aún"
+      message="Añade una nota para comenzar"
+      ctaText="Crear mi primera nota"
+      ctaIcon="add"
+      [ctaAction]="openAddDialog.bind(this)">
+    </app-empty-state>
   } @else {
   <!-- Add Task Button -->
   <div class="add-task-button-container">

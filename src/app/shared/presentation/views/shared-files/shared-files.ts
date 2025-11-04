@@ -10,6 +10,7 @@ import { TeamService } from '../../../application/team.service';
 import { GroupColorsService } from '../../../application/group-colors.service';
 import { GroupsService } from '../../../application/groups.service';
 import { ConfirmDeleteTaskModal } from '../../components/confirm-delete-task-modal/confirm-delete-task-modal';
+import { EmptyStateComponent } from '../../components/empty-state/empty-state';
 
 export interface SharedFile {
   id: string;
@@ -31,7 +32,8 @@ export interface SharedFile {
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    EmptyStateComponent
   ],
   templateUrl: './shared-files.html',
   styleUrl: './shared-files.css'

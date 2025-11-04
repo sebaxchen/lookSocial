@@ -16,37 +16,19 @@
   }
 
   @if (groups().length === 0) {
-    <div class="empty-state">
-      <div class="empty-state-content">
-        <div class="empty-animation-container">
-          <mat-icon class="empty-icon">groups</mat-icon>
-        </div>
-        <h2 class="empty-title">¡No hay grupos creados!</h2>
-        <p class="empty-description">
-          Organiza a tu equipo creando grupos de trabajo.
-          <br>
-          Asigna tareas a múltiples colaboradores con facilidad.
-        </p>
-        <div class="empty-features">
-          <div class="feature-item">
-            <mat-icon class="feature-icon">group</mat-icon>
-            <span>Organiza equipos</span>
-          </div>
-          <div class="feature-item">
-            <mat-icon class="feature-icon">assignment</mat-icon>
-            <span>Asigna tareas</span>
-          </div>
-          <div class="feature-item">
-            <mat-icon class="feature-icon">trending_up</mat-icon>
-            <span>Mejora productividad</span>
-          </div>
-        </div>
-        <button mat-raised-button class="empty-cta" (click)="createGroup()">
-          <mat-icon>add</mat-icon>
-          Crear mi primer grupo
-        </button>
-      </div>
-    </div>
+    <app-empty-state
+      icon="groups"
+      title="¡No hay grupos creados!"
+      message="Organiza a tu equipo creando grupos de trabajo.<br>Asigna tareas a múltiples colaboradores con facilidad."
+      [features]="[
+        { icon: 'group', label: 'Organiza equipos' },
+        { icon: 'assignment', label: 'Asigna tareas' },
+        { icon: 'trending_up', label: 'Mejora productividad' }
+      ]"
+      ctaText="Crear mi primer grupo"
+      ctaIcon="add"
+      [ctaAction]="createGroup.bind(this)">
+    </app-empty-state>
   } @else {
     <div class="groups-list">
       @for (group of groups(); track group.id || group.name) {

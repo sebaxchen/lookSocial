@@ -10,17 +10,14 @@
   </div>
 
   @if (files().length === 0) {
-    <div class="empty-state">
-      <div class="empty-icon-container">
-        <mat-icon class="empty-icon">cloud_upload</mat-icon>
-      </div>
-      <h2 class="empty-title">No hay archivos compartidos</h2>
-      <p class="empty-description">Comienza compartiendo archivos con tu equipo</p>
-      <button class="empty-cta" (click)="openUploadDialog()">
-        <mat-icon>add</mat-icon>
-        Subir Primer Archivo
-      </button>
-    </div>
+    <app-empty-state
+      icon="cloud_upload"
+      title="No hay archivos compartidos"
+      message="Comienza compartiendo archivos con tu equipo"
+      ctaText="Subir Primer Archivo"
+      ctaIcon="add"
+      [ctaAction]="openUploadDialog.bind(this)">
+    </app-empty-state>
   } @else {
     <div class="files-grid-container" 
          [class.drag-over]="isDragOver()"

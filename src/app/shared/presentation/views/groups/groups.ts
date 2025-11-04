@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupModal } from '../../components/create-group-modal/create-group-modal';
 import { ConfirmDeleteTaskModal } from '../../components/confirm-delete-task-modal/confirm-delete-task-modal';
 import { GroupProfileModal } from '../../components/group-profile-modal/group-profile-modal';
+import { EmptyStateComponent } from '../../components/empty-state/empty-state';
 import { GroupsService } from '../../../application/groups.service';
 import { TeamService } from '../../../application/team.service';
 import { TaskStore } from '../../../../learning/application/task.store';
@@ -22,7 +23,8 @@ import { TaskStore } from '../../../../learning/application/task.store';
     MatCardTitle,
     MatIcon,
     MatButton,
-    CreateGroupModal
+    CreateGroupModal,
+    EmptyStateComponent
   ],
   templateUrl: './groups.html',
   styleUrl: './groups.css',

@@ -16,6 +16,7 @@ import { AssigneeSelector } from '../../components/assignee-selector/assignee-se
 import { MultiAssigneeSelector } from '../../components/multi-assignee-selector/multi-assignee-selector';
 import { ConfirmDeleteTaskModal } from '../../components/confirm-delete-task-modal/confirm-delete-task-modal';
 import { LottieAnimationComponent } from '../../components/lottie-animation/lottie-animation.component';
+import { EmptyStateComponent } from '../../components/empty-state/empty-state';
 import { GroupsService } from '../../../application/groups.service';
 import { TeamService } from '../../../application/team.service';
 
@@ -41,6 +42,7 @@ import { TeamService } from '../../../application/team.service';
     AssigneeSelector,
     MultiAssigneeSelector,
     LottieAnimationComponent,
+    EmptyStateComponent,
     MatCheckboxModule
   ],
   templateUrl: './task-list.html',
