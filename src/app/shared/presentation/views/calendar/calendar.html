@@ -1,23 +1,25 @@
 <div class="calendar-container">
-  <div class="calendar-header">
-    <div class="calendar-header-top">
-      <div class="calendar-title">
-        <mat-icon class="calendar-icon">calendar_month</mat-icon>
-        <h2>{{ getMonthName() }} {{ currentYear }}</h2>
-      </div>
-      <div class="calendar-actions">
-        <button mat-icon-button (click)="previousMonth()" class="nav-button">
-          <mat-icon>chevron_left</mat-icon>
-        </button>
-        <button mat-button (click)="today()" class="today-button">
-          Hoy
-        </button>
-        <button mat-icon-button (click)="nextMonth()" class="nav-button">
-          <mat-icon>chevron_right</mat-icon>
-        </button>
+  @if (hasAnyTasks()) {
+    <div class="calendar-header">
+      <div class="calendar-header-top">
+        <div class="calendar-title">
+          <mat-icon class="calendar-icon">calendar_month</mat-icon>
+          <h2>{{ getMonthName() }} {{ currentYear }}</h2>
+        </div>
+        <div class="calendar-actions">
+          <button mat-icon-button (click)="previousMonth()" class="nav-button">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button mat-button (click)="today()" class="today-button">
+            Hoy
+          </button>
+          <button mat-icon-button (click)="nextMonth()" class="nav-button">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  }
 
   @if (hasTasksInCurrentMonth()) {
     <div class="calendar-grid">
@@ -58,10 +60,9 @@
     </div>
   } @else {
     <app-empty-state
-      variant="simple"
-      icon="calendar_today"
-      [title]="'No hay tareas este mes'"
-      [message]="'No tienes tareas programadas para ' + getMonthName() + ' ' + currentYear">
+      animationPath="assets/animations/empty-box.json"
+      title="No hay tareas este mes"
+      message="Ve a la vista de <strong>Gestión de Tareas</strong> para ver el contenido de esta vista">
     </app-empty-state>
   }
 </div>
@@ -123,11 +124,11 @@
               </div>
             }
           </div>
-        } @else {
+        }         @else {
           <app-empty-state
             variant="minimal"
             icon="task_alt"
-            message="No hay tareas para este día">
+            message="Ve a la vista de Gestión de Tareas para ver el contenido">
           </app-empty-state>
         }
       </div>

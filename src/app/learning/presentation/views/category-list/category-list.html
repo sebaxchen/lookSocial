@@ -1,35 +1,22 @@
 <div class="team-container">
-  <div class="add-member-button-container">
-    <button mat-raised-button color="primary" (click)="openAddMemberModal()">
-      <mat-icon>person_add</mat-icon>
-      Añadir Miembro
-    </button>
-  </div>
+  @if (teamMembers().length > 0) {
+    <div class="add-member-button-container">
+      <button mat-raised-button color="primary" (click)="openAddMemberModal()">
+        <mat-icon>person_add</mat-icon>
+        Añadir Miembro
+      </button>
+    </div>
+  }
   
         @if (teamMembers().length === 0) {
-          <div class="empty-team-state">
-            <div class="empty-team-content">
-              <div class="empty-team-animation">
-                <app-lottie-animation 
-                  animationPath="assets/animations/empty-box.json"
-                  width="300px"
-                  height="300px"
-                  [loop]="true"
-                  [autoplay]="true">
-                </app-lottie-animation>
-              </div>
-              <h2 class="empty-team-title">¡Tu equipo está vacío!</h2>
-              <p class="empty-team-description">
-                Comienza construyendo tu equipo de trabajo añadiendo miembros.
-                <br>
-                Colabora y gestiona tareas de manera eficiente.
-              </p>
-              <button mat-raised-button color="primary" (click)="openAddMemberModal()" class="add-first-member-btn">
-                <mat-icon>person_add</mat-icon>
-                Añadir Primer Miembro
-              </button>
-            </div>
-          </div>
+          <app-empty-state
+            animationPath="assets/animations/empty-box.json"
+            title="¡Tu equipo está vacío!"
+            message="Comienza construyendo tu equipo de trabajo añadiendo miembros.<br>Colabora y gestiona tareas de manera eficiente."
+            ctaText="Añadir Primer Miembro"
+            ctaIcon="person_add"
+            [ctaAction]="openAddMemberModal.bind(this)">
+          </app-empty-state>
         } @else {
           <div class="team-grid">
             @for (member of teamMembers(); track member.id) {

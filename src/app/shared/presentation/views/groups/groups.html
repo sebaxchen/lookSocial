@@ -17,14 +17,9 @@
 
   @if (groups().length === 0) {
     <app-empty-state
-      icon="groups"
+      animationPath="assets/animations/empty-box.json"
       title="¡No hay grupos creados!"
       message="Organiza a tu equipo creando grupos de trabajo.<br>Asigna tareas a múltiples colaboradores con facilidad."
-      [features]="[
-        { icon: 'group', label: 'Organiza equipos' },
-        { icon: 'assignment', label: 'Asigna tareas' },
-        { icon: 'trending_up', label: 'Mejora productividad' }
-      ]"
       ctaText="Crear mi primer grupo"
       ctaIcon="add"
       [ctaAction]="createGroup.bind(this)">

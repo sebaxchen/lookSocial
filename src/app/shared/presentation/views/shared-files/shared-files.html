@@ -1,17 +1,16 @@
-<div class="files-container">
-  <div class="files-header">
-    <h1 class="files-title">Archivos Compartidos</h1>
-    @if (files().length > 0) {
+<div class="files-container" [class.no-files]="files().length === 0">
+  @if (files().length > 0) {
+    <div class="files-header">
       <button class="upload-button" (click)="openUploadDialog()">
         <mat-icon>upload</mat-icon>
         <span>Subir Archivo</span>
       </button>
-    }
-  </div>
+    </div>
+  }
 
   @if (files().length === 0) {
     <app-empty-state
-      icon="cloud_upload"
+      animationPath="assets/animations/empty-box.json"
       title="No hay archivos compartidos"
       message="Comienza compartiendo archivos con tu equipo"
       ctaText="Subir Primer Archivo"

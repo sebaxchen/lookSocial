@@ -6,6 +6,26 @@
   min-height: 100vh;
 }
 
+.files-container.no-files {
+  padding: 0;
+  min-height: auto;
+  max-width: 100%;
+  margin: 0;
+}
+
+.files-container.no-files app-empty-state {
+  width: 100%;
+  display: block;
+}
+
+.files-container.no-files app-empty-state ::ng-deep .empty-state {
+  padding: 80px 24px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 500px;
+}
+
 .files-header {
   display: flex !important;
   justify-content: space-between;

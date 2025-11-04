@@ -44,6 +44,11 @@ export class CalendarComponent {
     this.taskStore.allTasks().filter(task => task.dueDate)
   );
 
+  // Check if there are any tasks at all
+  hasAnyTasks(): boolean {
+    return this.taskStore.allTasks().length > 0;
+  }
+
   // Check if there are any tasks in the current month
   hasTasksInCurrentMonth(): boolean {
     const tasks = this.tasksWithDueDates();

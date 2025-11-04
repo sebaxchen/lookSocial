@@ -1,8 +1,7 @@
 <div class="about-container">
   @if (taskStore.taskCount() === 0) {
     <app-empty-state
-      variant="simple"
-      icon="assignment"
+      animationPath="assets/animations/empty-box.json"
       title="No hay tareas aún"
       message="Añade una nota para comenzar"
       ctaText="Crear mi primera nota"

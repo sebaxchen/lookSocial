@@ -14,15 +14,7 @@
       <app-empty-state
         animationPath="assets/animations/empty-box.json"
         title="¡Tu lista de notas está vacía!"
-        message="Organiza tu día de manera eficiente creando tu primera nota.<br>Mantén el control de todo lo que necesitas recordar."
-        [features]="[
-          { icon: 'person', label: 'Asigna notas' },
-          { icon: 'flag', label: 'Establece prioridades' },
-          { icon: 'trending_up', label: 'Haz seguimiento' }
-        ]"
-        ctaText="Crear mi primera nota"
-        ctaIcon="add"
-        [ctaAction]="openAddDialog.bind(this)">
+        message="Organiza tu día de manera eficiente creando tu primera nota.<br>Mantén el control de todo lo que necesitas recordar.">
       </app-empty-state>
     } @else {
       <div class="tasks-grid">

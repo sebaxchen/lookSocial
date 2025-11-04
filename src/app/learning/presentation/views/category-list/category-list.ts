@@ -11,6 +11,7 @@ import {WorkerProfileModal} from '../../../../shared/presentation/components/wor
 import {TaskDetailModal} from '../../../../shared/presentation/components/task-detail-modal/task-detail-modal';
 import {TeamService, TeamMember} from '../../../../shared/application/team.service';
 import {LottieAnimationComponent} from '../../../../shared/presentation/components/lottie-animation/lottie-animation.component';
+import {EmptyStateComponent} from '../../../../shared/presentation/components/empty-state/empty-state';
 import {Task} from '../../../domain/model/task.entity';
 
 
@@ -25,7 +26,8 @@ import {Task} from '../../../domain/model/task.entity';
     MatCardTitle,
     MatCardSubtitle,
     MatButton,
-    LottieAnimationComponent
+    LottieAnimationComponent,
+    EmptyStateComponent
   ],
   templateUrl: './category-list.html',
   styleUrl: './category-list.css'

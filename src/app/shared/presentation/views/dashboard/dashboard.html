@@ -1,10 +1,9 @@
 <div class="dashboard-container">
   @if (totalTasks() === 0) {
     <app-empty-state
-      variant="simple"
-      icon="assignment"
+      animationPath="assets/animations/empty-box.json"
       title="No hay tareas aún"
-      message="Añade una nota en <strong>Home</strong> para comenzar">
+      message="Ve a la vista de <strong>Gestión de Tareas</strong> para ver el contenido de esta vista">
     </app-empty-state>
   } @else {
   <!-- Dashboard Layout -->

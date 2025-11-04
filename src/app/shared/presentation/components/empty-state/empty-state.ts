@@ -76,12 +76,16 @@ export interface EmptyStateFeature {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 40px 20px;
+      padding: 80px 24px;
       background: #ffffff;
       border-radius: 0;
-      margin: 20px 0;
+      margin: 0 auto;
       position: relative;
       border: none;
+      width: 100%;
+      max-width: 1400px;
+      box-sizing: border-box;
+      min-height: 500px;
     }
 
     .empty-state.variant-simple {
@@ -91,7 +95,9 @@ export interface EmptyStateFeature {
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
       border: 1px solid #e5e7eb;
       text-align: center;
-      min-height: 400px;
+      min-height: 500px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     .empty-state.variant-minimal {
@@ -120,7 +126,8 @@ export interface EmptyStateFeature {
       width: 100%;
       position: relative;
       z-index: 2;
-      padding: 0 20px;
+      padding: 0;
+      margin: 0 auto;
     }
 
     .empty-animation-container {
@@ -264,12 +271,13 @@ export interface EmptyStateFeature {
 
     @media (max-width: 768px) {
       .empty-state {
-        padding: 30px 15px;
+        padding: 60px 20px;
+        min-height: 400px;
       }
 
       .empty-state.variant-simple {
         padding: 60px 20px;
-        min-height: 300px;
+        min-height: 400px;
       }
 
       .empty-title {
