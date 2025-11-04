@@ -38,13 +38,13 @@ export class Header {
   viewPreferencesService = inject(ViewPreferencesService);
 
   allOptions = [
-    { link: '/home', label: 'Inicio', icon: 'home', color: '#10b981' }, // Verde esmeralda vibrante
+    { link: '/home', label: 'Inicio', icon: 'home', color: '#6366f1' }, // Índigo elegante
     { link: '/dashboard', label: 'Dashboard', icon: 'dashboard', color: '#8b5cf6' }, // Púrpura vibrante
-    { link: '/groups', label: 'Grupos', icon: 'groups', color: '#f59e0b' }, // Ámbar cálido
-    { link: '/about', label: 'Gestión de Tareas', icon: 'task', color: '#06b6d4' }, // Cyan brillante
-    { link: '/learning/categories', label: 'Colaboradores', icon: 'people', color: '#ec4899' }, // Rosa vibrante
-    { link: '/shared-files', label: 'Archivos', icon: 'folder', color: '#f97316' }, // Naranja cálido
-    { link: '/calendar', label: 'Calendario', icon: 'calendar_month', color: '#3b82f6' } // Azul brillante
+    { link: '/groups', label: 'Grupos', icon: 'groups', color: '#f97316' }, // Naranja cálido
+    { link: '/tasks', label: 'Gestión de Tareas', icon: 'task', color: '#0ea5e9' }, // Azul cielo moderno
+    { link: '/learning/collaborators', label: 'Colaboradores', icon: 'people', color: '#e879f9' }, // Magenta suave
+    { link: '/shared-files', label: 'Archivos', icon: 'folder', color: '#fb923c' }, // Naranja suave
+    { link: '/calendar', label: 'Calendario', icon: 'calendar_month', color: '#60a5fa' } // Azul suave
   ];
 
   // Filtrar opciones basado en la visibilidad del home y dashboard
