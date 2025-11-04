@@ -433,16 +433,16 @@
   align-items: center;
   justify-content: center;
   border: none;
-  cursor: pointer;
+  cursor: default;
   transition: all 0.2s ease;
   flex-shrink: 0;
   border: 2px solid transparent;
 }
 
 .member-avatar:hover {
-  transform: scale(1.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: none;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .member-initials {
