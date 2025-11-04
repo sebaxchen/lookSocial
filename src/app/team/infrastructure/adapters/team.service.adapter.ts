@@ -1,17 +1,15 @@
-// ADAPTER: Backward compatibility wrapper
-// This file maintains compatibility while migrating to DDD structure
 import { Injectable, inject } from '@angular/core';
-import { TeamService as TeamServiceDDD } from '../../team/application/services/team.service';
-import { TeamMember } from '../../team/domain/entities/team-member.entity';
+import { TeamMember } from '../../domain/entities/team-member.entity';
+import { TeamService } from '../../application/services/team.service';
 
-// Re-export for backward compatibility
-export type { TeamMember } from '../../team/domain/entities/team-member.entity';
-
+/**
+ * Adapter for backward compatibility with TeamService
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class TeamService {
-  private teamService = inject(TeamServiceDDD);
+export class TeamServiceAdapter {
+  private teamService = inject(TeamService);
 
   get allMembers() {
     return this.teamService.allMembers;
@@ -51,3 +49,4 @@ export class TeamService {
     return this.teamService.getMemberColor(memberName);
   }
 }
+

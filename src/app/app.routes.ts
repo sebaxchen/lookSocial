@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './shared/application/auth.guard';
+import { authGuard } from './auth/application/guards/auth.guard';
 
 // Lazy load all routes for better performance
 const landing = () => import('./shared/presentation/views/landing/landing').then(m => m.LandingComponent);
@@ -28,14 +28,14 @@ export const routes: Routes = [
   },
   { path: 'login', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: 'register', redirectTo: '/auth/register', pathMatch: 'full' },
-  { path: 'home', loadComponent: home, title: `${baseTitle} - Home`, canActivate: [AuthGuard] },
-  { path: 'dashboard', loadComponent: dashboard, title: `${baseTitle} - Dashboard`, canActivate: [AuthGuard] },
-  { path: 'about', loadComponent: about, title: `${baseTitle} - About`, canActivate: [AuthGuard] },
-  { path: 'groups', loadComponent: groups, title: `${baseTitle} - Grupos`, canActivate: [AuthGuard] },
-  { path: 'calendar', loadComponent: calendar, title: `${baseTitle} - Calendario`, canActivate: [AuthGuard] },
-  { path: 'shared-files', loadComponent: sharedFiles, title: `${baseTitle} - Archivos Compartidos`, canActivate: [AuthGuard] },
+  { path: 'home', loadComponent: home, title: `${baseTitle} - Home`, canActivate: [authGuard] },
+  { path: 'dashboard', loadComponent: dashboard, title: `${baseTitle} - Dashboard`, canActivate: [authGuard] },
+  { path: 'about', loadComponent: about, title: `${baseTitle} - About`, canActivate: [authGuard] },
+  { path: 'groups', loadComponent: groups, title: `${baseTitle} - Grupos`, canActivate: [authGuard] },
+  { path: 'calendar', loadComponent: calendar, title: `${baseTitle} - Calendario`, canActivate: [authGuard] },
+  { path: 'shared-files', loadComponent: sharedFiles, title: `${baseTitle} - Archivos Compartidos`, canActivate: [authGuard] },
   { path: 'learning', loadChildren: () =>
-  import('./learning/presentation/views/learning.routes').then(m => m.learningRoutes), canActivate: [AuthGuard]},
+  import('./learning/presentation/views/learning.routes').then(m => m.learningRoutes), canActivate: [authGuard]},
   { path: 'landing', redirectTo: '/', pathMatch: 'full' },
   { path: '**', loadComponent: pageNotFound, title: `${baseTitle} - Page Not Found` },
 ];

@@ -15,7 +15,6 @@ import { StatusSelector } from '../../components/status-selector/status-selector
 import { AssigneeSelector } from '../../components/assignee-selector/assignee-selector';
 import { MultiAssigneeSelector } from '../../components/multi-assignee-selector/multi-assignee-selector';
 import { ConfirmDeleteTaskModal } from '../../components/confirm-delete-task-modal/confirm-delete-task-modal';
-import { LottieAnimationComponent } from '../../components/lottie-animation/lottie-animation.component';
 import { EmptyStateComponent } from '../../components/empty-state/empty-state';
 import { GroupsService } from '../../../application/groups.service';
 import { TeamService } from '../../../application/team.service';
@@ -41,7 +40,6 @@ import { TeamService } from '../../../application/team.service';
     StatusSelector,
     AssigneeSelector,
     MultiAssigneeSelector,
-    LottieAnimationComponent,
     EmptyStateComponent,
     MatCheckboxModule
   ],
