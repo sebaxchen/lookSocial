@@ -58,9 +58,12 @@
   gap: 8px;
   padding: 8px 16px;
   border-radius: 6px;
-  transition: background 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
   background: transparent;
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
 }
 
 .nav-link:focus {
@@ -89,12 +92,37 @@
   color: var(--nav-color, #1a1a1a) !important;
 }
 
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.nav-link:hover::before {
+  left: 100%;
+}
+
 .nav-link:hover {
-  background: rgba(26, 26, 26, 0.1);
+  background: color-mix(in srgb, var(--nav-color, #1a1a1a) 10%, transparent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
 }
 
 .nav-link.active {
   background: color-mix(in srgb, var(--nav-color, #1a1a1a) 15%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  animation: activePulse 0.4s ease-out;
 }
 
 .nav-link.active,
@@ -107,12 +135,34 @@
   font-size: 20px;
   width: 20px;
   height: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1) rotate(0deg);
+}
+
+.nav-link:hover .nav-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.nav-link.active .nav-icon {
+  transform: scale(1.15) rotate(0deg);
+  animation: iconBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .nav-text {
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-link:hover .nav-text {
+  letter-spacing: 0.3px;
+}
+
+.nav-link.active .nav-text {
+  letter-spacing: 0.5px;
+  font-weight: 700;
 }
 
 /* Header Actions */
@@ -293,11 +343,14 @@
   gap: 12px;
   padding: 12px 16px;
   border-radius: 6px;
-  transition: background 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
   width: 100%;
   margin-bottom: 8px;
   font-size: 0.875rem;
+  position: relative;
+  overflow: hidden;
+  transform: translateX(0);
 }
 
 .mobile-nav-link:focus {
@@ -332,14 +385,37 @@
   color: var(--nav-color, #1a1a1a) !important;
 }
 
+.mobile-nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--nav-color, #1a1a1a);
+  transform: scaleY(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav-link:hover::before,
+.mobile-nav-link.active::before {
+  transform: scaleY(1);
+}
+
 .mobile-nav-link:hover {
   background-color: color-mix(in srgb, var(--nav-color, #1a1a1a) 10%, transparent);
+  transform: translateX(8px);
 }
 
 .mobile-nav-link:hover,
 .mobile-nav-link:hover .mobile-nav-icon,
 .mobile-nav-link:hover .mobile-nav-text {
   color: var(--nav-color, #1a1a1a) !important;
+}
+
+.mobile-nav-link:active {
+  transform: translateX(4px);
+  transition: transform 0.1s ease;
 }
 
 .nav-link:hover {
@@ -354,6 +430,8 @@
 
 .mobile-nav-link.active {
   background-color: color-mix(in srgb, var(--nav-color, #1a1a1a) 15%, transparent);
+  transform: translateX(8px);
+  animation: mobileActiveSlide 0.4s ease-out;
 }
 
 .mobile-nav-link.active,
@@ -366,10 +444,31 @@
   font-size: 24px;
   width: 24px;
   height: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
+}
+
+.mobile-nav-link:hover .mobile-nav-icon {
+  transform: scale(1.15);
+}
+
+.mobile-nav-link.active .mobile-nav-icon {
+  transform: scale(1.2);
+  animation: mobileIconBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .mobile-nav-text {
   font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav-link:hover .mobile-nav-text {
+  font-weight: 700;
+}
+
+.mobile-nav-link.active .mobile-nav-text {
+  font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 /* Mobile Session Timer */
@@ -513,6 +612,73 @@
   .logo-icon {
     width: 140px;
     height: 46px;
+  }
+}
+
+/* Animaciones para los botones de navegación */
+@keyframes activePulse {
+  0% {
+    transform: translateY(-1px) scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: translateY(-1px) scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+@keyframes iconBounce {
+  0% {
+    transform: scale(1.15) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.3) rotate(-10deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  75% {
+    transform: scale(1.25) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1.15) rotate(0deg);
+  }
+}
+
+@keyframes mobileActiveSlide {
+  0% {
+    transform: translateX(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(12px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(8px);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileIconBounce {
+  0% {
+    transform: scale(1.2);
+  }
+  25% {
+    transform: scale(1.4) rotate(-10deg);
+  }
+  50% {
+    transform: scale(1.3) rotate(10deg);
+  }
+  75% {
+    transform: scale(1.35) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1.2);
   }
 }
 

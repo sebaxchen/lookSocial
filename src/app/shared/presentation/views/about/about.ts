@@ -493,8 +493,14 @@ export class About {
   }
 
   updateNewTaskDueDate(dueDate: string): void {
-    const dueDateObj = dueDate ? new Date(dueDate) : undefined;
-    this.newTask.update(task => ({ ...task, dueDate: dueDateObj }));
+    if (dueDate) {
+      // Crear la fecha en hora local para evitar problemas de zona horaria
+      const [year, month, day] = dueDate.split('-').map(Number);
+      const dueDateObj = new Date(year, month - 1, day);
+      this.newTask.update(task => ({ ...task, dueDate: dueDateObj }));
+    } else {
+      this.newTask.update(task => ({ ...task, dueDate: undefined }));
+    }
     this.newTaskDueDateSignal.set(dueDate);
   }
 

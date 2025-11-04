@@ -36,34 +36,54 @@ export class TaskStore {
 
   // Actions - delegate to TaskService
   addTask(request: CreateTaskRequest): Task {
-    // For synchronous compatibility, we'll need to handle this differently
-    // Since TaskService uses async, we'll create a sync version
-    const repository = (this.taskService as any).taskRepository;
-    if (repository) {
-      const newTask: Task = {
-        id: this.generateId(),
-        title: request.title,
-        description: request.description || '',
-        status: request.status || 'not-started',
-        priority: request.priority || 'medium',
-        category: request.category,
-        assignee: request.assignee || '',
-        assignees: request.assignees || [],
-        dueDate: request.dueDate,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-
-      const tasksSignal = repository.getTasksSignal();
-      tasksSignal.update((currentTasks: Task[]) => {
-        const newTasks = [...currentTasks, newTask];
-        (repository as any).saveToStorage(newTasks);
-        return newTasks;
-      });
-      
-      return newTask;
+    // For synchronous compatibility, access repository directly
+    const repository = this.taskService.taskRepository;
+    
+    if (!repository) {
+      console.error('TaskRepository not available');
+      throw new Error('Repository not available');
     }
-    throw new Error('Repository not available');
+
+    // Access the internal writable signal directly
+    const tasksSignal = (repository as any).tasks;
+    
+    if (!tasksSignal) {
+      console.error('Tasks signal not available');
+      throw new Error('Tasks signal not available');
+    }
+
+    const newTask: Task = {
+      id: this.generateId(),
+      title: request.title,
+      description: request.description || '',
+      status: request.status || 'not-started',
+      priority: request.priority || 'medium',
+      category: request.category,
+      assignee: request.assignee || '',
+      assignees: request.assignees || [],
+      dueDate: request.dueDate,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    // Update the writable signal directly
+    tasksSignal.update((currentTasks: Task[]) => {
+      const newTasks = [...currentTasks, newTask];
+      // Save to storage using repository method
+      try {
+        (repository as any).saveToStorage(newTasks);
+      } catch (e) {
+        // Fallback: save directly to localStorage
+        try {
+          localStorage.setItem('tasks', JSON.stringify(newTasks));
+        } catch (storageError) {
+          console.error('Error saving to storage:', storageError);
+        }
+      }
+      return newTasks;
+    });
+    
+    return newTask;
   }
 
   updateTask(request: UpdateTaskRequest): void {

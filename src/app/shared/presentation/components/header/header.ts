@@ -38,21 +38,28 @@ export class Header {
   viewPreferencesService = inject(ViewPreferencesService);
 
   allOptions = [
-    { link: '/home', label: 'Inicio', icon: 'home', color: '#047857' },
-    { link: '/dashboard', label: 'Dashboard', icon: 'dashboard', color: '#7c3aed' },
-    { link: '/groups', label: 'Grupos', icon: 'groups', color: '#d97706' },
-    { link: '/about', label: 'Gestión de Tareas', icon: 'task', color: '#0891b2' },
-    { link: '/learning/categories', label: 'Colaboradores', icon: 'people', color: '#be185d' },
-    { link: '/shared-files', label: 'Archivos', icon: 'folder', color: '#ca8a04' },
-    { link: '/calendar', label: 'Calendario', icon: 'calendar_month', color: '#2563eb' }
+    { link: '/home', label: 'Inicio', icon: 'home', color: '#10b981' }, // Verde esmeralda vibrante
+    { link: '/dashboard', label: 'Dashboard', icon: 'dashboard', color: '#8b5cf6' }, // Púrpura vibrante
+    { link: '/groups', label: 'Grupos', icon: 'groups', color: '#f59e0b' }, // Ámbar cálido
+    { link: '/about', label: 'Gestión de Tareas', icon: 'task', color: '#06b6d4' }, // Cyan brillante
+    { link: '/learning/categories', label: 'Colaboradores', icon: 'people', color: '#ec4899' }, // Rosa vibrante
+    { link: '/shared-files', label: 'Archivos', icon: 'folder', color: '#f97316' }, // Naranja cálido
+    { link: '/calendar', label: 'Calendario', icon: 'calendar_month', color: '#3b82f6' } // Azul brillante
   ];
 
-  // Filtrar opciones basado en la visibilidad del home
+  // Filtrar opciones basado en la visibilidad del home y dashboard
   options = computed(() => {
-    if (this.viewPreferencesService.homeVisibility()) {
-      return this.allOptions;
+    let filtered = this.allOptions;
+    
+    if (!this.viewPreferencesService.homeVisibility()) {
+      filtered = filtered.filter(opt => opt.link !== '/home');
     }
-    return this.allOptions.filter(opt => opt.link !== '/home');
+    
+    if (!this.viewPreferencesService.dashboardVisibility()) {
+      filtered = filtered.filter(opt => opt.link !== '/dashboard');
+    }
+    
+    return filtered;
   });
 
   constructor(
