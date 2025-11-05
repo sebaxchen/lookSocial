@@ -1,4 +1,26 @@
 @if (showHeader()) {
   <app-header/>
 }
-<router-outlet/>
+<div class="main-content">
+  <router-outlet/>
+</div>
+<div class="right-sidebar">
+  <div class="right-sidebar-section">
+    <h2 class="right-sidebar-title">Etiquetas</h2>
+    <div class="right-sidebar-list">
+      @for (tag of tags; track tag.name) {
+        <div class="right-sidebar-list-item" (click)="onTagClick(tag.name)">
+          <div class="item-details">
+            <span class="item-category">{{ tag.category }}</span>
+            <span class="item-name">{{ tag.name }}</span>
+            <span class="item-count">{{ tag.count }} publicaciones</span>
+          </div>
+          <button class="item-options-btn" (click)="onTagOptions($event, tag.name)">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </div>
+      }
+    </div>
+    <button class="show-more-btn" (click)="mostrarMasEtiquetas()">Mostrar más</button>
+  </div>
+</div>

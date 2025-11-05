@@ -51,53 +51,25 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   views = [
     {
-      icon: 'home',
-      title: 'Inicio',
-      description: 'Tu centro de control principal. Crea y gestiona tus notas de forma rápida y eficiente.',
-      tags: ['Crear notas', 'Vista rápida'],
-      color: '#047857'
-    },
-    {
-      icon: 'dashboard',
-      title: 'Dashboard',
-      description: 'Visualiza métricas clave y estadísticas de tu productividad en tiempo real.',
-      tags: ['KPIs', 'Estadísticas'],
-      color: '#7c3aed'
-    },
-    {
-      icon: 'groups',
-      title: 'Grupos',
-      description: 'Organiza tu trabajo en grupos temáticos y colabora con tu equipo de manera eficiente.',
-      tags: ['Colaboración', 'Organización'],
-      color: '#d97706'
-    },
-    {
-      icon: 'task',
-      title: 'Gestión de Tareas',
-      description: 'Administra todas tus tareas, asigna responsables y sigue el progreso de cada proyecto.',
-      tags: ['Tareas', 'Asignaciones'],
-      color: '#0891b2'
-    },
-    {
       icon: 'people',
-      title: 'Colaboradores',
-      description: 'Gestiona tu equipo, visualiza el rendimiento individual y fomenta el crecimiento profesional.',
-      tags: ['Equipo', 'Rendimiento'],
-      color: '#be185d'
+      title: 'Amigos',
+      description: 'Gestiona tus amigos y conexiones. Mantén un registro de tus contactos y relaciones.',
+      tags: ['Amigos', 'Conexiones'],
+      color: '#2563EB'
     },
     {
-      icon: 'folder',
-      title: 'Archivos',
-      description: 'Comparte archivos de forma segura, organiza documentos y mantén todo accesible.',
-      tags: ['Archivos', 'Compartir'],
-      color: '#ca8a04'
+      icon: 'article',
+      title: 'Post',
+      description: 'Gestiona y visualiza tus publicaciones. Crea, edita y comparte tus posts.',
+      tags: ['Publicaciones', 'Compartir'],
+      color: '#DC2626'
     },
     {
-      icon: 'calendar_month',
-      title: 'Calendario',
-      description: 'Visualiza tus tareas y fechas importantes en un calendario interactivo y fácil de usar.',
-      tags: ['Vista mensual', 'Recordatorios'],
-      color: '#2563eb'
+      icon: 'label',
+      title: 'Etiquetas',
+      description: 'Organiza y gestiona tus etiquetas. Categoriza y encuentra contenido fácilmente.',
+      tags: ['Organización', 'Categorías'],
+      color: '#059669'
     }
   ];
 

@@ -1,0 +1,98 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="header-content">
+        <h2 class="modal-title">Nueva publicación</h2>
+        <span class="modal-subtitle">General</span>
+      </div>
+      <button class="close-btn" (click)="closeModal()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="modal-content">
+      <!-- Texto y enlaces de la publicación -->
+      <div class="form-section">
+        <div class="section-header">
+          <label class="section-label">Texto y enlaces de la publicación</label>
+          <button class="add-btn" type="button">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="text-input-wrapper">
+          <textarea 
+            class="text-input" 
+            [(ngModel)]="textoPublicacion"
+            placeholder="Escribe algo aquí..."
+            rows="8">
+          </textarea>
+          <div class="text-input-footer">
+            <div class="text-format-icon">
+              <mat-icon>text_fields</mat-icon>
+            </div>
+            <div class="text-input-icons">
+              <button class="icon-btn" type="button" title="Hashtag">
+                <mat-icon>tag</mat-icon>
+              </button>
+              <button class="icon-btn" type="button" title="Emoji">
+                <mat-icon>mood</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido multimedia -->
+      <div class="form-section">
+        <div class="section-header">
+          <label class="section-label">Contenido multimedia</label>
+        </div>
+        <p class="section-subtitle-text">Comparte fotos.</p>
+        <div class="multimedia-buttons">
+          <label class="multimedia-btn">
+            <input type="file" accept="image/*" multiple (change)="agregarFoto($event)" style="display: none;">
+            <mat-icon>camera_alt</mat-icon>
+            <span>Agregar foto</span>
+          </label>
+        </div>
+        
+        <!-- Preview de imágenes -->
+        @if (imagenesPreview.length > 0) {
+          <div class="images-preview">
+            @for (imagen of imagenesPreview; track $index) {
+              <div class="image-preview-item">
+                <img [src]="imagen" alt="Preview" class="preview-image">
+                <button class="remove-image-btn" (click)="eliminarImagen($index)" type="button">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Etiquetas -->
+      <div class="form-section">
+        <div class="section-header">
+          <label class="section-label">
+            Etiquetas
+            <span class="optional-badge">Opcional</span>
+          </label>
+        </div>
+        <button class="tag-btn" type="button" (click)="etiquetarPatrocinador()">
+          <mat-icon>local_offer</mat-icon>
+          <span>Etiquetar patrocinador</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button class="footer-btn cancel" (click)="closeModal()">Cancelar</button>
+      <button class="footer-btn publish" (click)="publicar()">Publicar</button>
+    </div>
+  </div>
+</div>
+

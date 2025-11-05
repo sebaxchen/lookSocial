@@ -1,104 +1,46 @@
 @if (authService.getIsAuthenticated()()) {
-  <mat-toolbar class="header-toolbar">
-    <mat-toolbar-row class="header-row">
-      <!-- Logo and Brand -->
-      <div class="brand-section">
-        <img src="/assets/Logo.png" class="logo-icon" alt="NoteTo Logo">
-      </div>
+  <aside class="sidebar">
+    <!-- Logo and Brand -->
+    <div class="sidebar-header">
+      <img src="/assets/Logo.png" class="logo-icon" alt="NoteTo Logo">
+    </div>
 
-      <!-- Desktop Navigation -->
-      <nav class="desktop-nav">
-        @for (option of options(); track option.label) {
-          <a 
-            mat-button 
-            [routerLink]="option.link" 
-            routerLinkActive="active"
-            class="nav-link"
-            [style.--nav-color]="option.color">
-            <mat-icon class="nav-icon">{{ option.icon }}</mat-icon>
-            <span class="nav-text">{{ option.label }}</span>
-          </a>
-        }
-      </nav>
-
-      <!-- Right Section -->
-      <div class="header-actions">
-        <!-- Session Timer -->
-        <div class="session-timer" [style.--timer-color]="getTimerColor()">
-          <mat-icon class="timer-icon">schedule</mat-icon>
-          <span class="timer-text">{{ getFormattedTime() }}</span>
-        </div>
-        <div class="divider"></div>
-        
-        <!-- User Info -->
-        <div class="user-info" (click)="openSettings()">
-          <div class="user-avatar" [style.background-color]="getUserColor()">
-            <span class="user-initials">{{ authService.getUserInitials() }}</span>
-          </div>
-          <div class="user-details">
-            <span class="user-name">{{ authService.getUserName() }}</span>
-            <span class="user-role">{{ authService.getUserRole() }}</span>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <button mat-icon-button (click)="logout()" class="logout-button" title="Cerrar sesión">
-          <mat-icon>logout</mat-icon>
-        </button>
-
-        
-        <!-- Mobile Menu Button -->
-        <button 
-          mat-icon-button 
-          class="mobile-menu-button"
-          (click)="toggleMenu()"
-          [attr.aria-label]="'Toggle menu'">
-          <mat-icon>{{ isMenuOpen ? 'close' : 'menu' }}</mat-icon>
-        </button>
-      </div>
-    </mat-toolbar-row>
-
-    <!-- Mobile Navigation Menu -->
-    <div class="mobile-nav" [class.open]="isMenuOpen">
-      <!-- Mobile Session Timer -->
-      <div class="mobile-session-timer" [style.--timer-color]="getTimerColor()">
-        <mat-icon class="mobile-timer-icon">schedule</mat-icon>
-        <span class="mobile-timer-text">{{ getFormattedTime() }}</span>
-      </div>
-      
-      <!-- Mobile User Info -->
-      <div class="mobile-user-info">
-        <div class="mobile-user-avatar" [style.background-color]="getUserColor()">
-          <span class="mobile-user-initials">{{ authService.getUserInitials() }}</span>
-        </div>
-        <div class="mobile-user-details">
-          <span class="mobile-user-name">{{ authService.getUserName() }}</span>
-          <span class="mobile-user-role">{{ authService.getUserRole() }}</span>
-        </div>
-        <button mat-icon-button (click)="logout()" class="mobile-logout-button" title="Cerrar sesión">
-          <mat-icon>logout</mat-icon>
-        </button>
-      </div>
-      
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
       @for (option of options(); track option.label) {
         <a 
           mat-button 
           [routerLink]="option.link" 
           routerLinkActive="active"
-          (click)="closeMenu()"
-          class="mobile-nav-link"
+          class="sidebar-link"
           [style.--nav-color]="option.color">
-          <mat-icon class="mobile-nav-icon">{{ option.icon }}</mat-icon>
-          <span class="mobile-nav-text">{{ option.label }}</span>
+          <mat-icon class="sidebar-icon">{{ option.icon }}</mat-icon>
+          <span class="sidebar-text">{{ option.label }}</span>
         </a>
       }
+    </nav>
+
+    <!-- Bottom Section -->
+    <div class="sidebar-footer">
+      <!-- User Info -->
+      <div class="sidebar-user-info" (click)="openSettings()">
+        <div class="sidebar-user-avatar" [style.background-color]="getUserColor()">
+          <span class="user-initials">{{ authService.getUserInitials() }}</span>
+        </div>
+        <div class="sidebar-user-details">
+          <span class="user-name">{{ authService.getUserName() }}</span>
+          <span class="user-role">{{ authService.getUserRole() }}</span>
+        </div>
+      </div>
+      
+      <button mat-icon-button (click)="logout()" class="sidebar-logout-button" title="Cerrar sesión">
+        <mat-icon>logout</mat-icon>
+      </button>
     </div>
-  </mat-toolbar>
+  </aside>
 
   <!-- Settings Modal -->
   @if (isSettingsOpen) {
     <app-settings-modal (close)="isSettingsOpen = false"></app-settings-modal>
   }
-
-  <!-- Break Modal -->
-  <app-break-modal></app-break-modal>
 }

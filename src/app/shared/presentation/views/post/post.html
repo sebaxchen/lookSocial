@@ -1,0 +1,103 @@
+<div class="post-container">
+  <div class="post-header">
+    <div class="post-title-section">
+      <h1>Post</h1>
+      <p>Gestiona y visualiza tus publicaciones</p>
+    </div>
+    <button mat-raised-button color="primary" class="action-button" (click)="publicarPost()">
+      <mat-icon>add</mat-icon>
+      Publicar Post
+    </button>
+  </div>
+
+  @if (isModalOpen) {
+    <app-publicar-post-modal 
+      (close)="closeModal()" 
+      (postPublished)="onPostPublished()">
+    </app-publicar-post-modal>
+  }
+
+  <!-- Lista de Posts -->
+  <div class="posts-list">
+    @if (posts().length === 0) {
+      <div class="empty-state">
+        <mat-icon class="empty-icon">article</mat-icon>
+        <p class="empty-text">No hay publicaciones aún</p>
+        <p class="empty-subtext">Comparte tus pensamientos o imágenes con tus amigos</p>
+      </div>
+    } @else {
+      @for (post of posts(); track post.id) {
+        <div class="post-card">
+          <!-- Post Header -->
+          <div class="post-header-card">
+            <div class="post-author-info">
+              <div class="post-avatar" [style.background-color]="getUserColor(post.autorNombre)">
+                <span class="post-avatar-initials">{{ getUserInitials(post.autorNombre) }}</span>
+              </div>
+              <div class="post-author-details">
+                <div class="post-author-name-row">
+                  <span class="post-author-name">{{ post.autorNombre }}</span>
+                  <span class="post-author-handle">@{{ getHandle(post.autorNombre) }}</span>
+                  <span class="post-time">· {{ formatearFecha(post.fecha) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-content">
+            @if (post.texto) {
+              <p class="post-text">{{ post.texto }}</p>
+            }
+            
+            @if (post.imagenes && post.imagenes.length > 0) {
+              <div class="post-images">
+                @if (post.imagenes.length === 1) {
+                  <img [src]="post.imagenes[0]" alt="Post image" class="post-image single">
+                } @else {
+                  <div class="post-images-grid" [class.two-images]="post.imagenes.length === 2" [class.three-images]="post.imagenes.length >= 3">
+                    @for (imagen of post.imagenes.slice(0, 4); track $index) {
+                      <img [src]="imagen" alt="Post image" class="post-image">
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+            @if (post.ubicacion) {
+              <div class="post-location">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ post.ubicacion }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="post-footer">
+            <button class="interaction-btn comment-btn" (click)="toggleComentario(post.id)">
+              <mat-icon>chat_bubble_outline</mat-icon>
+              <span class="interaction-count">{{ post.comentarios || 0 }}</span>
+            </button>
+            <button class="interaction-btn retweet-btn" (click)="toggleRetweet(post.id)">
+              <mat-icon>repeat</mat-icon>
+              <span class="interaction-count">{{ formatearNumero(post.retweets || 0) }}</span>
+            </button>
+            <button class="interaction-btn like-btn" [class.liked]="isLiked(post.id)" (click)="toggleLike(post.id)">
+              <mat-icon>{{ isLiked(post.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+              <span class="interaction-count">{{ formatearNumero(post.likes || 0) }}</span>
+            </button>
+            <button class="interaction-btn view-btn">
+              <mat-icon>bar_chart</mat-icon>
+              <span class="interaction-count">{{ formatearNumero(post.views || 0) }}</span>
+            </button>
+            <button class="interaction-btn bookmark-btn" [class.bookmarked]="isBookmarked(post.id)" (click)="toggleBookmark(post.id)">
+              <mat-icon>{{ isBookmarked(post.id) ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+            </button>
+            <button class="interaction-btn share-btn">
+              <mat-icon>share</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
+

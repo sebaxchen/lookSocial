@@ -1,12 +1,245 @@
 /* Layout specific styles */
 :host {
   display: flex;
+  flex-direction: row;
+  background: #f9fafb !important;
+  min-height: 100vh;
+  height: 100vh;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 320px;
+  margin-right: 400px;
+  display: block;
+  min-height: 100vh;
+  height: 100vh;
+  padding: 0;
+  padding-left: 24px;
+  padding-right: 12px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  position: relative;
+  top: 0;
+  max-width: calc(100% - 320px - 400px);
+}
+
+/* Estilo del scrollbar para que esté cerca del borde derecho */
+.main-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+  background-clip: padding-box;
+}
+
+/* Para Firefox */
+.main-content {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.right-sidebar {
+  width: 400px;
+  min-width: 400px;
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  position: fixed;
+  right: 0;
+  top: 0;
+  overflow-y: visible;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding: 12px 0;
+  display: flex;
   flex-direction: column;
-  background: #ffffff !important;
+}
+
+.right-sidebar-section {
+  background: #f7f9fa;
+  border-radius: 16px;
+  margin: 0 16px 16px 16px;
+  overflow: hidden;
+}
+
+.right-sidebar-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f1419;
+  padding: 16px 16px 12px 16px;
+  margin: 0;
+}
+
+.right-sidebar-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-sidebar-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #eff3f4;
+}
+
+.right-sidebar-list-item:last-child {
+  border-bottom: none;
+}
+
+.right-sidebar-list-item:hover {
+  background-color: #f7f9fa;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.item-category {
+  font-size: 0.8125rem;
+  color: #536471;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.item-name {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #0f1419;
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.item-count {
+  font-size: 0.8125rem;
+  color: #536471;
+  margin-top: 2px;
+  line-height: 1.2;
+}
+
+.item-options-btn {
+  background: transparent;
+  border: none;
+  color: #536471;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.item-options-btn:hover {
+  background-color: #1d9bf0;
+  color: #ffffff;
+}
+
+.item-options-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.show-more-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #1d9bf0;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  padding: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-top: 1px solid #eff3f4;
+}
+
+.show-more-btn:hover {
+  background-color: #f7f9fa;
 }
 
 router-outlet {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: contents;
+}
+
+/* Forzar que TODOS los componentes dentro del router-outlet no tengan margin-top */
+:host ::ng-deep router-outlet > *,
+:host ::ng-deep router-outlet > * > * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Aplicar estilos directamente a los componentes de las vistas */
+:host ::ng-deep app-post,
+:host ::ng-deep app-amigos,
+:host ::ng-deep app-etiquetas {
+  display: block;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  width: 100%;
+}
+
+:host ::ng-deep .post-container,
+:host ::ng-deep .amigos-container,
+:host ::ng-deep .etiquetas-container {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .right-sidebar {
+    display: none;
+  }
+  
+  .main-content {
+    max-width: calc(100% - 320px);
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 240px;
+    padding: 16px;
+    max-width: calc(100% - 240px);
+  }
+  
+  .sidebar {
+    width: 240px;
+  }
 }
