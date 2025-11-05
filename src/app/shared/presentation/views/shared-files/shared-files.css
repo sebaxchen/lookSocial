@@ -3,7 +3,45 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px;
-  min-height: 100vh;
+  height: calc(100vh - 72px - 48px); /* Altura del viewport menos header y padding extra */
+  max-height: calc(100vh - 72px - 48px);
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Ocultar TODAS las barras de desplazamiento en shared files */
+.files-container,
+.files-container *,
+.files-container *::before,
+.files-container *::after {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.files-container::-webkit-scrollbar,
+.files-container *::-webkit-scrollbar,
+.files-container *::before::-webkit-scrollbar,
+.files-container *::after::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Ocultar scrollbar en el body cuando está en la ruta de shared files */
+:host ::ng-deep body,
+:host ::ng-deep html {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+:host ::ng-deep body::-webkit-scrollbar,
+:host ::ng-deep html::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .files-container.no-files {
@@ -85,6 +123,10 @@
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
   padding: 0;
+  max-height: calc(100vh - 72px - 120px); /* Altura menos header y padding del contenedor */
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
 }
 
 .files-grid-container.drag-over {
@@ -608,6 +650,16 @@
   padding: 24px;
   overflow-y: auto;
   max-height: 400px;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.dialog-content::-webkit-scrollbar,
+.upload-dialog .dialog-content::-webkit-scrollbar,
+.share-dialog .dialog-content::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .upload-area {
@@ -820,6 +872,14 @@
   padding: 8px;
   background: #fafbfc;
   border-radius: 6px;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.selection-list::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .selection-item {
@@ -1023,5 +1083,59 @@
     width: 24px;
     height: 24px;
   }
+}
+
+/* OCULTAR TODAS LAS BARRAS DE DESPLAZAMIENTO - ESTILOS GLOBALES */
+:host,
+:host *,
+:host *::before,
+:host *::after,
+app-shared-files,
+app-shared-files *,
+app-shared-files *::before,
+app-shared-files *::after {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+:host ::ng-deep *,
+:host ::ng-deep router-outlet,
+:host ::ng-deep router-outlet * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+:host::-webkit-scrollbar,
+:host *::-webkit-scrollbar,
+:host *::before::-webkit-scrollbar,
+:host *::after::-webkit-scrollbar,
+app-shared-files::-webkit-scrollbar,
+app-shared-files *::-webkit-scrollbar,
+:host ::ng-deep *::-webkit-scrollbar,
+:host ::ng-deep router-outlet::-webkit-scrollbar,
+:host ::ng-deep router-outlet *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+html,
+body,
+:host ::ng-deep html,
+:host ::ng-deep body {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+:host ::ng-deep html::-webkit-scrollbar,
+:host ::ng-deep body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 

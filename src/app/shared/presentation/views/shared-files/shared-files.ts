@@ -36,7 +36,12 @@ export interface SharedFile {
     EmptyStateComponent
   ],
   templateUrl: './shared-files.html',
-  styleUrl: './shared-files.css'
+  styleUrl: './shared-files.css',
+  host: {
+    '[style.overflow]': '"hidden"',
+    '[style.scrollbar-width]': '"none"',
+    '[style.-ms-overflow-style]': '"none"'
+  }
 })
 export class SharedFilesComponent {
   authService = inject(AuthService);
