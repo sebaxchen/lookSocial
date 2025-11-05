@@ -57,18 +57,32 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
-  background: transparent;
+  /* Efecto liquid glass */
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   position: relative;
   overflow: hidden;
   transform: translateY(0);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .nav-link:focus {
   outline: none;
-  background: color-mix(in srgb, var(--nav-color, #1a1a1a) 10%, transparent);
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 0 0 2px color-mix(in srgb, var(--nav-color, #1a1a1a) 20%, transparent);
 }
 
 /* Eliminar efectos azules de Angular Material */
@@ -76,8 +90,61 @@
 .nav-link.mat-button:active,
 .nav-link.mat-button:focus-visible {
   outline: none !important;
-  background: color-mix(in srgb, var(--nav-color, #1a1a1a) 10%, transparent) !important;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   color: var(--nav-color, #1a1a1a) !important;
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 0 0 2px color-mix(in srgb, var(--nav-color, #1a1a1a) 20%, transparent) !important;
+}
+
+/* Eliminar efecto ripple azul de Angular Material */
+.nav-link ::ng-deep .mat-ripple-element,
+.nav-link.mat-button ::ng-deep .mat-ripple-element {
+  background-color: transparent !important;
+  opacity: 0 !important;
+}
+
+.nav-link.mat-button ::ng-deep .mat-button-ripple {
+  display: none !important;
+}
+
+.nav-link.mat-button ::ng-deep .mat-button-focus-overlay {
+  background-color: transparent !important;
+  opacity: 0 !important;
+}
+
+/* Eliminar cualquier efecto azul adicional */
+.nav-link.mat-button ::ng-deep .mat-button-ripple.mat-ripple-element {
+  background: transparent !important;
+}
+
+.nav-link.mat-button ::ng-deep .mat-ripple {
+  background: transparent !important;
+}
+
+/* Eliminar efecto azul al hacer click */
+.nav-link.mat-button:not([disabled]):active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Eliminar overlay azul de Angular Material */
+.nav-link ::ng-deep .mat-button-focus-overlay {
+  background-color: transparent !important;
+}
+
+/* Asegurar que no haya efectos azules en ningún estado */
+.nav-link.mat-button.cdk-focused,
+.nav-link.mat-button.cdk-program-focused,
+.nav-link.mat-button.cdk-keyboard-focused {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 
 .nav-link.mat-button:focus .nav-icon,
@@ -108,9 +175,14 @@
 }
 
 .nav-link:hover {
-  background: color-mix(in srgb, var(--nav-color, #1a1a1a) 12%, transparent);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .nav-link:hover .nav-icon,
@@ -121,12 +193,25 @@
 .nav-link:active {
   transform: translateY(0);
   transition: transform 0.1s ease;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 4px 16px 0 rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .nav-link.active {
-  background: color-mix(in srgb, var(--nav-color, #1a1a1a) 18%, transparent);
+  background: color-mix(in srgb, var(--nav-color, #6366f1) 15%, rgba(255, 255, 255, 0.3));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 10px 36px 0 rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 0 0 1px color-mix(in srgb, var(--nav-color, #1a1a1a) 15%, transparent);
   animation: activePulse 0.4s ease-out;
 }
 
@@ -626,15 +711,24 @@
 @keyframes activePulse {
   0% {
     transform: translateY(-1px) scale(1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(14px);
+    box-shadow: 
+      0 10px 36px 0 rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
   50% {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(16px);
+    box-shadow: 
+      0 14px 44px 0 rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
   100% {
     transform: translateY(-1px) scale(1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(14px);
+    box-shadow: 
+      0 10px 36px 0 rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 }
 
