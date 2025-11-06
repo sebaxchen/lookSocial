@@ -2,28 +2,32 @@
   <div class="post-header">
     <div class="post-title-section">
       <h1>Post</h1>
-      <p>Gestiona y visualiza tus publicaciones</p>
+      @if (etiquetaFiltroActiva()) {
+        <div class="filtro-activo">
+          <p>Mostrando publicaciones con la etiqueta <strong>#{{ etiquetaFiltroActiva() }}</strong></p>
+          <button class="limpiar-filtro-btn" (click)="limpiarFiltro()">
+            <mat-icon>close</mat-icon>
+            Limpiar filtro
+          </button>
+        </div>
+      } @else {
+        <p>Gestiona y visualiza tus publicaciones</p>
+      }
     </div>
-    <button mat-raised-button color="primary" class="action-button" (click)="publicarPost()">
-      <mat-icon>add</mat-icon>
-      Publicar Post
-    </button>
   </div>
-
-  @if (isModalOpen) {
-    <app-publicar-post-modal 
-      (close)="closeModal()" 
-      (postPublished)="onPostPublished()">
-    </app-publicar-post-modal>
-  }
 
   <!-- Lista de Posts -->
   <div class="posts-list">
     @if (posts().length === 0) {
       <div class="empty-state">
-        <mat-icon class="empty-icon">article</mat-icon>
-        <p class="empty-text">No hay publicaciones aún</p>
-        <p class="empty-subtext">Comparte tus pensamientos o imágenes con tus amigos</p>
+        <mat-icon class="empty-icon">{{ etiquetaFiltroActiva() ? 'label_off' : 'article' }}</mat-icon>
+        @if (etiquetaFiltroActiva()) {
+          <p class="empty-text">No hay publicaciones con esta etiqueta</p>
+          <p class="empty-subtext">Intenta con otra etiqueta o crea un post con #{{ etiquetaFiltroActiva() }}</p>
+        } @else {
+          <p class="empty-text">No hay publicaciones aún</p>
+          <p class="empty-subtext">Comparte tus pensamientos o imágenes con tus amigos</p>
+        }
       </div>
     } @else {
       @for (post of posts(); track post.id) {

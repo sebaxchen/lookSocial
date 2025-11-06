@@ -28,6 +28,9 @@ export class PublicarPostModal {
   // Archivos multimedia seleccionados
   fotosSeleccionadas: File[] = [];
   imagenesPreview: string[] = []; // URLs base64 para preview
+  
+  // Etiquetas detectadas
+  etiquetas: string[] = [];
 
   closeModal() {
     this.limpiarFormulario();
@@ -38,6 +41,35 @@ export class PublicarPostModal {
     this.textoPublicacion = '';
     this.fotosSeleccionadas = [];
     this.imagenesPreview = [];
+    this.etiquetas = [];
+  }
+
+  detectarEtiquetas() {
+    // Detectar hashtags en el texto (#palabra)
+    const hashtagRegex = /#(\w+)/g;
+    const matches = this.textoPublicacion.matchAll(hashtagRegex);
+    const etiquetasEncontradas = new Set<string>();
+    
+    for (const match of matches) {
+      const etiqueta = match[1].toLowerCase(); // Convertir a minúsculas para consistencia
+      if (etiqueta.length > 0) {
+        etiquetasEncontradas.add(etiqueta);
+      }
+    }
+    
+    this.etiquetas = Array.from(etiquetasEncontradas);
+  }
+
+  eliminarEtiqueta(etiqueta: string) {
+    // Eliminar la etiqueta del array
+    this.etiquetas = this.etiquetas.filter(e => e !== etiqueta);
+    
+    // Eliminar el hashtag del texto (todas las ocurrencias)
+    const regex = new RegExp(`#${etiqueta}\\b`, 'gi');
+    this.textoPublicacion = this.textoPublicacion.replace(regex, '');
+    
+    // Re-detectamos las etiquetas restantes
+    this.detectarEtiquetas();
   }
 
   async agregarFoto(event: any) {
@@ -85,10 +117,15 @@ export class PublicarPostModal {
       return;
     }
 
-    // Publicar el post
+    // Asegurar que las etiquetas estén actualizadas
+    this.detectarEtiquetas();
+
+    // Publicar el post con etiquetas
     this.postService.publicarPost(
       this.textoPublicacion.trim(),
-      this.imagenesPreview
+      this.imagenesPreview,
+      undefined,
+      this.etiquetas
     );
 
     // Emitir evento y cerrar modal

@@ -427,31 +427,74 @@
   border-color: #1a1a1a;
 }
 
-/* Tag Button */
-.tag-btn {
+/* Tags Container */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tag-chip {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #e0f2fe;
+  border: 1px solid #0ea5e9;
+  border-radius: 20px;
   font-size: 0.875rem;
-  font-weight: 500;
-  color: #1a1a1a;
+  color: #0369a1;
+  transition: all 0.2s ease;
 }
 
-.tag-btn:hover {
-  background: #f9fafb;
-  border-color: #9ca3af;
+.tag-chip:hover {
+  background: #bae6fd;
+  border-color: #0284c7;
 }
 
-.tag-btn mat-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
+.tag-hash {
+  font-weight: 700;
+  color: #0ea5e9;
+}
+
+.tag-name {
+  font-weight: 600;
+  color: #0369a1;
+}
+
+.tag-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 2px;
+  margin-left: 4px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  transition: all 0.2s ease;
+  color: #0369a1;
+}
+
+.tag-remove-btn:hover {
+  background: #0ea5e9;
+  color: #ffffff;
+}
+
+.tag-remove-btn mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.no-tags-message {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
 }
 
 /* Footer */

@@ -22,6 +22,12 @@
 
     <!-- Bottom Section -->
     <div class="sidebar-footer">
+      <!-- Post Button -->
+      <button mat-raised-button color="primary" class="sidebar-post-button" (click)="publicarPost()">
+        <mat-icon>add</mat-icon>
+        Publicar Post
+      </button>
+      
       <!-- User Info -->
       <div class="sidebar-user-info" (click)="openSettings()">
         <div class="sidebar-user-avatar" [style.background-color]="getUserColor()">
@@ -42,5 +48,13 @@
   <!-- Settings Modal -->
   @if (isSettingsOpen) {
     <app-settings-modal (close)="isSettingsOpen = false"></app-settings-modal>
+  }
+
+  <!-- Publicar Post Modal -->
+  @if (isModalOpen) {
+    <app-publicar-post-modal 
+      (close)="closeModal()" 
+      (postPublished)="onPostPublished()">
+    </app-publicar-post-modal>
   }
 }

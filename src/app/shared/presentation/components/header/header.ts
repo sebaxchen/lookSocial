@@ -1,11 +1,12 @@
 import { Component, inject, ChangeDetectionStrategy, computed } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../application/user.service';
 import { AuthService } from '../../../application/auth.service';
 import { SettingsModal } from '../settings-modal/settings-modal';
+import { PublicarPostModal } from '../publicar-post-modal/publicar-post-modal';
 import { TeamService } from '../../../application/team.service';
 import { ViewPreferencesService } from '../../../application/view-preferences.service';
 
@@ -15,17 +16,20 @@ import { ViewPreferencesService } from '../../../application/view-preferences.se
   imports: [
     CommonModule,
     MatButton,
+    MatButtonModule,
     MatIcon,
     RouterLink,
     RouterLinkActive,
-    SettingsModal
+    SettingsModal,
+    PublicarPostModal
   ],
   templateUrl: './header.html',
   styleUrl: './header.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class Header {
   isSettingsOpen = false;
+  isModalOpen = false;
   private teamService = inject(TeamService);
   viewPreferencesService = inject(ViewPreferencesService);
 
@@ -57,5 +61,17 @@ export class Header {
   getUserColor(): string {
     const userName = this.authService.getUserName();
     return this.teamService.getMemberColor(userName);
+  }
+
+  publicarPost() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
+
+  onPostPublished() {
+    this.closeModal();
   }
 }

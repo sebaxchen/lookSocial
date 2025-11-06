@@ -192,6 +192,24 @@
   background-color: #f7f9fa;
 }
 
+.no-tags-message {
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.no-tags-message p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.no-tags-subtitle {
+  margin-top: 8px !important;
+  font-size: 0.8125rem !important;
+  color: #9ca3af !important;
+  font-style: italic;
+}
+
 router-outlet {
   display: contents;
 }

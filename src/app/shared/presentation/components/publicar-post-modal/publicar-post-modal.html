@@ -25,7 +25,8 @@
           <textarea 
             class="text-input" 
             [(ngModel)]="textoPublicacion"
-            placeholder="Escribe algo aquí..."
+            (ngModelChange)="detectarEtiquetas()"
+            placeholder="Escribe algo aquí... Usa #palabra para crear etiquetas"
             rows="8">
           </textarea>
           <div class="text-input-footer">
@@ -81,10 +82,23 @@
             <span class="optional-badge">Opcional</span>
           </label>
         </div>
-        <button class="tag-btn" type="button" (click)="etiquetarPatrocinador()">
-          <mat-icon>local_offer</mat-icon>
-          <span>Etiquetar patrocinador</span>
-        </button>
+        <p class="section-subtitle-text">Escribe #palabra en el texto para crear etiquetas automáticamente.</p>
+        
+        @if (etiquetas.length > 0) {
+          <div class="tags-container">
+            @for (etiqueta of etiquetas; track etiqueta) {
+              <div class="tag-chip">
+                <span class="tag-hash">#</span>
+                <span class="tag-name">{{ etiqueta }}</span>
+                <button class="tag-remove-btn" type="button" (click)="eliminarEtiqueta(etiqueta)" title="Eliminar etiqueta">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="no-tags-message">No hay etiquetas. Escribe #palabra en el texto para crear una.</p>
+        }
       </div>
     </div>
 

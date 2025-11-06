@@ -1,4 +1,4 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, computed } from '@angular/core';
 import { AuthService } from './auth.service';
 
 export interface Post {
@@ -8,6 +8,7 @@ export interface Post {
   fecha: Date;
   ubicacion?: string;
   autorNombre: string;
+  etiquetas?: string[]; // Array de etiquetas (hashtags)
   comentarios?: number;
   retweets?: number;
   likes?: number;
@@ -20,10 +21,29 @@ export interface Post {
 export class PostService {
   private authService = inject(AuthService);
   private postsSignal = signal<Post[]>([]);
+  private etiquetaFiltroSignal = signal<string | null>(null);
   
   readonly posts = this.postsSignal.asReadonly();
+  readonly etiquetaFiltro = this.etiquetaFiltroSignal.asReadonly();
+  
+  // Posts filtrados por etiqueta
+  readonly postsFiltrados = computed(() => {
+    const posts = this.postsSignal();
+    const etiquetaFiltro = this.etiquetaFiltroSignal();
+    
+    if (!etiquetaFiltro) {
+      return posts;
+    }
+    
+    return posts.filter(post => 
+      post.etiquetas && 
+      post.etiquetas.some(etiqueta => 
+        etiqueta.toLowerCase() === etiquetaFiltro.toLowerCase()
+      )
+    );
+  });
 
-  publicarPost(texto: string, imagenes: string[] = [], ubicacion?: string): void {
+  publicarPost(texto: string, imagenes: string[] = [], ubicacion?: string, etiquetas: string[] = []): void {
     const nuevoPost: Post = {
       id: Date.now().toString(),
       texto,
@@ -31,6 +51,7 @@ export class PostService {
       fecha: new Date(),
       ubicacion,
       autorNombre: this.authService.getUserName(),
+      etiquetas: etiquetas.length > 0 ? etiquetas : undefined,
       comentarios: 0,
       retweets: 0,
       likes: 0,
@@ -72,6 +93,35 @@ export class PostService {
           : post
       )
     );
+  }
+
+  obtenerTodasLasEtiquetas(): { nombre: string; count: number }[] {
+    const posts = this.postsSignal();
+    const etiquetasMap = new Map<string, number>();
+
+    // Recorrer todos los posts y contar etiquetas
+    posts.forEach(post => {
+      if (post.etiquetas && post.etiquetas.length > 0) {
+        post.etiquetas.forEach(etiqueta => {
+          const etiquetaLower = etiqueta.toLowerCase();
+          const count = etiquetasMap.get(etiquetaLower) || 0;
+          etiquetasMap.set(etiquetaLower, count + 1);
+        });
+      }
+    });
+
+    // Convertir a array y ordenar por cantidad (mayor a menor)
+    return Array.from(etiquetasMap.entries())
+      .map(([nombre, count]) => ({ nombre, count }))
+      .sort((a, b) => b.count - a.count);
+  }
+
+  filtrarPorEtiqueta(etiqueta: string | null): void {
+    this.etiquetaFiltroSignal.set(etiqueta);
+  }
+
+  limpiarFiltro(): void {
+    this.etiquetaFiltroSignal.set(null);
   }
 }
 

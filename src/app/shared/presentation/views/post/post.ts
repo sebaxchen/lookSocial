@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { PublicarPostModal } from '../../components/publicar-post-modal/publicar-post-modal';
 import { PostService } from '../../../application/post.service';
 import { AuthService } from '../../../application/auth.service';
 import { TeamService } from '../../../application/team.service';
@@ -13,8 +12,7 @@ import { TeamService } from '../../../application/team.service';
   imports: [
     CommonModule,
     MatButtonModule,
-    MatIconModule,
-    PublicarPostModal
+    MatIconModule
   ],
   templateUrl: './post.html',
   styleUrl: './post.css',
@@ -25,8 +23,16 @@ export class PostComponent {
   private authService = inject(AuthService);
   private teamService = inject(TeamService);
   
-  isModalOpen = false;
-  posts = this.postService.posts;
+  // Usar posts filtrados si hay un filtro activo, sino todos los posts
+  posts = computed(() => {
+    const etiquetaFiltro = this.postService.etiquetaFiltro();
+    if (etiquetaFiltro) {
+      return this.postService.postsFiltrados();
+    }
+    return this.postService.posts();
+  });
+  
+  etiquetaFiltroActiva = this.postService.etiquetaFiltro;
 
   getUserInitials(nombre: string): string {
     return nombre.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
@@ -38,19 +44,6 @@ export class PostComponent {
 
   getHandle(nombre: string): string {
     return nombre.toLowerCase().replace(/\s+/g, '');
-  }
-
-  publicarPost() {
-    this.isModalOpen = true;
-  }
-
-  closeModal() {
-    this.isModalOpen = false;
-  }
-
-  onPostPublished() {
-    // El post ya fue publicado por el servicio, solo cerramos el modal
-    this.closeModal();
   }
 
   eliminarPost(postId: string) {
@@ -130,6 +123,10 @@ export class PostComponent {
 
   toggleRetweet(postId: string) {
     this.postService.incrementarRetweet(postId);
+  }
+
+  limpiarFiltro() {
+    this.postService.limpiarFiltro();
   }
 }
 

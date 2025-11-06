@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { Header } from '../header/header';
 import { AuthService } from '../../../application/auth.service';
+import { PostService } from '../../../application/post.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { signal } from '@angular/core';
@@ -21,17 +22,20 @@ import { filter } from 'rxjs/operators';
 })
 export class Layout {
   showHeader = signal(true);
+  private postService = inject(PostService);
 
-  tags = [
-    { name: '#Angular', category: 'Tecnología · Tendencia', count: '12,5 mil' },
-    { name: '#DesarrolloWeb', category: 'Programación · Tendencia', count: '8,9 mil' },
-    { name: '#IA', category: 'Ciencia · Tendencia', count: '25,1 mil' },
-    { name: '#Frontend', category: 'Diseño · Tendencia', count: '5,2 mil' },
-    { name: '#TypeScript', category: 'Lenguajes · Tendencia', count: '7,3 mil' },
-    { name: '#React', category: 'Tecnología · Tendencia', count: '15,8 mil' },
-    { name: '#VueJS', category: 'Frameworks · Tendencia', count: '4,1 mil' },
-    { name: '#NodeJS', category: 'Backend · Tendencia', count: '9,7 mil' }
-  ];
+  // Obtener etiquetas reales de los posts
+  tags = computed(() => {
+    // Leer el signal de posts para que el computed se actualice cuando cambien
+    const posts = this.postService.posts();
+    const etiquetas = this.postService.obtenerTodasLasEtiquetas();
+    // Convertir al formato que espera el HTML
+    return etiquetas.map(etiqueta => ({
+      name: `#${etiqueta.nombre}`,
+      category: 'Etiqueta · Tendencia',
+      count: this.formatearNumero(etiqueta.count)
+    }));
+  });
   
   constructor(public authService: AuthService, private router: Router) {
     // Initialize header visibility on first load
@@ -59,8 +63,12 @@ export class Layout {
   }
 
   onTagClick(tagName: string) {
-    console.log('Tag clicked:', tagName);
-    // TODO: Navegar a la vista de etiquetas o filtrar por etiqueta
+    // Extraer el nombre de la etiqueta (sin el #)
+    const etiquetaNombre = tagName.replace('#', '').toLowerCase();
+    // Establecer el filtro de etiqueta
+    this.postService.filtrarPorEtiqueta(etiquetaNombre);
+    // Navegar a la vista de etiquetas
+    this.router.navigate(['/etiquetas']);
   }
 
   onTagOptions(event: Event, tagName: string) {
@@ -72,5 +80,22 @@ export class Layout {
   mostrarMasEtiquetas() {
     console.log('Mostrar más etiquetas');
     // TODO: Cargar más etiquetas
+  }
+
+  formatearNumero(num: number): string {
+    if (num === 0) return '0';
+    if (num < 1000) return num.toString();
+    if (num < 1000000) {
+      const miles = num / 1000;
+      if (miles % 1 === 0) {
+        return `${miles} mil`;
+      }
+      return `${miles.toFixed(1)} mil`;
+    }
+    const millones = num / 1000000;
+    if (millones % 1 === 0) {
+      return `${millones} M`;
+    }
+    return `${millones.toFixed(1)} M`;
   }
 }

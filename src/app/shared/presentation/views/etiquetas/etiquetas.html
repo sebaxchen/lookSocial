@@ -1,5 +1,127 @@
 <div class="etiquetas-container">
-  <h1>Etiquetas</h1>
-  <p>Organiza y gestiona tus etiquetas</p>
+  <div class="etiquetas-header">
+    <div class="etiquetas-title-section">
+      @if (etiquetaFiltroActiva()) {
+        <button class="back-button" (click)="regresarALista()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="filtro-header">
+          <h1>#{{ etiquetaFiltroActiva() }}</h1>
+          <p>{{ postsFiltrados().length }} {{ postsFiltrados().length === 1 ? 'publicación' : 'publicaciones' }}</p>
+        </div>
+      } @else {
+        <h1>Etiquetas</h1>
+        <p>Organiza y gestiona tus etiquetas</p>
+      }
+    </div>
+  </div>
+
+  @if (etiquetaFiltroActiva()) {
+    <!-- Lista de Posts Filtrados -->
+    <div class="posts-list">
+      @if (postsFiltrados().length === 0) {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">label_off</mat-icon>
+          <p class="empty-text">No hay publicaciones con esta etiqueta</p>
+          <p class="empty-subtext">Intenta con otra etiqueta o crea un post con #{{ etiquetaFiltroActiva() }}</p>
+        </div>
+      } @else {
+        @for (post of postsFiltrados(); track post.id) {
+          <div class="post-card">
+            <!-- Post Header -->
+            <div class="post-header-card">
+              <div class="post-author-info">
+                <div class="post-avatar" [style.background-color]="getUserColor(post.autorNombre)">
+                  <span class="post-avatar-initials">{{ getUserInitials(post.autorNombre) }}</span>
+                </div>
+                <div class="post-author-details">
+                  <div class="post-author-name-row">
+                    <span class="post-author-name">{{ post.autorNombre }}</span>
+                    <span class="post-author-handle">@{{ getHandle(post.autorNombre) }}</span>
+                    <span class="post-time">· {{ formatearFecha(post.fecha) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="post-content">
+              @if (post.texto) {
+                <p class="post-text">{{ post.texto }}</p>
+              }
+              
+              @if (post.imagenes && post.imagenes.length > 0) {
+                <div class="post-images">
+                  @if (post.imagenes.length === 1) {
+                    <img [src]="post.imagenes[0]" alt="Post image" class="post-image single">
+                  } @else {
+                    <div class="post-images-grid" [class.two-images]="post.imagenes.length === 2" [class.three-images]="post.imagenes.length >= 3">
+                      @for (imagen of post.imagenes.slice(0, 4); track $index) {
+                        <img [src]="imagen" alt="Post image" class="post-image">
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="post-footer">
+              <button class="interaction-btn comment-btn" (click)="toggleComentario(post.id)">
+                <mat-icon>chat_bubble_outline</mat-icon>
+                <span class="interaction-count">{{ post.comentarios || 0 }}</span>
+              </button>
+              <button class="interaction-btn retweet-btn" (click)="toggleRetweet(post.id)">
+                <mat-icon>repeat</mat-icon>
+                <span class="interaction-count">{{ formatearNumero(post.retweets || 0) }}</span>
+              </button>
+              <button class="interaction-btn like-btn" [class.liked]="isLiked(post.id)" (click)="toggleLike(post.id)">
+                <mat-icon>{{ isLiked(post.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+                <span class="interaction-count">{{ formatearNumero(post.likes || 0) }}</span>
+              </button>
+              <button class="interaction-btn view-btn">
+                <mat-icon>bar_chart</mat-icon>
+                <span class="interaction-count">{{ formatearNumero(post.views || 0) }}</span>
+              </button>
+              <button class="interaction-btn bookmark-btn" [class.bookmarked]="isBookmarked(post.id)" (click)="toggleBookmark(post.id)">
+                <mat-icon>{{ isBookmarked(post.id) ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+              </button>
+              <button class="interaction-btn share-btn">
+                <mat-icon>share</mat-icon>
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  } @else {
+    <!-- Lista de Etiquetas -->
+    <div class="etiquetas-list">
+      @if (etiquetas().length === 0) {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">label_off</mat-icon>
+          <p class="empty-text">No hay etiquetas aún</p>
+          <p class="empty-subtext">Crea posts con #palabra para generar etiquetas</p>
+        </div>
+      } @else {
+        @for (etiqueta of etiquetas(); track etiqueta.nombre) {
+          <div class="etiqueta-card" (click)="verPostsPorEtiqueta(etiqueta.nombre)">
+            <div class="etiqueta-content">
+              <div class="etiqueta-icon">
+                <mat-icon>tag</mat-icon>
+              </div>
+              <div class="etiqueta-info">
+                <h3 class="etiqueta-nombre">#{{ etiqueta.nombre }}</h3>
+                <p class="etiqueta-count">{{ etiqueta.count }} {{ etiqueta.count === 1 ? 'publicación' : 'publicaciones' }}</p>
+              </div>
+            </div>
+            <div class="etiqueta-actions">
+              <button class="etiqueta-action-btn" (click)="$event.stopPropagation()" title="Ver publicaciones">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  }
 </div>
 
