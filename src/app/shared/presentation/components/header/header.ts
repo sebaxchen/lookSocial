@@ -34,9 +34,10 @@ export class Header {
   viewPreferencesService = inject(ViewPreferencesService);
 
   allOptions = [
-    { link: '/amigos', label: 'Amigos', icon: 'people', color: '#2563EB' }, // Azul
     { link: '/post', label: 'Post', icon: 'article', color: '#DC2626' }, // Rojo
-    { link: '/etiquetas', label: 'Etiquetas', icon: 'label', color: '#059669' } // Verde esmeralda
+    { link: '/amigos', label: 'Amigos', icon: 'people', color: '#2563EB' }, // Azul
+    { link: '/etiquetas', label: 'Etiquetas', icon: 'label', color: '#059669' }, // Verde esmeralda
+    { link: '/perfil', label: 'Perfil', icon: 'person', color: '#f97316' } // Naranja
   ];
 
   // Las opciones ahora son fijas

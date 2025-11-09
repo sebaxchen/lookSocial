@@ -2,7 +2,7 @@
   <aside class="sidebar">
     <!-- Logo and Brand -->
     <div class="sidebar-header">
-      <img src="/assets/Logo.png" class="logo-icon" alt="NoteTo Logo">
+    <img src="/assets/animations/logo.jpg" class="logo-icon" alt="LookSocial Logo">
     </div>
 
     <!-- Navigation -->
@@ -29,7 +29,7 @@
       </button>
       
       <!-- User Info -->
-      <div class="sidebar-user-info" (click)="openSettings()">
+      <div class="sidebar-user-info">
         <div class="sidebar-user-avatar" [style.background-color]="getUserColor()">
           <span class="user-initials">{{ authService.getUserInitials() }}</span>
         </div>

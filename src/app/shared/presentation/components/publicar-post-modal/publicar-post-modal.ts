@@ -107,7 +107,7 @@ export class PublicarPostModal {
     this.imagenesPreview.splice(index, 1);
   }
 
-  publicar() {
+  async publicar() {
     // Validar que haya al menos texto o imágenes
     const tieneTexto = this.textoPublicacion.trim().length > 0;
     const tieneImagenes = this.imagenesPreview.length > 0;
@@ -121,16 +121,21 @@ export class PublicarPostModal {
     this.detectarEtiquetas();
 
     // Publicar el post con etiquetas
-    this.postService.publicarPost(
-      this.textoPublicacion.trim(),
-      this.imagenesPreview,
-      undefined,
-      this.etiquetas
-    );
+    try {
+      await this.postService.publicarPost(
+        this.textoPublicacion.trim(),
+        this.imagenesPreview,
+        undefined,
+        this.etiquetas
+      );
 
-    // Emitir evento y cerrar modal
-    this.postPublished.emit();
-    this.closeModal();
+      // Emitir evento y cerrar modal
+      this.postPublished.emit();
+      this.closeModal();
+    } catch (error) {
+      console.error('Error al publicar:', error);
+      alert('No se pudo publicar el post. Inténtalo nuevamente.');
+    }
   }
 }
 

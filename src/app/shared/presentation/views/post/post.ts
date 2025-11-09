@@ -1,10 +1,10 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { PostService } from '../../../application/post.service';
-import { AuthService } from '../../../application/auth.service';
 import { TeamService } from '../../../application/team.service';
+import { CommentsService, PostComment } from '../../../application/comments.service';
 
 @Component({
   selector: 'app-post',
@@ -20,8 +20,8 @@ import { TeamService } from '../../../application/team.service';
 })
 export class PostComponent {
   private postService = inject(PostService);
-  private authService = inject(AuthService);
   private teamService = inject(TeamService);
+  private commentsService = inject(CommentsService);
   
   // Usar posts filtrados si hay un filtro activo, sino todos los posts
   posts = computed(() => {
@@ -33,6 +33,8 @@ export class PostComponent {
   });
   
   etiquetaFiltroActiva = this.postService.etiquetaFiltro;
+  private comentariosAbiertos = signal<Set<string>>(new Set());
+  private comentariosTexto = signal<Map<string, string>>(new Map());
 
   getUserInitials(nombre: string): string {
     return nombre.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
@@ -46,8 +48,12 @@ export class PostComponent {
     return nombre.toLowerCase().replace(/\s+/g, '');
   }
 
-  eliminarPost(postId: string) {
-    this.postService.eliminarPost(postId);
+  async eliminarPost(postId: string) {
+    try {
+      await this.postService.eliminarPost(postId);
+    } catch (error) {
+      console.error('Error al eliminar post:', error);
+    }
   }
 
   formatearFecha(fecha: Date): string {
@@ -101,10 +107,16 @@ export class PostComponent {
   toggleLike(postId: string) {
     if (this.isLiked(postId)) {
       this.likedPosts.delete(postId);
-      this.postService.decrementarLike(postId);
+      void this.postService.decrementarLike(postId).catch(error => {
+        console.error('Error al quitar like:', error);
+        this.likedPosts.add(postId);
+      });
     } else {
       this.likedPosts.add(postId);
-      this.postService.incrementarLike(postId);
+      void this.postService.incrementarLike(postId).catch(error => {
+        console.error('Error al dar like:', error);
+        this.likedPosts.delete(postId);
+      });
     }
   }
 
@@ -117,16 +129,63 @@ export class PostComponent {
   }
 
   toggleComentario(postId: string) {
-    // TODO: Implementar funcionalidad de comentarios
-    console.log('Comentar en post:', postId);
+    const abiertos = new Set(this.comentariosAbiertos());
+    if (abiertos.has(postId)) {
+      abiertos.delete(postId);
+    } else {
+      abiertos.add(postId);
+      this.commentsService.commentsFor(postId);
+    }
+    this.comentariosAbiertos.set(abiertos);
   }
 
   toggleRetweet(postId: string) {
-    this.postService.incrementarRetweet(postId);
+    void this.postService.incrementarRetweet(postId).catch(error => {
+      console.error('Error al incrementar compartidos:', error);
+    });
   }
 
   limpiarFiltro() {
     this.postService.limpiarFiltro();
+  }
+
+  comentariosVisibles(postId: string): boolean {
+    return this.comentariosAbiertos().has(postId);
+  }
+
+  comentarios(postId: string) {
+    return this.commentsService.commentsFor(postId);
+  }
+
+  comentarioActual(postId: string): string {
+    return this.comentariosTexto().get(postId) ?? '';
+  }
+
+  actualizarComentario(postId: string, texto: string) {
+    this.comentariosTexto.update(actual => {
+      const nuevo = new Map(actual);
+      nuevo.set(postId, texto);
+      return nuevo;
+    });
+  }
+
+  async enviarComentario(postId: string) {
+    const texto = this.comentarioActual(postId).trim();
+    if (!texto) {
+      return;
+    }
+
+    try {
+      await this.commentsService.addComment(postId, texto);
+      this.actualizarComentario(postId, '');
+    } catch (error) {
+      console.error('No se pudo enviar el comentario:', error);
+      alert('No se pudo enviar el comentario. Intenta nuevamente.');
+    }
+  }
+
+  trackComment(_: number, comment: PostComment) {
+    return comment.id;
   }
 }
 

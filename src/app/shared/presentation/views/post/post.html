@@ -99,6 +99,56 @@
               <mat-icon>share</mat-icon>
             </button>
           </div>
+
+          @if (comentariosVisibles(post.id)) {
+            <div class="comments-section">
+              <div class="comments-header">
+                <h4>Comentarios ({{ comentarios(post.id)().length }})</h4>
+                <button class="close-comments-btn" (click)="toggleComentario(post.id)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+
+              <div class="comment-input">
+                <textarea
+                  rows="2"
+                  placeholder="Escribe un comentario..."
+                  [value]="comentarioActual(post.id)"
+                  (input)="actualizarComentario(post.id, $any($event.target).value)"></textarea>
+                <button
+                  class="send-comment-btn"
+                  (click)="enviarComentario(post.id)"
+                  [disabled]="!comentarioActual(post.id).trim()">
+                  <mat-icon>send</mat-icon>
+                  Comentar
+                </button>
+              </div>
+
+              @if (comentarios(post.id)().length === 0) {
+                <div class="comments-empty">
+                  <mat-icon>chat_bubble_outline</mat-icon>
+                  <p>Sé el primero en comentar.</p>
+                </div>
+              } @else {
+                <div class="comments-list">
+                  @for (comentario of comentarios(post.id)(); track trackComment($index, comentario)) {
+                    <div class="comment-item">
+                      <div class="comment-avatar">
+                        <span>{{ getUserInitials(comentario.authorName) }}</span>
+                      </div>
+                      <div class="comment-content">
+                        <div class="comment-header">
+                          <span class="comment-author">{{ comentario.authorName }}</span>
+                          <span class="comment-date">{{ formatearFecha(comentario.createdAt) }}</span>
+                        </div>
+                        <p class="comment-text">{{ comentario.text }}</p>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
         </div>
       }
     }

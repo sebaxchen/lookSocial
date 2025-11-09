@@ -32,17 +32,22 @@ export class Register {
   ) {}
 
   async onRegister() {
-    if (!this.name() || !this.email() || !this.password() || !this.confirmPassword()) {
+    const name = this.name().trim();
+    const email = this.email().trim();
+    const password = this.password();
+    const confirmPassword = this.confirmPassword();
+
+    if (!name || !email || !password || !confirmPassword) {
       this.errorMessage.set('Por favor completa todos los campos');
       return;
     }
 
-    if (this.password() !== this.confirmPassword()) {
+    if (password !== confirmPassword) {
       this.errorMessage.set('Las contraseñas no coinciden');
       return;
     }
 
-    if (this.password().length < 6) {
+    if (password.length < 6) {
       this.errorMessage.set('La contraseña debe tener al menos 6 caracteres');
       return;
     }
@@ -51,14 +56,11 @@ export class Register {
     this.errorMessage.set('');
 
     try {
-      const success = await this.authService.register(this.name(), this.email(), this.password());
-      if (success) {
-        this.router.navigate(['/home']);
-      } else {
-        this.errorMessage.set('Error al crear la cuenta. El email ya existe.');
-      }
+      await this.authService.register(name, email, password);
+      this.router.navigate(['/post']);
     } catch (error) {
-      this.errorMessage.set('Error al crear la cuenta');
+      const message = error instanceof Error ? error.message : 'Error al crear la cuenta';
+      this.errorMessage.set(message);
     } finally {
       this.isLoading.set(false);
     }

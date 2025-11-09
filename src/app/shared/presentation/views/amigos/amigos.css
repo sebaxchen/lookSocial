@@ -53,13 +53,173 @@
   height: 20px;
 }
 
+.usuarios-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.estado-offline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  color: #92400e;
+}
+
+.estado-offline mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.sin-usuarios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  color: #6b7280;
+}
+
+.sin-usuarios mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.usuarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.usuario-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.usuario-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.usuario-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.usuario-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.usuario-info p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.usuario-acciones {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.acciones-incoming {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.solicitar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.solicitar-btn mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.estado mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.estado.amigo {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.estado.pendiente {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.estado.recibida {
+  background: #e0f2fe;
+  color: #1d4ed8;
+}
+
 @media (max-width: 768px) {
   .amigos-header {
     flex-direction: column;
     gap: 16px;
   }
 
-  .action-button {
+  .usuarios-lista {
+    gap: 12px;
+  }
+
+  .usuario-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .usuario-acciones {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .solicitar-btn {
     width: 100%;
     justify-content: center;
   }

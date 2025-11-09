@@ -1,0 +1,78 @@
+<div class="profile-container">
+  @if (currentUser(); as user) {
+    <section class="profile-header">
+      <div class="profile-avatar" [style.background-color]="getUserColor(user.name)">
+        <span>{{ getUserInitials(user.name) }}</span>
+      </div>
+      <div class="profile-info">
+        <h1>{{ user.name }}</h1>
+        <p>{{ user.email }}</p>
+        <span class="profile-stats">
+          <mat-icon>article</mat-icon>
+          {{ posts().length }} publicaciones
+        </span>
+      </div>
+    </section>
+  } @else {
+    <section class="profile-header placeholder">
+      <div class="profile-avatar">
+        <span>?</span>
+      </div>
+      <div class="profile-info">
+        <h1>Usuario</h1>
+        <p>Inicia sesión para ver tu perfil.</p>
+      </div>
+    </section>
+  }
+
+  <section class="profile-posts">
+    <h2>Tus publicaciones</h2>
+    @if (posts().length === 0) {
+      <div class="empty-state">
+        <mat-icon>hourglass_empty</mat-icon>
+        <h3>Aún no has publicado nada</h3>
+        <p>Comparte tu primera publicación desde la vista de Post.</p>
+      </div>
+    } @else {
+      <div class="posts-list">
+        @for (post of posts(); track post.id) {
+          <article class="post-card">
+            <header class="post-header">
+              <div class="post-meta">
+                <span class="post-date">{{ formatearFecha(post.fecha) }}</span>
+                @if (post.ubicacion) {
+                  <span class="post-location">
+                    <mat-icon>place</mat-icon>
+                    {{ post.ubicacion }}
+                  </span>
+                }
+              </div>
+              @if (post.etiquetas?.length) {
+                <ul class="post-tags">
+                  @for (tag of post.etiquetas; track tag) {
+                    <li>#{{ tag.replace('#', '') }}</li>
+                  }
+                </ul>
+              }
+            </header>
+            <p class="post-text">{{ post.texto }}</p>
+
+            @if (post.imagenes?.length) {
+              <div class="post-images">
+                @for (imagen of post.imagenes; track imagen) {
+                  <img [src]="imagen" alt="Imagen del post" />
+                }
+              </div>
+            }
+
+            <footer class="post-footer">
+              <span><mat-icon>favorite</mat-icon>{{ post.likes ?? 0 }}</span>
+              <span><mat-icon>repeat</mat-icon>{{ post.retweets ?? 0 }}</span>
+              <span><mat-icon>chat_bubble</mat-icon>{{ post.comentarios ?? 0 }}</span>
+            </footer>
+          </article>
+        }
+      </div>
+    }
+  </section>
+</div>

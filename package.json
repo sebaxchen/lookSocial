@@ -2,17 +2,16 @@
   "name": "learning-center",
   "version": "0.0.0",
   "scripts": {
-  "ng": "ng",
-  "start": "ng serve",
-  "build": "ng build --configuration production",
-  "build:dev": "ng build --configuration development",
-  "build:prod": "ng build --configuration production",
-  "build:gh-pages": "ng build --configuration githubPages && npm run copy-404",
-  "copy-404": "node -e \"require('fs').copyFileSync('dist/learning-center/browser/index.html', 'dist/learning-center/browser/404.html')\"",
-  "watch": "ng build --watch --configuration development",
-  "preview": "ng serve --configuration production"
-},
-
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build --configuration production",
+    "build:dev": "ng build --configuration development",
+    "build:prod": "ng build --configuration production",
+    "build:gh-pages": "ng build --configuration githubPages && npm run copy-404",
+    "copy-404": "node -e \"require('fs').copyFileSync('dist/learning-center/browser/index.html', 'dist/learning-center/browser/404.html')\"",
+    "watch": "ng build --watch --configuration development",
+    "preview": "ng serve --configuration production"
+  },
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
@@ -36,6 +35,7 @@
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
     "chart.js": "^4.5.1",
+    "firebase": "^12.5.0",
     "lottie-web": "^5.13.0",
     "ng2-charts": "^8.0.0",
     "ngx-lottie": "^20.0.0",

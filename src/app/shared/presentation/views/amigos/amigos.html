@@ -2,12 +2,101 @@
   <div class="amigos-header">
     <div class="amigos-title-section">
       <h1>Amigos</h1>
-      <p>Gestiona tus amigos y conexiones</p>
+      <p>Gestiona tus amigos, envía solicitudes y amplía tu red</p>
     </div>
-    <button mat-raised-button color="primary" class="action-button" (click)="anadirAmigo()">
-      <mat-icon>person_add</mat-icon>
-      Añadir Amigo
-    </button>
+  </div>
+
+  <div class="usuarios-section">
+    @if (!realtimeDisponible()) {
+      <div class="estado-offline">
+        <mat-icon>cloud_off</mat-icon>
+        <div>
+          <h3>Modo sin conexión</h3>
+          <p>No pudimos conectarnos al servidor. Intenta recargar para habilitar las solicitudes.</p>
+        </div>
+      </div>
+    }
+
+    @if (usuarios().length === 0) {
+      <div class="sin-usuarios">
+        <mat-icon>groups</mat-icon>
+        <p>No hay otros usuarios registrados todavía.</p>
+      </div>
+    } @else {
+      <div class="usuarios-lista">
+        @for (usuario of usuarios(); track usuario.id) {
+          <div class="usuario-card">
+            <div class="usuario-avatar">
+              <span>{{ usuario.name.charAt(0) | uppercase }}</span>
+            </div>
+            <div class="usuario-info">
+              <h3>{{ usuario.name }}</h3>
+              <p>{{ usuario.email }}</p>
+            </div>
+            <div class="usuario-acciones">
+              @let estado = estadoSolicitud(usuario.id);
+              @if (estado.status === 'friends') {
+                <span class="estado amigo">
+                  <mat-icon>check_circle</mat-icon>
+                  Amigos
+                </span>
+              } @else if (estado.status === 'pending') {
+                <span class="estado pendiente">
+                  <mat-icon>hourglass_top</mat-icon>
+                  Solicitud enviada
+                </span>
+              } @else if (estado.status === 'incoming') {
+                <div class="acciones-incoming">
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    class="solicitar-btn"
+                    (click)="aceptarSolicitud(usuario)"
+                    [disabled]="estadoProcesando(usuario.id) === 'accept'">
+                    @if (estadoProcesando(usuario.id) === 'accept') {
+                      <mat-icon class="spinning">refresh</mat-icon>
+                      Aceptando...
+                    } @else {
+                      <mat-icon>check</mat-icon>
+                      Aceptar
+                    }
+                  </button>
+                  <button
+                    mat-stroked-button
+                    color="warn"
+                    class="solicitar-btn"
+                    (click)="rechazarSolicitud(usuario)"
+                    [disabled]="estadoProcesando(usuario.id) === 'reject'">
+                    @if (estadoProcesando(usuario.id) === 'reject') {
+                      <mat-icon class="spinning">refresh</mat-icon>
+                      Rechazando...
+                    } @else {
+                      <mat-icon>close</mat-icon>
+                      Rechazar
+                    }
+                  </button>
+                </div>
+              } @else {
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  class="solicitar-btn"
+                  (click)="enviarSolicitud(usuario)"
+                  [disabled]="!realtimeDisponible() || estaEnviando(usuario.id)">
+                  @if (estaEnviando(usuario.id)) {
+                    <mat-icon class="spinning">refresh</mat-icon>
+                    Enviando...
+                  } @else {
+                    <mat-icon>person_add</mat-icon>
+                    Enviar solicitud
+                  }
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
   </div>
 </div>
 
