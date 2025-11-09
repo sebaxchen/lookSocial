@@ -55,11 +55,10 @@
                     [disabled]="estadoProcesando(usuario.id) === 'accept'">
                     @if (estadoProcesando(usuario.id) === 'accept') {
                       <mat-icon class="spinning">refresh</mat-icon>
-                      Aceptando...
                     } @else {
                       <mat-icon>check</mat-icon>
-                      Aceptar
                     }
+                    <span>{{ estadoProcesando(usuario.id) === 'accept' ? 'Aceptando...' : 'Aceptar' }}</span>
                   </button>
                   <button
                     mat-stroked-button
@@ -69,11 +68,10 @@
                     [disabled]="estadoProcesando(usuario.id) === 'reject'">
                     @if (estadoProcesando(usuario.id) === 'reject') {
                       <mat-icon class="spinning">refresh</mat-icon>
-                      Rechazando...
                     } @else {
                       <mat-icon>close</mat-icon>
-                      Rechazar
                     }
+                    <span>{{ estadoProcesando(usuario.id) === 'reject' ? 'Rechazando...' : 'Rechazar' }}</span>
                   </button>
                 </div>
               } @else {
@@ -85,11 +83,10 @@
                   [disabled]="!realtimeDisponible() || estaEnviando(usuario.id)">
                   @if (estaEnviando(usuario.id)) {
                     <mat-icon class="spinning">refresh</mat-icon>
-                    Enviando...
                   } @else {
                     <mat-icon>person_add</mat-icon>
-                    Enviar solicitud
                   }
+                  <span>{{ estaEnviando(usuario.id) ? 'Enviando...' : 'Enviar solicitud' }}</span>
                 </button>
               }
             </div>

@@ -57,7 +57,7 @@
             </header>
             <p class="post-text">{{ post.texto }}</p>
 
-            @if (post.imagenes?.length) {
+            @if (post.imagenes && post.imagenes.length) {
               <div class="post-images">
                 @for (imagen of post.imagenes; track imagen) {
                   <img [src]="imagen" alt="Imagen del post" />

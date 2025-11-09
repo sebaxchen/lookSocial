@@ -112,10 +112,8 @@
         class="auth-button">
         @if (isLoading()) {
           <mat-icon class="spinning">refresh</mat-icon>
-          Creando cuenta...
-        } @else {
-          Crear Cuenta
         }
+        <span>{{ isLoading() ? 'Creando cuenta...' : 'Crear Cuenta' }}</span>
       </button>
     </form>
 

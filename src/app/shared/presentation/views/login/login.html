@@ -90,10 +90,8 @@
         class="auth-button">
         @if (isLoading()) {
           <mat-icon class="spinning">refresh</mat-icon>
-          Iniciando sesión...
-        } @else {
-          Iniciar Sesión
         }
+        <span>{{ isLoading() ? 'Iniciando sesión...' : 'Iniciar Sesión' }}</span>
       </button>
     </form>
 
